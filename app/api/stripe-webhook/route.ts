@@ -42,7 +42,7 @@ export async function POST(req: Request) {
           const stripe = getStripeClient();
           const subscription = await stripe.subscriptions.retrieve(
             session.subscription as string
-          );
+          ) as any;
 
           // Find user by email
           const customerEmail = session.customer_email || session.customer_details?.email;
@@ -59,16 +59,16 @@ export async function POST(req: Request) {
                   userId: user.id,
                   stripeCustomerId: session.customer as string,
                   stripeSubscriptionId: subscription.id,
-                  stripePriceId: subscription.items.data[0]?.price.id,
-                  stripeCurrentPeriodEnd: new Date(subscription.current_period_end * 1000),
+                  stripePriceId: subscription.items?.data?.[0]?.price?.id || null,
+                  stripeCurrentPeriodEnd: subscription.current_period_end ? new Date(subscription.current_period_end * 1000) : null,
                   status: subscription.status,
                   plan: 'pro',
                 },
                 update: {
                   stripeCustomerId: session.customer as string,
                   stripeSubscriptionId: subscription.id,
-                  stripePriceId: subscription.items.data[0]?.price.id,
-                  stripeCurrentPeriodEnd: new Date(subscription.current_period_end * 1000),
+                  stripePriceId: subscription.items?.data?.[0]?.price?.id || null,
+                  stripeCurrentPeriodEnd: subscription.current_period_end ? new Date(subscription.current_period_end * 1000) : null,
                   status: subscription.status,
                   plan: 'pro',
                 },
@@ -82,7 +82,7 @@ export async function POST(req: Request) {
 
       case 'customer.subscription.updated':
       case 'customer.subscription.created': {
-        const subscription = event.data.object as Stripe.Subscription;
+        const subscription = event.data.object as any;
         
         // Find user by Stripe customer ID
         const existingSub = await prisma.subscription.findUnique({
@@ -93,8 +93,8 @@ export async function POST(req: Request) {
           await prisma.subscription.update({
             where: { id: existingSub.id },
             data: {
-              stripePriceId: subscription.items.data[0]?.price.id,
-              stripeCurrentPeriodEnd: new Date(subscription.current_period_end * 1000),
+              stripePriceId: subscription.items?.data?.[0]?.price?.id || null,
+              stripeCurrentPeriodEnd: subscription.current_period_end ? new Date(subscription.current_period_end * 1000) : null,
               status: subscription.status,
               plan: subscription.status === 'active' ? 'pro' : existingSub.plan,
             },
@@ -105,7 +105,7 @@ export async function POST(req: Request) {
       }
 
       case 'customer.subscription.deleted': {
-        const subscription = event.data.object as Stripe.Subscription;
+        const subscription = event.data.object as any;
         
         // Find and update subscription to canceled
         const existingSub = await prisma.subscription.findUnique({
