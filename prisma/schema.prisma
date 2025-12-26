@@ -1,10 +1,10 @@
-// Prisma schema for NextAuth (SQLite for local dev)
+// Prisma schema for NextAuth
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
