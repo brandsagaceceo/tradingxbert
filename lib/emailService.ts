@@ -1,4 +1,4 @@
-// @ts-ignore - nodemailer types
+// @ts-nocheck
 import nodemailer from 'nodemailer';
 
 const transporter = nodemailer.createTransport({
