@@ -6,6 +6,8 @@ import SmartMoneyBadge from "@/components/SmartMoneyBadge";
 import ShareButtons from "@/components/ShareButtons";
 import AnalysisResults from "@/components/AnalysisResults";
 import TestimonialsSection from "@/components/TestimonialsSection";
+import ChartGuide from "@/components/ChartGuide";
+import AlertSignup from "@/components/AlertSignup";
 import { saveToJournal } from "@/lib/localStorage";
 import { canAnalyze, getRemainingAnalyses, incrementUsage, getFreeLimit, getUsageData } from "@/lib/usageLimit";
 import type { TradingXbertAnalysis, Market, Style } from "@/lib/tradingTypes";
@@ -399,6 +401,8 @@ Market: ${market} | Style: ${style}
               className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-[#EC4899]/20 to-[#8B5CF6]/20 rounded-full blur-3xl"
             ></motion.div>
             
+            <ChartGuide />
+            
             <label className="block cursor-pointer mb-6 relative z-10">
               <input
                 type="file"
@@ -741,6 +745,13 @@ Market: ${market} | Style: ${style}
           <p>© TradingXbert</p>
         </footer>
       </div>
+      
+      {/* Alert Signup Section */}
+      {!analysis && (
+        <div className="max-w-7xl mx-auto px-6 pb-12">
+          <AlertSignup />
+        </div>
+      )}
       
       {/* Testimonials Section */}
       {!analysis && <TestimonialsSection />}
