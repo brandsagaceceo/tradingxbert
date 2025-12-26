@@ -1,4 +1,5 @@
 import Stripe from 'stripe';
+import { prisma } from '@/lib/prisma';
 
 // Use node runtime for stripe webhook so we can access Buffer and raw body
 export const runtime = 'nodejs';
@@ -31,22 +32,105 @@ export async function POST(req: Request) {
   }
 
   // Handle the event
-  switch (event.type) {
-    case 'customer.subscription.updated':
-    case 'customer.subscription.created': {
-      const subscription = event.data.object as Stripe.Subscription;
-      // Update user subscription status in your database
-      console.log(`Subscription updated: ${subscription.id}`);
-      break;
+  try {
+    switch (event.type) {
+      case 'checkout.session.completed': {
+        const session = event.data.object as Stripe.Checkout.Session;
+        
+        // Get subscription details
+        if (session.subscription && session.customer) {
+          const stripe = getStripeClient();
+          const subscription = await stripe.subscriptions.retrieve(
+            session.subscription as string
+          );
+
+          // Find user by email
+          const customerEmail = session.customer_email || session.customer_details?.email;
+          if (customerEmail) {
+            const user = await prisma.user.findUnique({
+              where: { email: customerEmail },
+            });
+
+            if (user) {
+              // Create or update subscription
+              await prisma.subscription.upsert({
+                where: { userId: user.id },
+                create: {
+                  userId: user.id,
+                  stripeCustomerId: session.customer as string,
+                  stripeSubscriptionId: subscription.id,
+                  stripePriceId: subscription.items.data[0]?.price.id,
+                  stripeCurrentPeriodEnd: new Date(subscription.current_period_end * 1000),
+                  status: subscription.status,
+                  plan: 'pro',
+                },
+                update: {
+                  stripeCustomerId: session.customer as string,
+                  stripeSubscriptionId: subscription.id,
+                  stripePriceId: subscription.items.data[0]?.price.id,
+                  stripeCurrentPeriodEnd: new Date(subscription.current_period_end * 1000),
+                  status: subscription.status,
+                  plan: 'pro',
+                },
+              });
+              console.log(`✅ Subscription created/updated for user: ${user.email}`);
+            }
+          }
+        }
+        break;
+      }
+
+      case 'customer.subscription.updated':
+      case 'customer.subscription.created': {
+        const subscription = event.data.object as Stripe.Subscription;
+        
+        // Find user by Stripe customer ID
+        const existingSub = await prisma.subscription.findUnique({
+          where: { stripeCustomerId: subscription.customer as string },
+        });
+
+        if (existingSub) {
+          await prisma.subscription.update({
+            where: { id: existingSub.id },
+            data: {
+              stripePriceId: subscription.items.data[0]?.price.id,
+              stripeCurrentPeriodEnd: new Date(subscription.current_period_end * 1000),
+              status: subscription.status,
+              plan: subscription.status === 'active' ? 'pro' : existingSub.plan,
+            },
+          });
+          console.log(`✅ Subscription updated: ${subscription.id}`);
+        }
+        break;
+      }
+
+      case 'customer.subscription.deleted': {
+        const subscription = event.data.object as Stripe.Subscription;
+        
+        // Find and update subscription to canceled
+        const existingSub = await prisma.subscription.findUnique({
+          where: { stripeSubscriptionId: subscription.id },
+        });
+
+        if (existingSub) {
+          await prisma.subscription.update({
+            where: { id: existingSub.id },
+            data: {
+              status: 'canceled',
+              plan: 'free',
+            },
+          });
+          console.log(`✅ Subscription canceled: ${subscription.id}`);
+        }
+        break;
+      }
+
+      default:
+        console.log(`Unhandled event type: ${event.type}`);
     }
-    case 'customer.subscription.deleted': {
-      const subscription = event.data.object as Stripe.Subscription;
-      // Handle subscription cancellation
-      console.log(`Subscription canceled: ${subscription.id}`);
-      break;
-    }
-    default:
-      console.log(`Unhandled event type: ${event.type}`);
+  } catch (error) {
+    console.error('Error processing webhook:', error);
+    return new Response(JSON.stringify({ error: 'Webhook processing failed' }), { status: 500 });
   }
 
   return new Response(JSON.stringify({ received: true }), { status: 200 });
