@@ -78,8 +78,15 @@ export default function ProfilePage() {
     return (
       <main className="min-h-screen bg-gradient-to-br from-black via-neutral-950 to-black flex items-center justify-center">
         <div className="text-center">
-          <div className="text-6xl mb-4 animate-bounce">📊</div>
-          <p className="text-neutral-400">Loading your profile...</p>
+          <div className="relative w-32 h-32 mb-6 mx-auto">
+            <div className="absolute inset-0 flex items-center justify-center animate-bounce">
+              <div className="text-8xl filter drop-shadow-[0_0_20px_rgba(255,215,0,0.5)]">
+                🚀
+              </div>
+            </div>
+            <div className="absolute inset-0 border-4 border-[#FFD700]/20 rounded-full animate-ping" />
+          </div>
+          <p className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#FFD700] to-[#FFA500]">Loading your profile...</p>
         </div>
       </main>
     );
