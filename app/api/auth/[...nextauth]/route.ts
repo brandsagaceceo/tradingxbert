@@ -5,7 +5,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "@/lib/prisma";
 
 const handler = NextAuth({
-  adapter: PrismaAdapter(prisma),
+  adapter: process.env.DATABASE_URL ? PrismaAdapter(prisma) : undefined,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || "",
@@ -16,9 +16,12 @@ const handler = NextAuth({
       from: process.env.EMAIL_FROM || "",
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET || process.env.OPENAI_API_KEY || "",
+  secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
+  },
+  pages: {
+    signIn: '/',
   },
 });
 
