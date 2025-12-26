@@ -1,0 +1,119 @@
+/* /app/globals.css */
+/* Ensure Tailwind CSS is properly configured */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{
+  --accent-start: #00ffa3;
+  --accent-mid: #60a5fa;
+  --accent-end: #a78bfa;
+  --accent-glow: rgba(96,165,250,0.28);
+  --glass: rgba(255,255,255,0.04);
+}
+
+body {
+  background: linear-gradient(180deg, #070708 0%, #0b0b10 50%, #050508 100%);
+  color: #e6eef8;
+  font-family: 'Inter', 'Outfit', ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+.glass-card {
+  @apply bg-white/5 backdrop-blur rounded-2xl border border-white/10 shadow-xl;
+}
+
+.neon-accent {
+  background: linear-gradient(90deg,var(--accent-start),var(--accent-mid),var(--accent-end));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.neon-outline {
+  box-shadow: 0 0 22px var(--accent-glow), inset 0 0 10px rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.glow {
+  box-shadow: 0 10px 36px rgba(99,102,241,0.14), 0 0 40px var(--accent-glow);
+}
+
+/* 3D card styles for modern, professional results */
+.card-3d { perspective: 1500px; }
+.card-3d-inner { transform-style: preserve-3d; transition: transform 500ms cubic-bezier(.2,.9,.2,1); }
+.card-3d:hover .card-3d-inner { transform: rotateX(2deg) rotateY(-3deg) translateY(-4px); }
+.card-face {
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 24px 56px rgba(2,6,23,0.75), 0 12px 36px rgba(99,102,241,0.12), inset 0 1px 0 rgba(255,255,255,0.04);
+  transform: translateZ(0);
+}
+
+/* slightly raised accent for signal box */
+.signal-3d { 
+  background: linear-gradient(180deg,#0b1220,#0f1724); 
+  border: 1px solid rgba(255,255,255,0.08); 
+  box-shadow: 0 32px 64px rgba(2,6,23,0.8), 0 12px 40px rgba(99,102,241,0.15), inset 0 1px 0 rgba(255,255,255,0.06); 
+}
+
+/* modern 3D button variant */
+.btn-3d { 
+  box-shadow: 0 12px 28px rgba(2,6,23,0.7), 0 6px 16px rgba(99,102,241,0.1); 
+  transform: translateZ(0); 
+  transition: all 200ms cubic-bezier(.2,.9,.2,1);
+}
+.btn-3d:hover { box-shadow: 0 16px 36px rgba(2,6,23,0.8), 0 8px 20px rgba(99,102,241,0.14); transform: translateY(-2px) translateZ(0); }
+.btn-3d:active { transform: translateY(1px) translateZ(0); box-shadow: 0 8px 20px rgba(2,6,23,0.6), 0 4px 12px rgba(99,102,241,0.08); }
+
+/* circular icon button variant for share actions */
+.btn-icon-circle {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  box-shadow: 0 8px 20px rgba(2,6,23,0.6), 0 4px 12px rgba(99,102,241,0.08);
+  transition: all 200ms cubic-bezier(.2,.9,.2,1);
+  transform: translateZ(0);
+}
+.btn-icon-circle:hover { box-shadow: 0 12px 28px rgba(2,6,23,0.7), 0 6px 16px rgba(99,102,241,0.12); transform: translateY(-2px) translateZ(0); }
+.btn-icon-circle:active { transform: translateY(1px) translateZ(0); }
+
+.button-accent {
+  background: linear-gradient(90deg,var(--accent-mid),var(--accent-end));
+  color: white;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+
+.button-accent:active { transform: translateY(1px) }
+
+/* utility for consistent header/branding spacing */
+.header-inner { @apply flex items-center gap-3 }
+
+/* focus styles for accessibility */
+.focus-ring:focus { outline: 2px solid transparent; box-shadow: 0 0 0 4px rgba(99,102,241,0.08) }
+
+/* mobile-friendly header spacing tweak */
+header { padding-top: 0.9rem; padding-bottom: 0.9rem }
+
+@media (min-width: 768px) { header { padding-top: 1.25rem; padding-bottom: 1.25rem } }
+
+/* improved button visuals */
+.btn { @apply px-4 py-2 rounded-lg font-semibold shadow-sm inline-flex items-center gap-2 }
+.btn-primary { background: linear-gradient(90deg,var(--accent-mid),var(--accent-end)); color: white }
+
+.btn-ghost { background: transparent; border: 1px solid rgba(255,255,255,0.04) }
+
+.animate-fadein {
+  animation: fadein 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+
+@keyframes fadein {
+  0% { opacity: 0; transform: scale(0.97); }
+  100% { opacity: 1; transform: scale(1); }
+}
