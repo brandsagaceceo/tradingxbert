@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { analyzeMarketData, fetchMarketData, MONITORED_PAIRS } from '@/lib/marketAnalysis';
-import { sendBulkAlerts } from '@/lib/emailService';
+// import { sendBulkAlerts } from '@/lib/emailService'; // Temporarily disabled
 
 export const maxDuration = 60; // 60 seconds timeout
 
@@ -55,11 +55,14 @@ export async function GET(req: Request) {
       const emails = subscribers.map(s => s.email);
       
       if (emails.length > 0) {
-        // Send each alert
+        // Send each alert - TEMPORARILY DISABLED FOR DEPLOYMENT
+        /*
         for (const alert of alerts) {
           const result = await sendBulkAlerts(emails, alert);
           console.log(`📧 Sent ${alert.pair} alert to ${result.successful}/${result.total} subscribers`);
         }
+        */
+        console.log(`📧 Would send ${alerts.length} alerts to ${emails.length} subscribers (email disabled for deployment)`);
       }
     }
 
