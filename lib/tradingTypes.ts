@@ -1,7 +1,7 @@
 // lib/tradingTypes.ts
 export type Signal = "LONG" | "SHORT" | "WAIT";
 export type RiskLevel = "LOW" | "MEDIUM" | "HIGH";
-export type Market = "Crypto" | "Forex" | "Stocks" | "Indices";
+export type Market = "Crypto" | "Forex" | "Stocks" | "Indices" | "Commodities";
 export type Style = "Scalp" | "Day Trade" | "Swing";
 export type SmartMoneyBias = 
   | "Smart Money Bullish" 

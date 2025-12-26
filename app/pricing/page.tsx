@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import TokenGate from '@/components/TokenGate';
 
 export default function Pricing() {
   const plans = [
@@ -235,6 +236,16 @@ export default function Pricing() {
               </motion.div>
             ))}
           </div>
+        </motion.div>
+
+        {/* Token-Gated Access */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-16 max-w-2xl mx-auto"
+        >
+          <TokenGate />
         </motion.div>
 
         {/* CTA Section */}

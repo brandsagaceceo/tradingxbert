@@ -161,16 +161,24 @@ export default function ProfilePage() {
                 </div>
               </div>
               {isEditing && (
-                <button
-                  onClick={() => {
-                    const url = prompt("Enter image URL:");
-                    if (url) setEditForm({ ...editForm, image: url });
-                  }}
-                  className="absolute bottom-0 right-0 p-2 bg-[#FFD700] text-black rounded-full hover:scale-110 transition-transform"
-                  title="Change avatar"
-                >
+                <label className="absolute bottom-0 right-0 p-2 bg-[#FFD700] text-black rounded-full hover:scale-110 transition-transform cursor-pointer" title="Change avatar">
                   📷
-                </button>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                          setEditForm({ ...editForm, image: reader.result as string });
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }}
+                  />
+                </label>
               )}
             </div>
 

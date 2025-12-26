@@ -462,16 +462,22 @@ Market: ${market} | Style: ${style}
                 >
                   <div>
                     <label className="block text-sm font-medium text-neutral-300 mb-2">Market</label>
-                    <select
-                      value={market}
-                      onChange={(e) => setMarket(e.target.value as Market)}
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#6366F1] hover:border-[#6366F1]/50 transition-all"
-                    >
-                      <option value="Crypto">Crypto</option>
-                      <option value="Forex">Forex</option>
-                      <option value="Stocks">Stocks</option>
-                      <option value="Indices">Indices</option>
-                    </select>
+                    <div className="relative">
+                      <select
+                        value={market}
+                        onChange={(e) => setMarket(e.target.value as Market)}
+                        className="w-full bg-gradient-to-r from-neutral-900 to-neutral-800 border-2 border-[#FFD700]/20 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:border-[#FFD700] hover:border-[#FFD700]/50 transition-all appearance-none cursor-pointer"
+                      >
+                        <option value="Crypto" className="bg-neutral-900">🪙 Crypto</option>
+                        <option value="Forex" className="bg-neutral-900">💱 Forex</option>
+                        <option value="Stocks" className="bg-neutral-900">📈 Stocks</option>
+                        <option value="Indices" className="bg-neutral-900">📊 Indices</option>
+                        <option value="Commodities" className="bg-neutral-900">🛢️ Commodities</option>
+                      </select>
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#FFD700]">
+                        ▼
+                      </div>
+                    </div>
                   </div>
                 </motion.div>
 
