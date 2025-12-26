@@ -105,9 +105,9 @@ export default function RootLayout({
                 </ul>
               </li>
               <motion.li whileHover={{ y: -2 }} transition={{ duration: 0.2 }} className="hidden md:block">
-                <Link href="/journal" className="relative group">
-                  <span className="hover:text-[#6366F1] transition-colors duration-300">📔 Journal</span>
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] group-hover:w-full transition-all duration-300"></span>
+                <Link href="/profile" className="relative group">
+                  <span className="hover:text-[#FFD700] transition-colors duration-300">👤 Profile</span>
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#FFD700] to-[#FFA500] group-hover:w-full transition-all duration-300"></span>
                 </Link>
               </motion.li>
               <motion.li whileHover={{ y: -2 }} transition={{ duration: 0.2 }} className="hidden lg:block">
