@@ -4,6 +4,7 @@ import Link from "next/link";
 import ConfidenceMeter from "@/components/ConfidenceMeter";
 import SmartMoneyBadge from "@/components/SmartMoneyBadge";
 import ShareButtons from "@/components/ShareButtons";
+import AnalysisResults from "@/components/AnalysisResults";
 import { saveToJournal } from "@/lib/localStorage";
 import { canAnalyze, getRemainingAnalyses, incrementUsage, getFreeLimit, getUsageData } from "@/lib/usageLimit";
 import type { TradingXbertAnalysis, Market, Style } from "@/lib/tradingTypes";
@@ -645,121 +646,7 @@ Market: ${market} | Style: ${style}
 
         {/* Results */}
         {analysis && (
-          <div className="space-y-6 card-3d animate-in fade-in-0 zoom-in-95 duration-300">
-            <div className="card-3d-inner">
-            {/* Signal + Smart Money */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className={`rounded-3xl p-8 text-center ${signalColors[analysis.signal]} shadow-2xl card-face signal-3d`}>
-                <div className="text-7xl font-bold mb-2">{analysis.signal}</div>
-                <div className="text-2xl font-semibold">{analysis.confidence}% Confidence</div>
-                {analysis.noTradeZone && (
-                  <div className="mt-4 bg-black/20 rounded-xl p-3">
-                    <p className="text-sm font-bold">⚠️ NO-TRADE ZONE DETECTED</p>
-                  </div>
-                )}
-              </div>
-
-              <div className="bg-white/5 backdrop-blur-lg rounded-3xl border border-white/10 p-8 shadow-2xl flex flex-col justify-center items-center space-y-4 card-face">
-                <SmartMoneyBadge bias={analysis.smartMoneyBias} />
-                <div className="text-center">
-                  <div className="text-sm text-neutral-400 mb-1">Risk Level</div>
-                  <div className={`text-4xl font-bold ${riskColors[analysis.riskLevel]}`}>
-                    {analysis.riskLevel}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Main Analysis */}
-            <div className="bg-white/5 backdrop-blur-lg rounded-3xl border border-white/10 p-6 md:p-8 shadow-2xl space-y-6 card-face">
-              
-              <div>
-                <h3 className="text-xl font-bold text-white mb-3 flex items-center gap-2">
-                  <span>📊</span> Trend & Structure
-                </h3>
-                <p className="text-neutral-300 leading-relaxed">{analysis.trendSummary}</p>
-              </div>
-
-              <div className="border-t border-white/10 pt-6">
-                <h3 className="text-xl font-bold text-white mb-3 flex items-center gap-2">
-                  <span>🔍</span> Pattern Summary
-                </h3>
-                <p className="text-neutral-300 leading-relaxed">{analysis.patternSummary}</p>
-              </div>
-
-              <div className="border-t border-white/10 pt-6">
-                <h3 className="text-xl font-bold text-white mb-3 flex items-center gap-2">
-                  <span>🎯</span> Key Levels
-                </h3>
-                <p className="text-neutral-300 leading-relaxed whitespace-pre-line">{analysis.keyLevels}</p>
-              </div>
-
-              <div className="border-t border-white/10 pt-6">
-                <h3 className="text-xl font-bold text-white mb-3 flex items-center gap-2">
-                  <span>💡</span> Style Notes ({style})
-                </h3>
-                <p className="text-neutral-300 leading-relaxed">{analysis.styleNotes}</p>
-              </div>
-
-              {analysis.emotionSummary && (
-                <div className="border-t border-white/10 pt-6">
-                  <h3 className="text-xl font-bold text-white mb-3 flex items-center gap-2">
-                    <span>🧠</span> Emotion Check
-                  </h3>
-                  <p className="text-neutral-300 leading-relaxed italic">{analysis.emotionSummary}</p>
-                </div>
-              )}
-
-              {analysis.riskPlan && (
-                <div className="border-t border-white/10 pt-6">
-                  <h3 className="text-xl font-bold text-white mb-3 flex items-center gap-2">
-                    <span>💰</span> Risk Plan
-                  </h3>
-                  <p className="text-neutral-300 leading-relaxed">{analysis.riskPlan}</p>
-                </div>
-              )}
-
-              <div className="border-t border-white/10 pt-6">
-                <h3 className="text-xl font-bold text-white mb-3 flex items-center gap-2">
-                  <span>🎓</span> Teach Me This Setup
-                </h3>
-                <p className="text-neutral-300 leading-relaxed whitespace-pre-line">{analysis.teachingTips}</p>
-              </div>
-
-              <div className="border-t border-white/10 pt-6">
-                <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                  <span>📈</span> Confidence Breakdown
-                </h3>
-                <ConfidenceMeter breakdown={analysis.confidenceBreakdown} />
-              </div>
-            </div>
-
-            {/* Actions */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <button
-                onClick={handleReset}
-                className="bg-[#6366F1] hover:bg-[#5558E3] text-white font-bold py-4 px-6 rounded-xl transition-all shadow-lg hover:shadow-xl btn-3d"
-              >
-                🔄 New Analysis
-              </button>
-              <button
-                onClick={handleCopyAnalysis}
-                className="bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold py-4 px-6 rounded-xl transition-all btn-3d"
-              >
-                📋 Copy Summary
-              </button>
-              <button
-                onClick={handleSaveToJournal}
-                className="bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold py-4 px-6 rounded-xl transition-all btn-3d"
-              >
-                💾 Save to Journal
-              </button>
-              <div className="flex items-center">
-                <ShareButtons analysis={analysis} market={market} style={style} preview={preview} />
-              </div>
-            </div>
-            </div>
-          </div>
+          <AnalysisResults analysis={analysis} onReset={handleReset} />
         )}
 
         {/* Upgrade Modal */}

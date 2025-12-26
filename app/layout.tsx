@@ -61,20 +61,20 @@ export default function RootLayout({
                 TradingXbert
               </motion.div>
             </Link>
-            <ul className="flex items-center space-x-6">
-              <motion.li whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
+            <ul className="flex items-center space-x-2 md:space-x-6">
+              <motion.li whileHover={{ y: -2 }} transition={{ duration: 0.2 }} className="hidden lg:block">
                 <Link href="/blog" className="relative group">
                   <span className="hover:text-[#6366F1] transition-colors duration-300">Blog</span>
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] group-hover:w-full transition-all duration-300"></span>
                 </Link>
               </motion.li>
-              <motion.li whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
+              <motion.li whileHover={{ y: -2 }} transition={{ duration: 0.2 }} className="hidden md:block">
                 <Link href="/about" className="relative group">
                   <span className="hover:text-[#6366F1] transition-colors duration-300">About</span>
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] group-hover:w-full transition-all duration-300"></span>
                 </Link>
               </motion.li>
-              <li className="relative group z-50">
+              <li className="relative group z-50 hidden lg:block">
                 <button
                   className="hover:text-[#6366F1] transition-colors duration-300"
                   onClick={(e) => {
@@ -104,19 +104,19 @@ export default function RootLayout({
                   </li>
                 </ul>
               </li>
-              <motion.li whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
+              <motion.li whileHover={{ y: -2 }} transition={{ duration: 0.2 }} className="hidden md:block">
                 <Link href="/journal" className="relative group">
                   <span className="hover:text-[#6366F1] transition-colors duration-300">📔 Journal</span>
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] group-hover:w-full transition-all duration-300"></span>
                 </Link>
               </motion.li>
-              <motion.li whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
+              <motion.li whileHover={{ y: -2 }} transition={{ duration: 0.2 }} className="hidden lg:block">
                 <Link href="/pricing" className="relative group">
                   <span className="hover:text-[#6366F1] transition-colors duration-300">💎 Pricing</span>
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] group-hover:w-full transition-all duration-300"></span>
                 </Link>
               </motion.li>
-              <motion.li whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
+              <motion.li whileHover={{ y: -2 }} transition={{ duration: 0.2 }} className="hidden lg:block">
                 <Link href="/invest" className="relative group">
                   <span className="hover:text-emerald-400 transition-colors duration-300">🚀 $TXB</span>
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-cyan-400 group-hover:w-full transition-all duration-300"></span>
@@ -129,7 +129,7 @@ export default function RootLayout({
                 >
                   <Link 
                     href="/pricing"
-                    className="px-6 py-2.5 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] text-white rounded-full font-semibold"
+                    className="px-3 md:px-6 py-2 md:py-2.5 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black rounded-full font-bold text-sm whitespace-nowrap"
                   >
                     Get Pro
                   </Link>
