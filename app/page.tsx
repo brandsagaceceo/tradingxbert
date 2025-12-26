@@ -5,10 +5,12 @@ import ConfidenceMeter from "@/components/ConfidenceMeter";
 import SmartMoneyBadge from "@/components/SmartMoneyBadge";
 import ShareButtons from "@/components/ShareButtons";
 import AnalysisResults from "@/components/AnalysisResults";
+import TestimonialsSection from "@/components/TestimonialsSection";
 import { saveToJournal } from "@/lib/localStorage";
 import { canAnalyze, getRemainingAnalyses, incrementUsage, getFreeLimit, getUsageData } from "@/lib/usageLimit";
 import type { TradingXbertAnalysis, Market, Style } from "@/lib/tradingTypes";
 import { motion } from "framer-motion";
+import axios from "axios";
 
 export default function Page() {
   const [file, setFile] = useState<File | null>(null);
@@ -89,6 +91,16 @@ export default function Page() {
       setAnalysis(data);
       incrementUsage();
       setRemaining(getRemainingAnalyses());
+      
+      // Save analysis to database if user is logged in
+      try {
+        await axios.post("/api/save-analysis", {
+          chartUrl: preview,
+          ...data,
+        });
+      } catch (saveErr) {
+        console.log("Failed to save to database (user may not be logged in)");
+      }
     } catch (err: any) {
       setError(err?.message || "Failed to analyze chart");
     } finally {
@@ -723,6 +735,9 @@ Market: ${market} | Style: ${style}
           <p>© TradingXbert</p>
         </footer>
       </div>
+      
+      {/* Testimonials Section */}
+      {!analysis && <TestimonialsSection />}
     </main>
   );
 }

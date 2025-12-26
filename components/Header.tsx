@@ -47,8 +47,9 @@ export default function Header() {
       </div>
       <nav className="flex items-center gap-4 text-sm">
         <Link href="/how-to-trade" className="btn btn-ghost focus-ring hover:text-[#6366F1] transition-colors" aria-label="Free Trading Course">🎓 Free Course</Link>
-        <Link href="/invest" className="btn btn-ghost focus-ring hover:text-emerald-400 transition-colors" aria-label="Invest in TXB">🚀 $TXB</Link>
-        <Link href="/journal" className="btn btn-ghost focus-ring" aria-label="Open journal">📔 Journal</Link>
+        <Link href="/invest" className="btn btn-ghost focus-ring hover:text-emerald-400 transition-colors hidden lg:block" aria-label="Invest in TXB">🚀 $TXB</Link>
+        <Link href="/profile" className="btn btn-ghost focus-ring hover:text-[#FFD700] transition-colors" aria-label="My Profile">👤 Profile</Link>
+        <Link href="/pricing" className="btn btn-ghost bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-bold px-4 py-2 rounded-lg hover:scale-105 transition-transform" aria-label="Get Pro">⚡ Get Pro</Link>
         <SignInButton />
       </nav>
     </header>

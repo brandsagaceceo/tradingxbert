@@ -14,9 +14,12 @@ model User {
   email         String?  @unique
   emailVerified DateTime?
   image         String?
+  bio           String?
+  username      String?  @unique
   accounts      Account[]
   sessions      Session[]
   subscription  Subscription?
+  analyses      Analysis[]
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
@@ -70,4 +73,25 @@ model Subscription {
   updatedAt            DateTime @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Analysis {
+  id            String   @id @default(cuid())
+  userId        String
+  chartUrl      String?
+  signal        String
+  confidence    Int
+  riskLevel     String
+  trendSummary  String
+  patternSummary String
+  keyLevels     String
+  styleNotes    String
+  teachingTips  String
+  emotionSummary String?
+  riskPlan      String?
+  createdAt     DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId, createdAt])
 }
