@@ -38,15 +38,13 @@ export default function Header() {
           <span className="sm:hidden font-semibold">Uni</span>
         </Link>
         
-        {session && (
-          <Link 
-            href="/profile" 
-            className="flex items-center gap-1.5 px-3 py-2 text-xs md:text-sm text-neutral-300 hover:text-[#FFD700] transition-colors rounded-lg hover:bg-white/5"
-          >
-            <span className="text-base">👤</span>
-            <span className="hidden md:inline">Profile</span>
-          </Link>
-        )}
+        <Link 
+          href="/profile" 
+          className="flex items-center gap-1.5 px-3 py-2 text-xs md:text-sm text-neutral-300 hover:text-[#FFD700] transition-colors rounded-lg hover:bg-white/5"
+        >
+          <span className="text-base">👤</span>
+          <span className="hidden md:inline">Profile</span>
+        </Link>
         
         <Link 
           href="/pricing" 
