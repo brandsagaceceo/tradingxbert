@@ -3,8 +3,10 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import TokenGate from '@/components/TokenGate';
+import { useState } from 'react';
 
 export default function Pricing() {
+  const [showSetupModal, setShowSetupModal] = useState(false);
   const plans = [
     {
       name: "Free Plan",
@@ -56,7 +58,7 @@ export default function Pricing() {
       ],
       limitations: [],
       cta: "Get Pro Now - $6.99/mo",
-      href: "https://buy.stripe.com/aFa28t1LD4yjfqXfZ0",
+      href: "https://dashboard.stripe.com/payment-links/create",
       stripeProductId: "prod_Tg6H96qgfV1qRP",
       stripePriceId: "price_1Sik4pRia8z8dQ23h2lNrvog",
       gradient: "from-[#6366F1] via-[#8B5CF6] to-[#EC4899]",
@@ -66,6 +68,23 @@ export default function Pricing() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#0A0A0F] via-[#1a1a2e] to-[#0A0A0F]">
+      {/* Setup Notice */}
+      {showSetupModal && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black py-4 px-6 text-center font-bold relative"
+        >
+          <button 
+            onClick={() => setShowSetupModal(false)}
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-2xl hover:scale-110 transition-transform"
+          >
+            ×
+          </button>
+          🚧 Admin: Create your Stripe Payment Link first! Product ID: prod_Tg6H96qgfV1qRP
+        </motion.div>
+      )}
+      
       {/* Hero */}
       <motion.div 
         initial={{ opacity: 0 }}
@@ -266,12 +285,12 @@ export default function Pricing() {
             Join thousands of traders using AI to make better trading decisions
           </p>
           <a
-            href="https://buy.stripe.com/aFa28t1LD4yjfqXfZ0"
+            href="https://dashboard.stripe.com/payment-links/create"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block px-8 py-4 bg-gradient-to-r from-[#6366F1] via-[#8B5CF6] to-[#EC4899] text-white font-bold rounded-xl hover:shadow-xl hover:shadow-[#6366F1]/30 hover:scale-105 transition-all duration-300"
           >
-            Get Pro Now - $6.99/mo →
+            Set Up Payment →
           </a>
         </motion.div>
       </div>
