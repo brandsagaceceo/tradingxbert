@@ -9,6 +9,7 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import ChartGuide from "@/components/ChartGuide";
 import AlertSignup from "@/components/AlertSignup";
 import AITradingAssistant from "@/components/AITradingAssistant";
+import AnimatedHeroBanner from "@/components/AnimatedHeroBanner";
 import { saveToJournal } from "@/lib/localStorage";
 import { canAnalyze, getRemainingAnalyses, incrementUsage, getFreeLimit, getUsageData } from "@/lib/usageLimit";
 import type { TradingXbertAnalysis, Market, Style } from "@/lib/tradingTypes";
@@ -198,6 +199,9 @@ Market: ${market} | Style: ${style}
 
   return (
     <main className="min-h-screen bg-[#0A0A0A] text-neutral-200">
+      {/* Animated Hero Banner */}
+      {!analysis && <AnimatedHeroBanner />}
+      
       {/* Promo Popup */}
       {showPromoPopup && (
         <motion.div 

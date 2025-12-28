@@ -58,7 +58,7 @@ export default function Pricing() {
       ],
       limitations: [],
       cta: "Get Pro Now - $6.99/mo",
-      href: "https://dashboard.stripe.com/payment-links/create",
+      href: "https://buy.stripe.com/test_00g4ivbY84ks6yseUU",
       stripeProductId: "prod_Tg6H96qgfV1qRP",
       stripePriceId: "price_1Sik4pRia8z8dQ23h2lNrvog",
       gradient: "from-[#6366F1] via-[#8B5CF6] to-[#EC4899]",
@@ -285,12 +285,12 @@ export default function Pricing() {
             Join thousands of traders using AI to make better trading decisions
           </p>
           <a
-            href="https://dashboard.stripe.com/payment-links/create"
+            href="https://buy.stripe.com/test_00g4ivbY84ks6yseUU"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block px-8 py-4 bg-gradient-to-r from-[#6366F1] via-[#8B5CF6] to-[#EC4899] text-white font-bold rounded-xl hover:shadow-xl hover:shadow-[#6366F1]/30 hover:scale-105 transition-all duration-300"
           >
-            Set Up Payment →
+            Get Pro Now - $6.99/mo →
           </a>
         </motion.div>
       </div>
