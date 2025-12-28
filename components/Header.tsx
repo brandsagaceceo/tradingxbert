@@ -28,51 +28,69 @@ export default function Header() {
       </Link>
 
       {/* Nav */}
-      <nav className="flex items-center gap-2 md:gap-4 flex-shrink-0">
+      <nav className="flex items-center gap-1 md:gap-2 flex-shrink-0">
+        {/* Learn Section */}
         <Link 
           href="/university" 
-          className="flex items-center gap-1.5 px-3 md:px-4 py-2 text-xs md:text-sm text-neutral-300 hover:text-[#FFD700] transition-all rounded-lg hover:bg-gradient-to-r hover:from-[#FFD700]/10 hover:to-[#FFA500]/10 border border-transparent hover:border-[#FFD700]/30"
+          className="flex items-center gap-1 px-2 md:px-3 py-2 text-xs md:text-sm text-neutral-300 hover:text-[#FFD700] transition-all rounded-lg hover:bg-gradient-to-r hover:from-[#FFD700]/10 hover:to-[#FFA500]/10"
         >
-          <span className="text-base md:text-lg">🎓</span>
-          <span className="hidden sm:inline font-semibold">University</span>
-          <span className="sm:hidden font-semibold">Uni</span>
+          <span className="text-base">🎓</span>
+          <span className="hidden lg:inline font-semibold">Learn</span>
         </Link>
         
+        {/* Community Section */}
         <Link 
           href="/community" 
-          className="flex items-center gap-1.5 px-3 py-2 text-xs md:text-sm text-neutral-300 hover:text-[#FFD700] transition-colors rounded-lg hover:bg-white/5"
+          className="flex items-center gap-1 px-2 md:px-3 py-2 text-xs md:text-sm text-neutral-300 hover:text-[#FFD700] transition-colors rounded-lg hover:bg-white/5"
         >
           <span className="text-base">👥</span>
-          <span className="hidden md:inline">Community</span>
+          <span className="hidden lg:inline">Community</span>
         </Link>
         
+        {/* Messages */}
+        <Link 
+          href="/messages" 
+          className="flex items-center gap-1 px-2 md:px-3 py-2 text-xs md:text-sm text-neutral-300 hover:text-[#FFD700] transition-colors rounded-lg hover:bg-white/5 relative"
+        >
+          <span className="text-base">💬</span>
+          <span className="hidden lg:inline">Messages</span>
+          {/* Notification badge */}
+          <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">2</span>
+        </Link>
+        
+        {/* Blog */}
         <Link 
           href="/blog/trade-analysis" 
-          className="flex items-center gap-1.5 px-3 py-2 text-xs md:text-sm text-neutral-300 hover:text-[#FFD700] transition-colors rounded-lg hover:bg-white/5"
+          className="flex items-center gap-1 px-2 md:px-3 py-2 text-xs md:text-sm text-neutral-300 hover:text-[#FFD700] transition-colors rounded-lg hover:bg-white/5"
         >
-          <span className="text-base">📊</span>
-          <span className="hidden md:inline">Blog</span>
+          <span className="text-base">📝</span>
+          <span className="hidden lg:inline">Blog</span>
         </Link>
         
+        {/* Divider */}
+        <div className="w-px h-6 bg-white/20 mx-1" />
+        
+        {/* Profile */}
         <Link 
           href="/profile" 
-          className="flex items-center gap-1.5 px-3 py-2 text-xs md:text-sm text-neutral-300 hover:text-[#FFD700] transition-colors rounded-lg hover:bg-white/5"
+          className="flex items-center gap-1 px-2 md:px-3 py-2 text-xs md:text-sm text-neutral-300 hover:text-[#FFD700] transition-colors rounded-lg hover:bg-white/5"
         >
           <span className="text-base">👤</span>
-          <span className="hidden md:inline">Profile</span>
         </Link>
         
+        {/* Upgrade to Pro */}
         <Link 
           href="/pricing" 
-          className="relative group px-3 md:px-4 py-2 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-bold text-xs md:text-sm rounded-lg overflow-hidden hover:scale-105 transition-transform shadow-lg shadow-[#FFD700]/20"
+          className="relative group px-2 md:px-4 py-2 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-bold text-xs md:text-sm rounded-lg overflow-hidden hover:scale-105 transition-transform shadow-lg shadow-[#FFD700]/20"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-[#FFA500] to-[#FFD700] opacity-0 group-hover:opacity-100 transition-opacity" />
-          <span className="relative flex items-center gap-1.5">
+          <span className="relative flex items-center gap-1">
             <span className="text-base">⚡</span>
             <span className="hidden sm:inline">Pro</span>
           </span>
         </Link>
         
+        {/* Sign In */}
         <div className="text-xs md:text-base">
           <SignInButton />
         </div>
