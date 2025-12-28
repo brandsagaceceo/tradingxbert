@@ -39,9 +39,9 @@ export default function Header() {
         {session && (
           <Link 
             href="/profile" 
-            className="flex items-center gap-1 px-2 md:px-3 py-2 text-xs md:text-sm text-neutral-300 hover:text-[#FFD700] transition-colors rounded-lg hover:bg-white/5"
+            className="flex items-center gap-1 px-3 py-2 text-sm text-neutral-300 hover:text-[#FFD700] transition-colors rounded-lg hover:bg-white/5"
           >
-            👤 <span className="hidden sm:inline">Profile</span>
+            👤 <span className="hidden md:inline">Profile</span>
           </Link>
         )}
         

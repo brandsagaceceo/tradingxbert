@@ -52,7 +52,7 @@ export default function Pricing() {
       ],
       limitations: [],
       cta: "Get Pro Now",
-      href: "https://buy.stripe.com/aFa28t1LD4yjfqXful0sU00",
+      href: "https://buy.stripe.com/aFa28t1LD4yjfqXfZ0",
       gradient: "from-[#6366F1] via-[#8B5CF6] to-[#EC4899]",
       borderColor: "border-[#6366F1]/50"
     }
@@ -123,8 +123,8 @@ export default function Pricing() {
               className="relative"
             >
               {plan.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
-                  <div className={`px-6 py-2 bg-gradient-to-r ${plan.gradient} rounded-full text-white text-sm font-bold shadow-lg`}>
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 w-auto">
+                  <div className={`px-4 md:px-6 py-1.5 md:py-2 bg-gradient-to-r ${plan.gradient} rounded-full text-white text-xs md:text-sm font-bold shadow-lg whitespace-nowrap`}>
                     ⭐ MOST POPULAR
                   </div>
                 </div>
@@ -260,12 +260,12 @@ export default function Pricing() {
             Join thousands of traders using AI to make better trading decisions
           </p>
           <a
-            href="https://buy.stripe.com/aFa28t1LD4yjfqXful0sU00"
+            href="https://buy.stripe.com/aFa28t1LD4yjfqXfZ0"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block px-8 py-4 bg-gradient-to-r from-[#6366F1] via-[#8B5CF6] to-[#EC4899] text-white font-bold rounded-xl hover:shadow-xl hover:shadow-[#6366F1]/30 hover:scale-105 transition-all duration-300"
           >
-            Start Your Pro Trial →
+            Get Pro Now - $6.99/mo →
           </a>
         </motion.div>
       </div>
