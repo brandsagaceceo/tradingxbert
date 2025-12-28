@@ -34,8 +34,24 @@ export default function Header() {
           className="flex items-center gap-1.5 px-3 md:px-4 py-2 text-xs md:text-sm text-neutral-300 hover:text-[#FFD700] transition-all rounded-lg hover:bg-gradient-to-r hover:from-[#FFD700]/10 hover:to-[#FFA500]/10 border border-transparent hover:border-[#FFD700]/30"
         >
           <span className="text-base md:text-lg">🎓</span>
-          <span className="hidden sm:inline font-semibold">Free University</span>
+          <span className="hidden sm:inline font-semibold">University</span>
           <span className="sm:hidden font-semibold">Uni</span>
+        </Link>
+        
+        <Link 
+          href="/community" 
+          className="flex items-center gap-1.5 px-3 py-2 text-xs md:text-sm text-neutral-300 hover:text-[#FFD700] transition-colors rounded-lg hover:bg-white/5"
+        >
+          <span className="text-base">👥</span>
+          <span className="hidden md:inline">Community</span>
+        </Link>
+        
+        <Link 
+          href="/blog/trade-analysis" 
+          className="flex items-center gap-1.5 px-3 py-2 text-xs md:text-sm text-neutral-300 hover:text-[#FFD700] transition-colors rounded-lg hover:bg-white/5"
+        >
+          <span className="text-base">📊</span>
+          <span className="hidden md:inline">Blog</span>
         </Link>
         
         <Link 

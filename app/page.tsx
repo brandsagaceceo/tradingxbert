@@ -8,6 +8,7 @@ import AnalysisResults from "@/components/AnalysisResults";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import ChartGuide from "@/components/ChartGuide";
 import AlertSignup from "@/components/AlertSignup";
+import AITradingAssistant from "@/components/AITradingAssistant";
 import { saveToJournal } from "@/lib/localStorage";
 import { canAnalyze, getRemainingAnalyses, incrementUsage, getFreeLimit, getUsageData } from "@/lib/usageLimit";
 import type { TradingXbertAnalysis, Market, Style } from "@/lib/tradingTypes";
@@ -755,6 +756,9 @@ Market: ${market} | Style: ${style}
       
       {/* Testimonials Section */}
       {!analysis && <TestimonialsSection />}
+      
+      {/* AI Trading Assistant */}
+      <AITradingAssistant />
     </main>
   );
 }
