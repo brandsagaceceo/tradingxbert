@@ -3,13 +3,21 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 export default function UniversityPage() {
+  const { data: session } = useSession();
   const [userPoints, setUserPoints] = useState(0);
+  const [isPro, setIsPro] = useState(false);
 
   useEffect(() => {
     const points = localStorage.getItem('tradingxbert_points');
     setUserPoints(parseInt(points || '0'));
+    
+    // Check if user has Pro subscription
+    // TODO: Replace with actual subscription check from database
+    const proStatus = localStorage.getItem('tradingxbert_pro');
+    setIsPro(proStatus === 'true');
   }, []);
 
   const courses = [
@@ -214,7 +222,7 @@ export default function UniversityPage() {
             className="mb-8"
           >
             <p className="text-xl md:text-3xl text-neutral-300 mb-6 max-w-4xl mx-auto">
-              Master Trading from Zero to Hero — Completely <span className="text-[#FFD700] font-bold">FREE</span>
+              Master Trading from Zero to Hero — <span className="text-[#FFD700] font-bold">Included with Pro</span>
             </p>
             <motion.div
               animate={{ scale: [1, 1.05, 1] }}
@@ -225,7 +233,7 @@ export default function UniversityPage() {
                 Total Value: <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFD700] to-[#FFA500]">${totalValue.toLocaleString()}</span>
               </p>
               <p className="text-lg md:text-xl text-emerald-400 font-bold">
-                ✨ Yours Absolutely FREE ✨
+                ✨ Included with Pro - Only $6.99/mo ✨
               </p>
             </motion.div>
           </motion.div>
@@ -256,17 +264,75 @@ export default function UniversityPage() {
         </motion.div>
 
         {/* Courses Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-          {courses.map((course, index) => (
-            <Link key={course.id} href={`/university/${course.slug}`}>
+        <div className="relative">
+          {/* Paywall Overlay for Non-Pro Users */}
+          {!isPro && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="absolute inset-0 z-40 flex items-center justify-center backdrop-blur-sm bg-black/60"
+            >
               <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ scale: 1.05, y: -10 }}
-                className="relative group cursor-pointer"
+                initial={{ scale: 0.8, y: 50 }}
+                animate={{ scale: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="bg-gradient-to-br from-[#1a1a2e] to-[#16213e] p-12 rounded-3xl border-2 border-[#FFD700] max-w-2xl mx-4 text-center shadow-2xl"
               >
+                <motion.div
+                  animate={{ rotate: [0, 10, -10, 0], scale: [1, 1.1, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  className="text-8xl mb-6"
+                >
+                  🔒
+                </motion.div>
+                <h2 className="text-4xl md:text-5xl font-black mb-4 text-white">
+                  Unlock All Courses
+                </h2>
+                <p className="text-xl text-neutral-300 mb-8">
+                  Get instant access to all 10 premium courses, AI trade signals, real-time notifications, and more!
+                </p>
+                <div className="bg-[#FFD700]/10 border border-[#FFD700]/30 rounded-2xl p-6 mb-8">
+                  <p className="text-3xl font-black text-[#FFD700] mb-2">
+                    $2,024 Value
+                  </p>
+                  <p className="text-5xl font-black text-white mb-2">
+                    Only $6.99<span className="text-2xl text-neutral-400">/month</span>
+                  </p>
+                  <p className="text-sm text-neutral-400">
+                    Cancel anytime • 7-day money-back guarantee
+                  </p>
+                </div>
+                <Link href="/pricing">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-full px-8 py-4 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-black text-xl rounded-xl shadow-lg shadow-[#FFD700]/50 hover:shadow-[#FFD700]/80 transition-all"
+                  >
+                    Upgrade to Pro Now 🚀
+                  </motion.button>
+                </Link>
+                <p className="text-sm text-neutral-400 mt-4">
+                  ✨ Specialized AI for Trading Only • Not a Generalist Like ChatGPT
+                </p>
+              </motion.div>
+            </motion.div>
+          )}
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+            {courses.map((course, index) => (
+              <Link 
+                key={course.id} 
+                href={isPro ? `/university/${course.slug}` : "/pricing"}
+                className={!isPro ? "pointer-events-none" : ""}
+              >
+                <motion.div
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  whileHover={{ scale: isPro ? 1.05 : 1, y: isPro ? -10 : 0 }}
+                  className="relative group cursor-pointer"
+                >
                 <div className={`absolute inset-0 bg-gradient-to-r ${course.color} opacity-0 group-hover:opacity-20 blur-xl transition-all duration-500 rounded-3xl`} />
                 
                 <div className="relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-lg rounded-3xl border border-white/10 hover:border-white/30 p-6 h-full transition-all duration-300 overflow-hidden">
@@ -302,7 +368,7 @@ export default function UniversityPage() {
                         transition={{ duration: 2, repeat: Infinity }}
                         className="text-2xl font-black text-emerald-400"
                       >
-                        FREE
+                        {isPro ? "UNLOCKED" : "LOCKED"}
                       </motion.span>
                     </div>
 
@@ -311,17 +377,18 @@ export default function UniversityPage() {
                     </p>
 
                     <motion.div
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className={`w-full py-3 bg-gradient-to-r ${course.color} text-white font-bold rounded-xl text-center hover:shadow-lg hover:shadow-white/20 transition-all`}
+                      whileHover={{ scale: isPro ? 1.05 : 1 }}
+                      whileTap={{ scale: isPro ? 0.95 : 1 }}
+                      className={`w-full py-3 bg-gradient-to-r ${course.color} text-white font-bold rounded-xl text-center hover:shadow-lg hover:shadow-white/20 transition-all ${!isPro ? 'opacity-50' : ''}`}
                     >
-                      Start Learning →
+                      {isPro ? "Start Learning →" : "🔒 Pro Only"}
                     </motion.div>
                   </div>
                 </div>
               </motion.div>
             </Link>
           ))}
+          </div>
         </div>
 
         {/* CTA Section */}

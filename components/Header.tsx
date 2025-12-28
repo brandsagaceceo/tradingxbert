@@ -8,11 +8,11 @@ export default function Header() {
   const { data: session } = useSession();
 
   return (
-    <header className="w-full flex items-center justify-between px-4 py-4 max-w-7xl mx-auto border-b border-white/5 backdrop-blur-lg bg-black/50 sticky top-0 z-50">
+    <header className="w-full flex items-center justify-between px-4 py-4 max-w-7xl mx-auto border-b border-[#FFD700]/20 backdrop-blur-xl bg-black/80 sticky top-0 z-50 shadow-lg shadow-[#FFD700]/5">
       {/* Logo */}
       <Link href="/" className="flex items-center gap-2 group flex-shrink-0">
         <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-[#FFD700] to-[#FFA500] blur-lg opacity-50 group-hover:opacity-75 transition-opacity" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#FFD700] to-[#FFA500] blur-lg opacity-50 group-hover:opacity-100 transition-opacity duration-300" />
           <div className="relative text-3xl md:text-4xl">📊</div>
         </div>
         <div>
@@ -21,8 +21,8 @@ export default function Header() {
               TradingXbert
             </span>
           </div>
-          <div className="text-[8px] md:text-[10px] text-neutral-500 font-medium tracking-wider">
-            AI CHART ANALYSIS
+          <div className="text-[8px] md:text-[10px] text-[#FFD700]/60 font-bold tracking-wider">
+            AI SPECIALIZED IN TRADING ONLY
           </div>
         </div>
       </Link>
@@ -32,16 +32,16 @@ export default function Header() {
         {/* Learn Section */}
         <Link 
           href="/university" 
-          className="flex items-center gap-1 px-2 md:px-3 py-2 text-xs md:text-sm text-neutral-300 hover:text-[#FFD700] transition-all rounded-lg hover:bg-gradient-to-r hover:from-[#FFD700]/10 hover:to-[#FFA500]/10"
+          className="flex items-center gap-1 px-2 md:px-3 py-2 text-xs md:text-sm text-white hover:text-[#FFD700] transition-all rounded-lg hover:bg-gradient-to-r hover:from-[#FFD700]/20 hover:to-[#FFA500]/20 border border-transparent hover:border-[#FFD700]/50 font-bold"
         >
           <span className="text-base">🎓</span>
-          <span className="hidden lg:inline font-semibold">Learn</span>
+          <span className="hidden lg:inline">Learn</span>
         </Link>
         
         {/* Community Section */}
         <Link 
           href="/community" 
-          className="flex items-center gap-1 px-2 md:px-3 py-2 text-xs md:text-sm text-neutral-300 hover:text-[#FFD700] transition-colors rounded-lg hover:bg-white/5"
+          className="flex items-center gap-1 px-2 md:px-3 py-2 text-xs md:text-sm text-white hover:text-[#FFD700] transition-all rounded-lg hover:bg-white/10 border border-transparent hover:border-[#FFD700]/50 font-bold"
         >
           <span className="text-base">👥</span>
           <span className="hidden lg:inline">Community</span>
@@ -50,18 +50,18 @@ export default function Header() {
         {/* Messages */}
         <Link 
           href="/messages" 
-          className="flex items-center gap-1 px-2 md:px-3 py-2 text-xs md:text-sm text-neutral-300 hover:text-[#FFD700] transition-colors rounded-lg hover:bg-white/5 relative"
+          className="flex items-center gap-1 px-2 md:px-3 py-2 text-xs md:text-sm text-white hover:text-[#FFD700] transition-all rounded-lg hover:bg-white/10 border border-transparent hover:border-[#FFD700]/50 relative font-bold"
         >
           <span className="text-base">💬</span>
           <span className="hidden lg:inline">Messages</span>
           {/* Notification badge */}
-          <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">2</span>
+          <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center animate-pulse">2</span>
         </Link>
         
         {/* Blog */}
         <Link 
           href="/blog/trade-analysis" 
-          className="flex items-center gap-1 px-2 md:px-3 py-2 text-xs md:text-sm text-neutral-300 hover:text-[#FFD700] transition-colors rounded-lg hover:bg-white/5"
+          className="flex items-center gap-1 px-2 md:px-3 py-2 text-xs md:text-sm text-white hover:text-[#FFD700] transition-all rounded-lg hover:bg-white/10 border border-transparent hover:border-[#FFD700]/50 font-bold"
         >
           <span className="text-base">📝</span>
           <span className="hidden lg:inline">Blog</span>
