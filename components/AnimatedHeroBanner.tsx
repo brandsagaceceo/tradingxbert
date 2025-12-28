@@ -104,109 +104,155 @@ export default function AnimatedHeroBanner() {
         className="absolute bottom-20 right-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"
       />
 
-      {/* Modern 3D Rocket */}
+      {/* Realistic 3D Rocket with proper flame */}
       <div className="absolute inset-0 flex items-center justify-center">
         <motion.div
-          initial={{ y: 50, opacity: 0 }}
+          initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
           className="relative"
         >
           <motion.div
             animate={{
-              y: [-8, -15, -8],
+              y: [-10, -20, -10],
             }}
             transition={{
               duration: 4,
               repeat: Infinity,
               ease: "easeInOut"
             }}
-            className="relative flex flex-col items-center"
+            className="relative"
+            style={{ transform: "translateZ(50px)", transformStyle: "preserve-3d" }}
           >
-            {/* Rocket SVG */}
-            <svg width="200" height="300" viewBox="0 0 200 300" className="drop-shadow-2xl relative z-10">
+            {/* 3D Rocket SVG */}
+            <svg width="250" height="400" viewBox="0 0 250 400" className="drop-shadow-2xl" style={{ filter: "drop-shadow(0 0 30px rgba(239, 68, 68, 0.6))" }}>
               <defs>
                 <linearGradient id="rocketBody" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#ef4444" />
-                  <stop offset="50%" stopColor="#dc2626" />
-                  <stop offset="100%" stopColor="#b91c1c" />
+                  <stop offset="0%" stopColor="#7f1d1d" />
+                  <stop offset="30%" stopColor="#dc2626" />
+                  <stop offset="70%" stopColor="#ef4444" />
+                  <stop offset="100%" stopColor="#7f1d1d" />
                 </linearGradient>
-                <linearGradient id="rocketHighlight" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#fca5a5" stopOpacity="0.8" />
-                  <stop offset="100%" stopColor="#ef4444" stopOpacity="0" />
+                <linearGradient id="rocketShadow" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#000" stopOpacity="0.6" />
+                  <stop offset="50%" stopColor="#000" stopOpacity="0" />
+                  <stop offset="100%" stopColor="#000" stopOpacity="0.6" />
                 </linearGradient>
-                <radialGradient id="window">
-                  <stop offset="0%" stopColor="#60a5fa" />
-                  <stop offset="100%" stopColor="#1e40af" />
+                <radialGradient id="windowGlow">
+                  <stop offset="0%" stopColor="#93c5fd" />
+                  <stop offset="40%" stopColor="#3b82f6" />
+                  <stop offset="100%" stopColor="#1e3a8a" />
                 </radialGradient>
-                <filter id="glow">
-                  <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                <filter id="3dEffect">
+                  <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+                  <feOffset dx="4" dy="4" result="offsetblur"/>
+                  <feComponentTransfer>
+                    <feFuncA type="linear" slope="0.5"/>
+                  </feComponentTransfer>
                   <feMerge>
-                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode/>
                     <feMergeNode in="SourceGraphic"/>
                   </feMerge>
                 </filter>
               </defs>
               
-              <path d="M 100 20 L 70 80 L 130 80 Z" fill="url(#rocketBody)" filter="url(#glow)"/>
-              <rect x="70" y="80" width="60" height="120" fill="url(#rocketBody)" rx="5"/>
-              <rect x="70" y="80" width="20" height="120" fill="url(#rocketHighlight)" opacity="0.5" rx="5"/>
+              {/* Nose Cone with 3D depth */}
+              <path d="M 125 30 L 90 110 L 160 110 Z" fill="url(#rocketBody)" filter="url(#3dEffect)"/>
+              <path d="M 125 30 L 90 110 L 125 100 Z" fill="rgba(252, 165, 165, 0.3)"/>
               
+              {/* Main Body */}
+              <rect x="90" y="110" width="70" height="180" fill="url(#rocketBody)" rx="8" filter="url(#3dEffect)"/>
+              
+              {/* 3D Highlight on body */}
+              <rect x="90" y="110" width="25" height="180" fill="rgba(252, 165, 165, 0.4)" rx="8" opacity="0.6"/>
+              <rect x="135" y="110" width="25" height="180" fill="url(#rocketShadow)" rx="8"/>
+              
+              {/* Glowing Window */}
               <motion.circle
-                cx="100"
-                cy="110"
-                r="18"
-                fill="url(#window)"
-                animate={{ opacity: [0.8, 1, 0.8] }}
+                cx="125"
+                cy="150"
+                r="22"
+                fill="url(#windowGlow)"
+                animate={{ 
+                  opacity: [0.7, 1, 0.7],
+                  scale: [0.95, 1.05, 0.95]
+                }}
                 transition={{ duration: 2, repeat: Infinity }}
+                style={{ transformOrigin: "125px 150px" }}
               />
-              <circle cx="100" cy="110" r="18" fill="none" stroke="#1e40af" strokeWidth="2" opacity="0.5"/>
+              <circle cx="125" cy="150" r="22" fill="none" stroke="#60a5fa" strokeWidth="3" opacity="0.8"/>
+              <circle cx="125" cy="150" r="18" fill="rgba(147, 197, 253, 0.2)"/>
               
-              <rect x="70" y="160" width="60" height="8" fill="#fbbf24" opacity="0.9"/>
-              <rect x="70" y="175" width="60" height="4" fill="#fff" opacity="0.6"/>
+              {/* Racing Stripes */}
+              <rect x="90" y="220" width="70" height="12" fill="#fbbf24" opacity="0.95"/>
+              <rect x="90" y="235" width="70" height="6" fill="#fff" opacity="0.7"/>
+              <rect x="90" y="245" width="70" height="12" fill="#fbbf24" opacity="0.95"/>
               
-              <path d="M 70 180 L 70 200 L 45 220 L 70 200 Z" fill="#b91c1c" filter="url(#glow)"/>
-              <path d="M 130 180 L 130 200 L 155 220 L 130 200 Z" fill="#991b1b" filter="url(#glow)"/>
+              {/* 3D Fins */}
+              <path d="M 90 260 L 90 290 L 55 320 L 90 295 Z" fill="#991b1b" filter="url(#3dEffect)"/>
+              <path d="M 90 260 L 55 320 L 70 310 L 90 275 Z" fill="rgba(127, 29, 29, 0.8)"/>
+              
+              <path d="M 160 260 L 160 290 L 195 320 L 160 295 Z" fill="#7f1d1d" filter="url(#3dEffect)"/>
+              <path d="M 160 260 L 195 320 L 180 310 L 160 275 Z" fill="rgba(0, 0, 0, 0.4)"/>
             </svg>
 
-            {/* Exhaust Fire - UNDER the rocket */}
+            {/* Realistic Exhaust Fire - DIRECTLY BELOW ROCKET */}
             <motion.div
               animate={{
-                scaleY: [1, 1.3, 1],
-                opacity: [0.8, 1, 0.8]
+                scaleY: [1, 1.4, 1],
+                scaleX: [1, 1.1, 1],
+                opacity: [0.85, 1, 0.85]
               }}
               transition={{
-                duration: 0.4,
+                duration: 0.3,
                 repeat: Infinity,
                 ease: "easeInOut"
               }}
-              className="absolute top-[280px] left-1/2 -translate-x-1/2 w-20 z-0"
+              className="absolute left-1/2 -translate-x-1/2 z-0"
+              style={{ top: "380px" }}
             >
-              <svg width="80" height="100" viewBox="0 0 80 100" className="drop-shadow-lg">
+              <svg width="120" height="150" viewBox="0 0 120 150" className="drop-shadow-2xl">
                 <defs>
-                  <linearGradient id="flame" x1="50%" y1="0%" x2="50%" y2="100%">
-                    <stop offset="0%" stopColor="#fbbf24" />
-                    <stop offset="50%" stopColor="#f97316" />
-                    <stop offset="100%" stopColor="#ef4444" stopOpacity="0.5" />
-                  </linearGradient>
+                  <radialGradient id="flameOuter" cx="50%" cy="20%">
+                    <stop offset="0%" stopColor="#fff" stopOpacity="0.9" />
+                    <stop offset="30%" stopColor="#fef3c7" stopOpacity="0.8" />
+                    <stop offset="60%" stopColor="#fbbf24" stopOpacity="0.7" />
+                    <stop offset="85%" stopColor="#f97316" stopOpacity="0.5" />
+                    <stop offset="100%" stopColor="#ef4444" stopOpacity="0" />
+                  </radialGradient>
+                  <radialGradient id="flameCore" cx="50%" cy="10%">
+                    <stop offset="0%" stopColor="#fff" />
+                    <stop offset="40%" stopColor="#fef3c7" />
+                    <stop offset="80%" stopColor="#fbbf24" stopOpacity="0.8" />
+                    <stop offset="100%" stopColor="#f97316" stopOpacity="0" />
+                  </radialGradient>
                 </defs>
-                <ellipse cx="40" cy="15" rx="25" ry="35" fill="url(#flame)"/>
-                <ellipse cx="40" cy="15" rx="15" ry="25" fill="#fef3c7" opacity="0.7"/>
+                {/* Outer flame */}
+                <ellipse cx="60" cy="25" rx="50" ry="70" fill="url(#flameOuter)"/>
+                {/* Inner flame */}
+                <ellipse cx="60" cy="20" rx="30" ry="50" fill="url(#flameCore)"/>
+                {/* Hot core */}
+                <ellipse cx="60" cy="18" rx="18" ry="30" fill="#fff" opacity="0.8"/>
               </svg>
             </motion.div>
 
+            {/* Smoke Trail */}
             <motion.div
               animate={{
-                opacity: [0.2, 0.4, 0.2],
-                scaleY: [1, 1.2, 1]
+                opacity: [0.15, 0.35, 0.15],
+                scaleY: [1, 1.3, 1],
+                scaleX: [0.8, 1.2, 0.8]
               }}
               transition={{
-                duration: 3,
+                duration: 2.5,
                 repeat: Infinity,
                 ease: "easeOut"
               }}
-              className="absolute top-[350px] left-1/2 -translate-x-1/2 w-16 h-32 bg-gradient-to-b from-gray-400/20 to-transparent rounded-full blur-xl"
-            />
+              className="absolute left-1/2 -translate-x-1/2"
+              style={{ top: "480px" }}
+            >
+              <div className="w-28 h-48 bg-gradient-to-b from-gray-300/30 via-gray-400/15 to-transparent rounded-full blur-2xl" />
+            </motion.div>
           </motion.div>
         </motion.div>
       </div>
