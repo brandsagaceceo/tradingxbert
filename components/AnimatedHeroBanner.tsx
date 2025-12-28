@@ -234,4 +234,6 @@ export default function AnimatedHeroBanner() {
           Upload Your Chart • Get Instant Insights
         </motion.p>
       </div>
+    </div>
+  );
 }
