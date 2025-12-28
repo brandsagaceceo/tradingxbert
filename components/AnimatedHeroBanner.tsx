@@ -8,29 +8,32 @@ export default function AnimatedHeroBanner() {
       {/* Galaxy Background */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent" />
       
-      {/* Animated Stars */}
-      {[...Array(100)].map((_, i) => (
+      {/* Animated Stars - MORE */}
+      {[...Array(200)].map((_, i) => (
         <motion.div
           key={`star-${i}`}
           animate={{
             opacity: [0.2, 1, 0.2],
-            scale: [0.5, 1, 0.5]
+            scale: [0.5, 1.2, 0.5]
           }}
           transition={{
             duration: 2 + Math.random() * 3,
             repeat: Infinity,
             delay: Math.random() * 5
           }}
-          className="absolute w-0.5 h-0.5 bg-white rounded-full"
+          className="absolute bg-white rounded-full"
           style={{
+            width: Math.random() > 0.7 ? '2px' : '1px',
+            height: Math.random() > 0.7 ? '2px' : '1px',
             left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`
+            top: `${Math.random() * 100}%`,
+            boxShadow: Math.random() > 0.8 ? '0 0 4px rgba(255,255,255,0.8)' : 'none'
           }}
         />
       ))}
 
-      {/* Shooting Stars */}
-      {[...Array(5)].map((_, i) => (
+      {/* Shooting Stars - MORE */}
+      {[...Array(10)].map((_, i) => (
         <motion.div
           key={`shoot-${i}`}
           animate={{
@@ -39,17 +42,69 @@ export default function AnimatedHeroBanner() {
             opacity: [0, 1, 0]
           }}
           transition={{
-            duration: 3,
+            duration: 2 + Math.random() * 2,
             repeat: Infinity,
-            delay: i * 2,
+            delay: i * 1.5,
             ease: "easeOut"
           }}
           className="absolute w-1 h-1 bg-white rounded-full"
           style={{
-            top: `${20 + i * 15}%`,
-            boxShadow: "0 0 20px 2px rgba(255, 255, 255, 0.8), -100px 0 20px 10px rgba(255, 255, 255, 0.3)"
+            top: `${10 + i * 8}%`,
+            boxShadow: "0 0 20px 2px rgba(255, 215, 0, 0.8), -100px 0 20px 10px rgba(255, 215, 0, 0.3)"
           }}
         />
+      ))}
+      
+      {/* Planets */}
+      {[...Array(3)].map((_, i) => (
+        <motion.div
+          key={`planet-${i}`}
+          animate={{
+            rotate: [0, 360],
+            scale: [1, 1.1, 1]
+          }}
+          transition={{
+            duration: 20 + i * 5,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+          className="absolute rounded-full"
+          style={{
+            width: `${40 + i * 20}px`,
+            height: `${40 + i * 20}px`,
+            left: `${20 + i * 30}%`,
+            top: `${10 + i * 25}%`,
+            background: i === 0 ? 'radial-gradient(circle at 30% 30%, #ff6b6b, #c92a2a)' : 
+                       i === 1 ? 'radial-gradient(circle at 30% 30%, #4dabf7, #1971c2)' :
+                                'radial-gradient(circle at 30% 30%, #ffd700, #ff8c00)',
+            boxShadow: `0 0 20px ${i === 0 ? '#ff6b6b' : i === 1 ? '#4dabf7' : '#ffd700'}`,
+            opacity: 0.6
+          }}
+        />
+      ))}
+      
+      {/* UFOs */}
+      {[...Array(2)].map((_, i) => (
+        <motion.div
+          key={`ufo-${i}`}
+          animate={{
+            x: i === 0 ? ["-10%", "110%"] : ["110%", "-10%"],
+            y: [0, -20, 0],
+            rotate: [-5, 5, -5]
+          }}
+          transition={{
+            duration: 15 + i * 5,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute text-4xl"
+          style={{
+            top: `${30 + i * 40}%`,
+            filter: 'drop-shadow(0 0 15px rgba(139, 92, 246, 0.8))'
+          }}
+        >
+          🛸
+        </motion.div>
       ))}
 
       {/* Flying Asteroids/Rocks */}
@@ -233,42 +288,80 @@ export default function AnimatedHeroBanner() {
                     </radialGradient>
                   </defs>
                   
-                  {/* Connection band to rocket bottom */}
-                  <rect x="25" y="0" width="40" height="8" fill="#fbbf24" opacity="0.9"/>
-                  <rect x="25" y="0" width="40" height="4" fill="#fff" opacity="0.8"/>
+                  {/* Flame Base - connects to rocket nozzle */}
+                  <defs>
+                    <filter id="flameGlow">
+                      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                      <feMerge>
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                      </feMerge>
+                    </filter>
+                  </defs>
                   
-                  {/* Outer flame envelope - realistic taper */}
+                  {/* Connection band to rocket bottom - seamless */}
+                  <rect x="20" y="0" width="50" height="10" fill="url(#exhaustCore)" opacity="1"/>
+                  <rect x="25" y="0" width="40" height="5" fill="#ffffff" opacity="0.9"/>
+                  
+                  {/* Outer flame envelope - realistic turbulent shape */}
                   <motion.path
-                    d="M 25 5 Q 25 50, 15 100 Q 10 125, 12 145 Q 14 160, 20 170 Q 30 180, 45 185 Q 60 180, 70 170 Q 76 160, 78 145 Q 80 125, 75 100 Q 65 50, 65 5 Z"
+                    d="M 25 5 Q 20 30, 15 60 Q 10 90, 12 120 Q 14 145, 18 165 Q 28 180, 45 186 Q 62 180, 72 165 Q 76 145, 78 120 Q 80 90, 75 60 Q 70 30, 65 5 Z"
                     fill="url(#exhaustCore)"
-                    animate={{ opacity: [0.85, 1, 0.85] }}
-                    transition={{ duration: 0.3, repeat: Infinity }}
+                    animate={{ 
+                      opacity: [0.9, 1, 0.9],
+                      d: [
+                        "M 25 5 Q 20 30, 15 60 Q 10 90, 12 120 Q 14 145, 18 165 Q 28 180, 45 186 Q 62 180, 72 165 Q 76 145, 78 120 Q 80 90, 75 60 Q 70 30, 65 5 Z",
+                        "M 25 5 Q 18 35, 13 65 Q 8 95, 10 125 Q 12 150, 16 170 Q 26 185, 45 188 Q 64 185, 74 170 Q 78 150, 80 125 Q 82 95, 77 65 Q 72 35, 65 5 Z",
+                        "M 25 5 Q 20 30, 15 60 Q 10 90, 12 120 Q 14 145, 18 165 Q 28 180, 45 186 Q 62 180, 72 165 Q 76 145, 78 120 Q 80 90, 75 60 Q 70 30, 65 5 Z"
+                      ]
+                    }}
+                    transition={{ duration: 0.15, repeat: Infinity }}
+                    filter="url(#flameGlow)"
                   />
                   
-                  {/* Inner flame */}
+                  {/* Inner flame - dancing effect */}
                   <motion.ellipse
                     cx="45"
-                    cy="25"
-                    rx="18"
-                    ry="70"
+                    cy="30"
+                    rx="20"
+                    ry="75"
                     fill="url(#exhaustInner)"
-                    animate={{ opacity: [0.9, 1, 0.9] }}
-                    transition={{ duration: 0.25, repeat: Infinity, delay: 0.05 }}
+                    animate={{ 
+                      opacity: [0.9, 1, 0.9],
+                      ry: [75, 80, 75],
+                      rx: [20, 22, 20]
+                    }}
+                    transition={{ duration: 0.12, repeat: Infinity, delay: 0.03 }}
+                    filter="url(#flameGlow)"
                   />
                   
                   {/* White hot core */}
                   <motion.ellipse
                     cx="45"
-                    cy="18"
-                    rx="10"
-                    ry="35"
+                    cy="20"
+                    rx="12"
+                    ry="40"
                     fill="url(#exhaustHot)"
-                    animate={{ opacity: [0.95, 1, 0.95] }}
-                    transition={{ duration: 0.2, repeat: Infinity, delay: 0.1 }}
+                    animate={{ 
+                      opacity: [0.95, 1, 0.95],
+                      ry: [40, 45, 40]
+                    }}
+                    transition={{ duration: 0.1, repeat: Infinity, delay: 0.05 }}
                   />
                   
-                  {/* Ultra bright center */}
-                  <ellipse cx="45" cy="15" rx="5" ry="18" fill="#ffffff" opacity="0.98"/>
+                  {/* Ultra bright center - pulsing */}
+                  <motion.ellipse 
+                    cx="45" 
+                    cy="15" 
+                    rx="6" 
+                    ry="20" 
+                    fill="#ffffff" 
+                    animate={{
+                      opacity: [0.98, 1, 0.98],
+                      ry: [20, 23, 20]
+                    }}
+                    transition={{ duration: 0.08, repeat: Infinity }}
+                  />
                 </svg>
               </motion.div>
             </div>

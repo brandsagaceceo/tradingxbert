@@ -71,15 +71,6 @@ export default function Header() {
           <span className="hidden lg:inline">Blog</span>
         </Link>
         
-        {/* News */}
-        <Link 
-          href="/news" 
-          className="flex items-center gap-1 px-2 md:px-3 py-2 text-xs md:text-sm text-white hover:text-[#FFD700] transition-all rounded-lg hover:bg-white/10 border border-transparent hover:border-[#FFD700]/50 font-bold"
-        >
-          <span className="text-base">📰</span>
-          <span className="hidden lg:inline">News</span>
-        </Link>
-        
         {/* Divider */}
         <div className="w-px h-6 bg-white/20 mx-1" />
         
