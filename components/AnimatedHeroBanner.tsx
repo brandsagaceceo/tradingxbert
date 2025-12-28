@@ -196,50 +196,79 @@ export default function AnimatedHeroBanner() {
               <path d="M 160 260 L 195 320 L 180 310 L 160 275 Z" fill="rgba(0, 0, 0, 0.4)"/>
             </svg>
 
-            {/* Realistic Exhaust Fire - CENTERED DIRECTLY BELOW ROCKET */}
-            <div className="absolute left-1/2 -translate-x-1/2" style={{ top: "390px" }}>
+            {/* Professional Realistic Exhaust connected to rocket */}
+            <div className="absolute left-1/2 -translate-x-1/2" style={{ top: "385px" }}>
               <motion.div
                 animate={{
-                  scaleY: [1, 1.5, 1],
-                  scaleX: [1, 1.15, 1],
-                  opacity: [0.85, 1, 0.85]
+                  scaleY: [1, 1.35, 1],
+                  scaleX: [1, 1.12, 1]
                 }}
                 transition={{
-                  duration: 0.25,
+                  duration: 0.2,
                   repeat: Infinity,
                   ease: "easeInOut"
                 }}
               >
-                <svg width="140" height="180" viewBox="0 0 140 180" className="drop-shadow-2xl" style={{ filter: "drop-shadow(0 0 25px rgba(251, 191, 36, 0.8))" }}>
+                <svg width="90" height="200" viewBox="0 0 90 200" style={{ filter: "drop-shadow(0 0 20px rgba(251, 146, 60, 0.7))" }}>
                   <defs>
-                    <radialGradient id="flameOuter" cx="50%" cy="15%">
-                      <stop offset="0%" stopColor="#fff" stopOpacity="1" />
-                      <stop offset="25%" stopColor="#fef3c7" stopOpacity="0.9" />
-                      <stop offset="50%" stopColor="#fbbf24" stopOpacity="0.8" />
-                      <stop offset="75%" stopColor="#f97316" stopOpacity="0.6" />
-                      <stop offset="95%" stopColor="#ef4444" stopOpacity="0.3" />
-                      <stop offset="100%" stopColor="#7f1d1d" stopOpacity="0" />
+                    {/* Multi-layer realistic flame gradients */}
+                    <radialGradient id="exhaustCore" cx="50%" cy="5%">
+                      <stop offset="0%" stopColor="#ffffff" />
+                      <stop offset="20%" stopColor="#fef3c7" />
+                      <stop offset="45%" stopColor="#fbbf24" />
+                      <stop offset="70%" stopColor="#fb923c" />
+                      <stop offset="90%" stopColor="#f87171" stopOpacity="0.6" />
+                      <stop offset="100%" stopColor="#dc2626" stopOpacity="0" />
                     </radialGradient>
-                    <radialGradient id="flameCore" cx="50%" cy="8%">
-                      <stop offset="0%" stopColor="#fff" />
-                      <stop offset="35%" stopColor="#fef3c7" />
-                      <stop offset="70%" stopColor="#fbbf24" stopOpacity="0.9" />
-                      <stop offset="100%" stopColor="#f97316" stopOpacity="0.5" />
+                    <radialGradient id="exhaustInner" cx="50%" cy="8%">
+                      <stop offset="0%" stopColor="#ffffff" stopOpacity="0.95" />
+                      <stop offset="35%" stopColor="#fef3c7" stopOpacity="0.9" />
+                      <stop offset="70%" stopColor="#fbbf24" stopOpacity="0.75" />
+                      <stop offset="100%" stopColor="#fb923c" stopOpacity="0.3" />
                     </radialGradient>
-                    <radialGradient id="flameHot" cx="50%" cy="5%">
-                      <stop offset="0%" stopColor="#fff" />
-                      <stop offset="50%" stopColor="#fff" stopOpacity="0.95" />
-                      <stop offset="100%" stopColor="#fef3c7" stopOpacity="0.7" />
+                    <radialGradient id="exhaustHot" cx="50%" cy="3%">
+                      <stop offset="0%" stopColor="#ffffff" />
+                      <stop offset="60%" stopColor="#ffffff" stopOpacity="0.98" />
+                      <stop offset="100%" stopColor="#fef3c7" stopOpacity="0.85" />
                     </radialGradient>
                   </defs>
-                  {/* Outer flame envelope */}
-                  <ellipse cx="70" cy="30" rx="60" ry="85" fill="url(#flameOuter)"/>
-                  {/* Middle flame */}
-                  <ellipse cx="70" cy="25" rx="40" ry="65" fill="url(#flameCore)"/>
-                  {/* Hot core */}
-                  <ellipse cx="70" cy="20" rx="25" ry="45" fill="url(#flameHot)"/>
-                  {/* White hot center */}
-                  <ellipse cx="70" cy="18" rx="12" ry="25" fill="#fff" opacity="0.95"/>
+                  
+                  {/* Connection band to rocket bottom */}
+                  <rect x="25" y="0" width="40" height="8" fill="#fbbf24" opacity="0.9"/>
+                  <rect x="25" y="0" width="40" height="4" fill="#fff" opacity="0.8"/>
+                  
+                  {/* Outer flame envelope - realistic taper */}
+                  <motion.path
+                    d="M 25 5 Q 25 50, 15 100 Q 10 125, 12 145 Q 14 160, 20 170 Q 30 180, 45 185 Q 60 180, 70 170 Q 76 160, 78 145 Q 80 125, 75 100 Q 65 50, 65 5 Z"
+                    fill="url(#exhaustCore)"
+                    animate={{ opacity: [0.85, 1, 0.85] }}
+                    transition={{ duration: 0.3, repeat: Infinity }}
+                  />
+                  
+                  {/* Inner flame */}
+                  <motion.ellipse
+                    cx="45"
+                    cy="25"
+                    rx="18"
+                    ry="70"
+                    fill="url(#exhaustInner)"
+                    animate={{ opacity: [0.9, 1, 0.9] }}
+                    transition={{ duration: 0.25, repeat: Infinity, delay: 0.05 }}
+                  />
+                  
+                  {/* White hot core */}
+                  <motion.ellipse
+                    cx="45"
+                    cy="18"
+                    rx="10"
+                    ry="35"
+                    fill="url(#exhaustHot)"
+                    animate={{ opacity: [0.95, 1, 0.95] }}
+                    transition={{ duration: 0.2, repeat: Infinity, delay: 0.1 }}
+                  />
+                  
+                  {/* Ultra bright center */}
+                  <ellipse cx="45" cy="15" rx="5" ry="18" fill="#ffffff" opacity="0.98"/>
                 </svg>
               </motion.div>
             </div>
