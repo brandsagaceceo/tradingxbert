@@ -196,52 +196,60 @@ export default function AnimatedHeroBanner() {
               <path d="M 160 260 L 195 320 L 180 310 L 160 275 Z" fill="rgba(0, 0, 0, 0.4)"/>
             </svg>
 
-            {/* Realistic Exhaust Fire - DIRECTLY BELOW ROCKET */}
-            <motion.div
-              animate={{
-                scaleY: [1, 1.4, 1],
-                scaleX: [1, 1.1, 1],
-                opacity: [0.85, 1, 0.85]
-              }}
-              transition={{
-                duration: 0.3,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-              className="absolute left-1/2 -translate-x-1/2 z-0"
-              style={{ top: "380px" }}
-            >
-              <svg width="120" height="150" viewBox="0 0 120 150" className="drop-shadow-2xl">
-                <defs>
-                  <radialGradient id="flameOuter" cx="50%" cy="20%">
-                    <stop offset="0%" stopColor="#fff" stopOpacity="0.9" />
-                    <stop offset="30%" stopColor="#fef3c7" stopOpacity="0.8" />
-                    <stop offset="60%" stopColor="#fbbf24" stopOpacity="0.7" />
-                    <stop offset="85%" stopColor="#f97316" stopOpacity="0.5" />
-                    <stop offset="100%" stopColor="#ef4444" stopOpacity="0" />
-                  </radialGradient>
-                  <radialGradient id="flameCore" cx="50%" cy="10%">
-                    <stop offset="0%" stopColor="#fff" />
-                    <stop offset="40%" stopColor="#fef3c7" />
-                    <stop offset="80%" stopColor="#fbbf24" stopOpacity="0.8" />
-                    <stop offset="100%" stopColor="#f97316" stopOpacity="0" />
-                  </radialGradient>
-                </defs>
-                {/* Outer flame */}
-                <ellipse cx="60" cy="25" rx="50" ry="70" fill="url(#flameOuter)"/>
-                {/* Inner flame */}
-                <ellipse cx="60" cy="20" rx="30" ry="50" fill="url(#flameCore)"/>
-                {/* Hot core */}
-                <ellipse cx="60" cy="18" rx="18" ry="30" fill="#fff" opacity="0.8"/>
-              </svg>
-            </motion.div>
+            {/* Realistic Exhaust Fire - CENTERED DIRECTLY BELOW ROCKET */}
+            <div className="absolute left-1/2 -translate-x-1/2" style={{ top: "390px" }}>
+              <motion.div
+                animate={{
+                  scaleY: [1, 1.5, 1],
+                  scaleX: [1, 1.15, 1],
+                  opacity: [0.85, 1, 0.85]
+                }}
+                transition={{
+                  duration: 0.25,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
+                <svg width="140" height="180" viewBox="0 0 140 180" className="drop-shadow-2xl" style={{ filter: "drop-shadow(0 0 25px rgba(251, 191, 36, 0.8))" }}>
+                  <defs>
+                    <radialGradient id="flameOuter" cx="50%" cy="15%">
+                      <stop offset="0%" stopColor="#fff" stopOpacity="1" />
+                      <stop offset="25%" stopColor="#fef3c7" stopOpacity="0.9" />
+                      <stop offset="50%" stopColor="#fbbf24" stopOpacity="0.8" />
+                      <stop offset="75%" stopColor="#f97316" stopOpacity="0.6" />
+                      <stop offset="95%" stopColor="#ef4444" stopOpacity="0.3" />
+                      <stop offset="100%" stopColor="#7f1d1d" stopOpacity="0" />
+                    </radialGradient>
+                    <radialGradient id="flameCore" cx="50%" cy="8%">
+                      <stop offset="0%" stopColor="#fff" />
+                      <stop offset="35%" stopColor="#fef3c7" />
+                      <stop offset="70%" stopColor="#fbbf24" stopOpacity="0.9" />
+                      <stop offset="100%" stopColor="#f97316" stopOpacity="0.5" />
+                    </radialGradient>
+                    <radialGradient id="flameHot" cx="50%" cy="5%">
+                      <stop offset="0%" stopColor="#fff" />
+                      <stop offset="50%" stopColor="#fff" stopOpacity="0.95" />
+                      <stop offset="100%" stopColor="#fef3c7" stopOpacity="0.7" />
+                    </radialGradient>
+                  </defs>
+                  {/* Outer flame envelope */}
+                  <ellipse cx="70" cy="30" rx="60" ry="85" fill="url(#flameOuter)"/>
+                  {/* Middle flame */}
+                  <ellipse cx="70" cy="25" rx="40" ry="65" fill="url(#flameCore)"/>
+                  {/* Hot core */}
+                  <ellipse cx="70" cy="20" rx="25" ry="45" fill="url(#flameHot)"/>
+                  {/* White hot center */}
+                  <ellipse cx="70" cy="18" rx="12" ry="25" fill="#fff" opacity="0.95"/>
+                </svg>
+              </motion.div>
+            </div>
 
-            {/* Smoke Trail */}
+            {/* Enhanced Smoke Trail */}
             <motion.div
               animate={{
-                opacity: [0.15, 0.35, 0.15],
-                scaleY: [1, 1.3, 1],
-                scaleX: [0.8, 1.2, 0.8]
+                opacity: [0.2, 0.4, 0.2],
+                scaleY: [1, 1.4, 1],
+                scaleX: [0.9, 1.3, 0.9]
               }}
               transition={{
                 duration: 2.5,
@@ -249,10 +257,36 @@ export default function AnimatedHeroBanner() {
                 ease: "easeOut"
               }}
               className="absolute left-1/2 -translate-x-1/2"
-              style={{ top: "480px" }}
+              style={{ top: "520px" }}
             >
-              <div className="w-28 h-48 bg-gradient-to-b from-gray-300/30 via-gray-400/15 to-transparent rounded-full blur-2xl" />
+              <div className="w-36 h-56 bg-gradient-to-b from-gray-200/35 via-gray-300/20 to-transparent rounded-full blur-3xl" />
             </motion.div>
+
+            {/* Particle effects */}
+            {[...Array(8)].map((_, i) => (
+              <motion.div
+                key={`particle-${i}`}
+                animate={{
+                  y: [0, 80 + i * 10],
+                  x: [(Math.random() - 0.5) * 30, (Math.random() - 0.5) * 50],
+                  opacity: [0.8, 0],
+                  scale: [1, 0.3]
+                }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
+                  delay: i * 0.12,
+                  ease: "easeOut"
+                }}
+                className="absolute w-1.5 h-1.5 rounded-full"
+                style={{
+                  left: "50%",
+                  top: "400px",
+                  backgroundColor: i % 3 === 0 ? '#fbbf24' : i % 3 === 1 ? '#f97316' : '#ef4444',
+                  boxShadow: '0 0 8px currentColor'
+                }}
+              />
+            ))}
           </motion.div>
         </motion.div>
       </div>
