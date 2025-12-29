@@ -19,16 +19,6 @@ export default function Header() {
         .catch(() => setIsPro(false));
     }
   }, [session]);
-  const [isPro, setIsPro] = useState(false);
-
-  useEffect(() => {
-    if (session?.user?.email) {
-      fetch('/api/validate-subscription')
-        .then(res => res.json())
-        .then(data => setIsPro(data.isPro))
-        .catch(() => setIsPro(false));
-    }
-  }, [session]);
 
   return (
     <>
