@@ -177,16 +177,27 @@ export default function Pricing() {
                   )}
                 </div>
 
-                <Link
-                  href={plan.href}
-                  className={`block w-full py-4 px-6 rounded-xl font-bold text-center mb-8 transition-all duration-300 ${
-                    plan.popular
-                      ? `bg-gradient-to-r ${plan.gradient} text-white hover:shadow-xl hover:shadow-[#6366F1]/30 hover:scale-105`
-                      : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'
-                  }`}
-                >
-                  {plan.cta}
-                </Link>
+                {plan.price !== "0" ? (
+                  <button
+                    onClick={() => window.location.href = plan.href}
+                    className={`block w-full py-4 px-6 rounded-xl font-bold text-center mb-8 transition-all duration-300 cursor-pointer ${
+                      plan.popular
+                        ? `bg-gradient-to-r ${plan.gradient} text-white hover:shadow-xl hover:shadow-[#6366F1]/30 hover:scale-105`
+                        : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'
+                    }`}
+                  >
+                    {plan.cta}
+                  </button>
+                ) : (
+                  <Link
+                    href={plan.href}
+                    className={`block w-full py-4 px-6 rounded-xl font-bold text-center mb-8 transition-all duration-300 ${
+                      'bg-white/10 text-white hover:bg-white/20 border border-white/20'
+                    }`}
+                  >
+                    {plan.cta}
+                  </Link>
+                )}
 
                 <div className="space-y-4 mb-6">
                   <p className="text-sm font-bold text-neutral-300 uppercase tracking-wide">What's Included:</p>
