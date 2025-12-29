@@ -55,57 +55,55 @@ export default function AnimatedHeroBanner() {
         />
       ))}
       
-      {/* Planets */}
+      {/* Planets - Better Positioned */}
       {[...Array(3)].map((_, i) => (
         <motion.div
           key={`planet-${i}`}
           animate={{
             rotate: [0, 360],
-            scale: [1, 1.1, 1]
+            scale: [1, 1.15, 1],
+            y: [0, -10, 0]
           }}
           transition={{
-            duration: 20 + i * 5,
-            repeat: Infinity,
-            ease: "linear"
+            rotate: { duration: 25 + i * 5, repeat: Infinity, ease: "linear" },
+            scale: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+            y: { duration: 6 + i, repeat: Infinity, ease: "easeInOut" }
           }}
           className="absolute rounded-full"
           style={{
-            width: `${40 + i * 20}px`,
-            height: `${40 + i * 20}px`,
-            left: `${20 + i * 30}%`,
-            top: `${10 + i * 25}%`,
-            background: i === 0 ? 'radial-gradient(circle at 30% 30%, #ff6b6b, #c92a2a)' : 
-                       i === 1 ? 'radial-gradient(circle at 30% 30%, #4dabf7, #1971c2)' :
-                                'radial-gradient(circle at 30% 30%, #ffd700, #ff8c00)',
-            boxShadow: `0 0 20px ${i === 0 ? '#ff6b6b' : i === 1 ? '#4dabf7' : '#ffd700'}`,
-            opacity: 0.6
+            width: `${50 + i * 25}px`,
+            height: `${50 + i * 25}px`,
+            left: i === 0 ? '8%' : i === 1 ? '85%' : '75%',
+            top: i === 0 ? '15%' : i === 1 ? '70%' : '25%',
+            background: i === 0 ? 'radial-gradient(circle at 35% 35%, #ff6b6b, #c92a2a, #7f1d1d)' : 
+                       i === 1 ? 'radial-gradient(circle at 35% 35%, #60a5fa, #3b82f6, #1e40af)' :
+                                'radial-gradient(circle at 35% 35%, #fbbf24, #f59e0b, #d97706)',
+            boxShadow: `0 0 30px ${i === 0 ? '#ff6b6b' : i === 1 ? '#60a5fa' : '#fbbf24'}, inset -5px -5px 10px rgba(0,0,0,0.3)`,
+            opacity: 0.7
           }}
         />
       ))}
       
-      {/* UFOs */}
-      {[...Array(2)].map((_, i) => (
-        <motion.div
-          key={`ufo-${i}`}
-          animate={{
-            x: i === 0 ? ["-10%", "110%"] : ["110%", "-10%"],
-            y: [0, -20, 0],
-            rotate: [-5, 5, -5]
-          }}
-          transition={{
-            duration: 15 + i * 5,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          className="absolute text-4xl"
-          style={{
-            top: `${30 + i * 40}%`,
-            filter: 'drop-shadow(0 0 15px rgba(139, 92, 246, 0.8))'
-          }}
-        >
-          🛸
-        </motion.div>
-      ))}
+      {/* UFO - Single */}
+      <motion.div
+        animate={{
+          x: ["-10%", "110%"],
+          y: [0, -30, -15, -30, 0],
+          rotate: [-8, 0, 8, 0, -8]
+        }}
+        transition={{
+          duration: 20,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+        className="absolute text-5xl"
+        style={{
+          top: '25%',
+          filter: 'drop-shadow(0 0 20px rgba(139, 92, 246, 1)) drop-shadow(0 0 40px rgba(139, 92, 246, 0.5))'
+        }}
+      >
+        🛸
+      </motion.div>
 
       {/* Flying Asteroids/Rocks */}
       {[...Array(6)].map((_, i) => (
@@ -252,7 +250,7 @@ export default function AnimatedHeroBanner() {
             </svg>
 
             {/* Professional Realistic Exhaust connected to rocket */}
-            <div className="absolute left-1/2 -translate-x-1/2" style={{ top: "385px" }}>
+            <div className="absolute left-1/2 -translate-x-1/2" style={{ top: "320px" }}>
               <motion.div
                 animate={{
                   scaleY: [1, 1.35, 1],

@@ -96,15 +96,35 @@ export default function Page() {
       incrementUsage();
       setRemaining(getRemainingAnalyses());
       
-      // Save analysis to database if user is logged in
+      // Save analysis to database if user is logged in AND to localStorage
       try {
         await axios.post("/api/save-analysis", {
           chartUrl: preview,
-          ...data,
+          signal: data.signal,
+          confidence: data.confidence,
+          riskLevel: data.riskLevel,
+          trendSummary: data.trendSummary,
+          patternSummary: data.patternSummary,
+          keyLevels: data.keyLevels,
+          styleNotes: data.styleNotes,
+          teachingTips: data.teachingTips,
+          emotionSummary: data.emotionSummary,
+          riskPlan: data.riskPlan,
         });
       } catch (saveErr) {
-        console.log("Failed to save to database (user may not be logged in)");
+        console.log("Failed to save to database (user may not be logged in)", saveErr);
       }
+      
+      // Also save to localStorage journal
+      const journalEntry = {
+        id: Date.now().toString(),
+        timestamp: Date.now(),
+        imageData: preview,
+        analysis: data,
+        market,
+        style,
+      };
+      saveToJournal(journalEntry);
     } catch (err: any) {
       setError(err?.message || "Failed to analyze chart");
     } finally {

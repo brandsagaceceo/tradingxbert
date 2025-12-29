@@ -58,7 +58,7 @@ export default function Pricing() {
       ],
       limitations: [],
       cta: "Get Pro Now - $6.99/mo",
-      href: "https://buy.stripe.com/test_00g4ivbY84ks6yseUU",
+      href: "/api/stripe-checkout",
       stripeProductId: "prod_Tg6H96qgfV1qRP",
       stripePriceId: "price_1Sik4pRia8z8dQ23h2lNrvog",
       gradient: "from-[#6366F1] via-[#8B5CF6] to-[#EC4899]",
