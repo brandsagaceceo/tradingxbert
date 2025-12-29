@@ -18,6 +18,17 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="AI-powered trading chart analysis tool. Educational trading analysis platform. Not financial advice." />
+        <meta name="keywords" content="trading education, chart analysis tool, trading learning platform, AI trading analysis" />
+        <meta name="author" content="TradingXbert" />
+        <meta name="robots" content="index, follow" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="TradingXbert - AI Trading Education Platform" />
+        <meta property="og:description" content="Learn trading with AI-powered chart analysis. Educational platform for traders." />
+        <meta property="og:url" content="https://www.tradingxbert.com" />
+        <link rel="canonical" href="https://www.tradingxbert.com" />
         <link rel="icon" href="/favicon.svg" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
@@ -37,8 +48,12 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className + " min-h-screen bg-[#0A0A0A] text-neutral-200 antialiased pt-[65px]"}>
-        <SessionProvider>
-        <motion.header 
+        <SessionProvider>        {/* Risk Disclaimer Banner */}
+        <div className="fixed bottom-0 left-0 right-0 bg-yellow-900/20 border-t border-yellow-500/30 backdrop-blur-sm z-50 py-2 px-4">
+          <p className="text-xs text-yellow-200/80 text-center max-w-6xl mx-auto">
+            ⚠️ <strong>Risk Disclaimer:</strong> Trading involves substantial risk. This is an educational platform providing analysis tools, not financial advice. Past performance does not guarantee future results. Only trade with money you can afford to lose.
+          </p>
+        </div>        <motion.header 
           initial={{ y: -100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
