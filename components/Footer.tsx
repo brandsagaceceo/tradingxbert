@@ -1,24 +1,57 @@
 // /components/Footer.tsx
 import React from "react";
+import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="w-full text-center text-xs text-neutral-500 mt-10 mb-2 flex flex-col items-center gap-1">
-      <div>Educational use only. Not financial advice.</div>
-      <div>Metrics may be incomplete or delayed.</div>
-      <a
-        href="https://github.com/BigDa/TradingXbert"
-        className="underline text-neutral-600 hover:text-[#39FF14]"
-        target="_blank"
-        rel="noopener noreferrer"
-        tabIndex={0}
-      >
-        Built by BigDa — View on GitHub
-      </a>
-      <div className="mt-2 text-[10px] text-neutral-700">
-        To run locally: <br />
-        1) <code>npm i</code> &nbsp; 2) <code>.env.local</code> with <b>OPENAI_API_KEY</b> &nbsp; 3) <code>npm run dev</code><br />
-        Ready for Vercel deploy.
+    <footer className="w-full bg-black/40 backdrop-blur-xl border-t border-white/10 mt-20 py-12">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          {/* Company */}
+          <div>
+            <h3 className="text-[#FFD700] font-bold text-lg mb-4">📊 TradingXbert</h3>
+            <p className="text-neutral-400 text-sm">AI-powered trading education and chart analysis platform.</p>
+          </div>
+          
+          {/* Learn */}
+          <div>
+            <h4 className="text-white font-bold mb-4">Learn</h4>
+            <div className="flex flex-col gap-2 text-sm">
+              <Link href="/university" className="text-neutral-400 hover:text-[#FFD700] transition-colors">TradingXbert University</Link>
+              <Link href="/how-to-trade" className="text-neutral-400 hover:text-[#FFD700] transition-colors">How to Trade</Link>
+              <Link href="/blog/trade-analysis" className="text-neutral-400 hover:text-[#FFD700] transition-colors">Blog</Link>
+            </div>
+          </div>
+          
+          {/* Product */}
+          <div>
+            <h4 className="text-white font-bold mb-4">Product</h4>
+            <div className="flex flex-col gap-2 text-sm">
+              <Link href="/pricing" className="text-neutral-400 hover:text-[#FFD700] transition-colors">Pricing</Link>
+              <Link href="/invest" className="text-neutral-400 hover:text-[#FFD700] transition-colors">$TXB Token</Link>
+              <Link href="/community" className="text-neutral-400 hover:text-[#FFD700] transition-colors">Community</Link>
+            </div>
+          </div>
+          
+          {/* Company */}
+          <div>
+            <h4 className="text-white font-bold mb-4">Company</h4>
+            <div className="flex flex-col gap-2 text-sm">
+              <Link href="/about" className="text-neutral-400 hover:text-[#FFD700] transition-colors">About</Link>
+              <Link href="/legal" className="text-neutral-400 hover:text-[#FFD700] transition-colors">Legal</Link>
+              <Link href="/news" className="text-neutral-400 hover:text-[#FFD700] transition-colors">News</Link>
+            </div>
+          </div>
+        </div>
+        
+        <div className="border-t border-white/10 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-neutral-500">
+            <p>© 2025 TradingXbert. All rights reserved.</p>
+            <p className="text-xs text-center md:text-right">
+              ⚠️ <strong>Risk Disclaimer:</strong> Trading involves substantial risk. Educational platform only - not financial advice.
+            </p>
+          </div>
+        </div>
       </div>
     </footer>
   );
