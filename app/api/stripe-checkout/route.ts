@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
       customer_email: userEmail,
       line_items: [
         {
-          price: 'price_1Sik4pRia8z8dQ23h2lNrvog',
+          price: 'price_1SijBoRia8z8dQ23UVC7XVEE',
           quantity: 1,
         },
       ],
