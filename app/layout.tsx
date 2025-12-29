@@ -23,6 +23,18 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
         <link rel="apple-touch-icon" href="/favicon-32.png" />
         <meta name="theme-color" content="#0A0A0A" />
+        <script
+          type="text/javascript"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(c,l,a,r,i,t,y){
+                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+              })(window, document, "clarity", "script", "utaekz25le");
+            `,
+          }}
+        />
       </head>
       <body className={inter.className + " min-h-screen bg-[#0A0A0A] text-neutral-200 antialiased"}>
         <SessionProvider>
