@@ -177,10 +177,8 @@ export default function Pricing() {
                   )}
                 </div>
 
-                <a
+                <Link
                   href={plan.href}
-                  target={plan.price !== "0" ? "_blank" : undefined}
-                  rel={plan.price !== "0" ? "noopener noreferrer" : undefined}
                   className={`block w-full py-4 px-6 rounded-xl font-bold text-center mb-8 transition-all duration-300 ${
                     plan.popular
                       ? `bg-gradient-to-r ${plan.gradient} text-white hover:shadow-xl hover:shadow-[#6366F1]/30 hover:scale-105`
@@ -188,7 +186,7 @@ export default function Pricing() {
                   }`}
                 >
                   {plan.cta}
-                </a>
+                </Link>
 
                 <div className="space-y-4 mb-6">
                   <p className="text-sm font-bold text-neutral-300 uppercase tracking-wide">What's Included:</p>
