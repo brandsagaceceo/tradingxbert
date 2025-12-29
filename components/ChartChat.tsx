@@ -51,17 +51,39 @@ export default function ChartChat({ analysis, chartImage }: ChartChatProps) {
     setLoading(true);
 
     try {
+      // Create abort controller for timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30s timeout
+
+      // Only send last 5 messages to keep payload small
+      const recentHistory = messages.slice(-5);
+
       const response = await fetch("/api/chart-chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           message: input,
-          analysis,
-          chatHistory: messages
-        })
+          analysis: {
+            signal: analysis.signal,
+            confidence: analysis.confidence,
+            riskLevel: analysis.riskLevel,
+            trendSummary: analysis.trendSummary,
+            keyLevels: analysis.keyLevels,
+            entry: analysis.entry,
+            stopLoss: analysis.stopLoss,
+            takeProfit: analysis.takeProfit
+          },
+          chatHistory: recentHistory
+        }),
+        signal: controller.signal
       });
 
-      if (!response.ok) throw new Error("Failed to get response");
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to get response");
+      }
 
       const data = await response.json();
       
@@ -73,12 +95,20 @@ export default function ChartChat({ analysis, chartImage }: ChartChatProps) {
       };
 
       setMessages(prev => [...prev, assistantMessage]);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Chat error:", error);
+      let errorText = "Sorry, I'm having trouble responding right now. Please try again!";
+      
+      if (error.name === 'AbortError') {
+        errorText = "Request timed out. Please try asking a shorter question.";
+      } else if (error.message) {
+        errorText = `Error: ${error.message}`;
+      }
+      
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content: "Sorry, I'm having trouble responding right now. Please try again!",
+        content: errorText,
         timestamp: Date.now()
       };
       setMessages(prev => [...prev, errorMessage]);

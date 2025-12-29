@@ -7,7 +7,8 @@ const openai = new OpenAI({
 
 export async function POST(req: NextRequest) {
   try {
-    const { message, analysis, chatHistory } = await req.json();
+    const body = await req.json();
+    const { message, analysis, chatHistory = [] } = body;
 
     if (!message || !analysis) {
       return NextResponse.json(
@@ -16,44 +17,37 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Build context from chat history
-    const conversationContext = chatHistory
+    // Verify OpenAI API key
+    if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === "dummy") {
+      console.error("OpenAI API key not configured");
+      return NextResponse.json(
+        { error: "AI service not configured" },
+        { status: 500 }
+      );
+    }
+
+    // Build concise conversation context (last 3 messages only)
+    const recentHistory = chatHistory.slice(-3);
+    const conversationContext = recentHistory
       .map((msg: any) => `${msg.role === "user" ? "User" : "Assistant"}: ${msg.content}`)
-      .join("\n\n");
+      .join("\n");
 
-    // Create detailed system prompt with chart analysis context
-    const systemPrompt = `You are TradingXbert, an expert AI trading assistant helping traders analyze charts and make informed decisions. You have deep knowledge of technical analysis, market psychology, risk management, and trading strategies.
+    // Simplified system prompt
+    const systemPrompt = `You are TradingXbert, an expert trading assistant.
 
-CURRENT CHART ANALYSIS:
-- Signal: ${analysis.signal}
-- Confidence: ${analysis.confidence}%
-- Risk Level: ${analysis.riskLevel}
-- Trend: ${analysis.trendSummary}
-${analysis.patterns ? `- Patterns: ${analysis.patterns.join(", ")}` : ""}
-${analysis.keyLevels ? `- Key Levels: Support ${analysis.keyLevels.support}, Resistance ${analysis.keyLevels.resistance}` : ""}
+Chart Analysis:
+- Signal: ${analysis.signal} (${analysis.confidence}% confidence)
+- Risk: ${analysis.riskLevel}
+- Trend: ${analysis.trendSummary || "Not specified"}
+${analysis.keyLevels ? `- Levels: ${JSON.stringify(analysis.keyLevels)}` : ""}
 ${analysis.entry ? `- Entry: ${analysis.entry}` : ""}
 ${analysis.stopLoss ? `- Stop Loss: ${analysis.stopLoss}` : ""}
 ${analysis.takeProfit ? `- Take Profit: ${analysis.takeProfit}` : ""}
 
-CONVERSATION HISTORY:
+Recent conversation:
 ${conversationContext}
 
-Your role is to:
-1. Answer questions about this specific chart analysis
-2. Provide actionable trading advice based on the data
-3. Explain technical concepts in a clear, educational way
-4. Help with risk management and position sizing
-5. Discuss alternative scenarios and contingency plans
-6. Be honest about uncertainties and risks
-
-Keep responses:
-- Concise but thorough (2-4 paragraphs max)
-- Practical and actionable
-- Educational when explaining concepts
-- Honest about risks and limitations
-- Use emojis sparingly for emphasis (📊 💰 ⚠️ 💎 🎯)
-
-If the user asks about something not related to trading or the chart, politely redirect them back to the analysis.`;
+Provide concise, actionable trading advice. Keep responses under 3 paragraphs. Use emojis: 📊 💰 ⚠️ 💎 🎯`;
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
@@ -62,16 +56,25 @@ If the user asks about something not related to trading or the chart, politely r
         { role: "user", content: message }
       ],
       temperature: 0.7,
-      max_tokens: 500,
+      max_tokens: 400,
+      timeout: 25000 // 25 second timeout
     });
 
-    const responseMessage = completion.choices[0].message.content || "I'm sorry, I couldn't generate a response.";
+    const responseMessage = completion.choices[0]?.message?.content || "I couldn't generate a response.";
 
     return NextResponse.json({ message: responseMessage });
   } catch (error: any) {
     console.error("Chart chat error:", error);
+    
+    let errorMessage = "Failed to process chat message";
+    if (error.code === 'ECONNRESET' || error.code === 'ETIMEDOUT') {
+      errorMessage = "Connection timeout. Please try again.";
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+    
     return NextResponse.json(
-      { error: error.message || "Failed to process chat message" },
+      { error: errorMessage },
       { status: 500 }
     );
   }
