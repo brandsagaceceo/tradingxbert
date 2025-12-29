@@ -250,7 +250,7 @@ export default function AnimatedHeroBanner() {
             </svg>
 
             {/* Professional Realistic Exhaust connected to rocket */}
-            <div className="absolute left-1/2 -translate-x-1/2" style={{ top: "320px" }}>
+            <div className="absolute left-1/2 -translate-x-1/2" style={{ top: "330px" }}>
               <motion.div
                 animate={{
                   scaleY: [1, 1.35, 1],
