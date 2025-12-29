@@ -10,6 +10,7 @@ import ChartGuide from "@/components/ChartGuide";
 import AlertSignup from "@/components/AlertSignup";
 import AITradingAssistant from "@/components/AITradingAssistant";
 import AnimatedHeroBanner from "@/components/AnimatedHeroBanner";
+import ChartChat from "@/components/ChartChat";
 import { saveToJournal } from "@/lib/localStorage";
 import { canAnalyze, getRemainingAnalyses, incrementUsage, getFreeLimit, getUsageData } from "@/lib/usageLimit";
 import type { TradingXbertAnalysis, Market, Style } from "@/lib/tradingTypes";
@@ -701,8 +702,11 @@ Market: ${market} | Style: ${style}
         )}
 
         {/* Results */}
-        {analysis && (
-          <AnalysisResults analysis={analysis} onReset={handleReset} />
+        {analysis && preview && (
+          <>
+            <AnalysisResults analysis={analysis} onReset={handleReset} />
+            <ChartChat analysis={analysis} chartImage={preview} />
+          </>
         )}
 
         {/* Upgrade Modal */}
