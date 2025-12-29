@@ -116,15 +116,17 @@ export default function Page() {
       }
       
       // Also save to localStorage journal
-      const journalEntry = {
-        id: Date.now().toString(),
-        timestamp: Date.now(),
-        imageData: preview,
-        analysis: data,
-        market,
-        style,
-      };
-      saveToJournal(journalEntry);
+      if (preview) {
+        const journalEntry = {
+          id: Date.now().toString(),
+          timestamp: Date.now(),
+          imageData: preview,
+          analysis: data,
+          market,
+          style,
+        };
+        saveToJournal(journalEntry);
+      }
     } catch (err: any) {
       setError(err?.message || "Failed to analyze chart");
     } finally {
