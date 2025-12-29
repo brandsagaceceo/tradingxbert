@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import 'isomorphic-fetch';
 import { SessionProvider } from "next-auth/react";
 import SignInButton from "@/components/SignInButton";
+import RiskDisclaimer from "@/components/RiskDisclaimer";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
@@ -47,13 +48,15 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={inter.className + " min-h-screen bg-[#0A0A0A] text-neutral-200 antialiased pt-[65px]"}>
-        <SessionProvider>        {/* Risk Disclaimer Banner */}
-        <div className="fixed bottom-0 left-0 right-0 bg-yellow-900/20 border-t border-yellow-500/30 backdrop-blur-sm z-50 py-2 px-4">
-          <p className="text-xs text-yellow-200/80 text-center max-w-6xl mx-auto">
-            ⚠️ <strong>Risk Disclaimer:</strong> Trading involves substantial risk. This is an educational platform providing analysis tools, not financial advice. Past performance does not guarantee future results. Only trade with money you can afford to lose.
-          </p>
-        </div>        <motion.header 
+      <body 
+        className={inter.className + " min-h-screen bg-[#0A0A0A] text-neutral-200 antialiased pt-[65px]"}
+        style={{
+          paddingBottom: 'calc(var(--bottom-ui-offset, 0px) + env(safe-area-inset-bottom, 0px))'
+        }}
+      >
+        <SessionProvider>
+        <RiskDisclaimer />
+        <motion.header 
           initial={{ y: -100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6, ease: "easeOut" }}

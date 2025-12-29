@@ -135,7 +135,11 @@ export default function AITradingAssistant() {
           playSound();
           setIsOpen(!isOpen);
         }}
-        className="fixed bottom-8 right-8 w-16 h-16 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] rounded-full shadow-2xl shadow-[#6366F1]/50 flex items-center justify-center z-50 cursor-pointer"
+        className="fixed w-16 h-16 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] rounded-full shadow-2xl shadow-[#6366F1]/50 flex items-center justify-center z-50 cursor-pointer"
+        style={{
+          right: '16px',
+          bottom: 'calc(16px + var(--bottom-ui-offset, 0px) + env(safe-area-inset-bottom, 0px))'
+        }}
       >
         <motion.span
           animate={{ rotate: isOpen ? 180 : 0 }}
@@ -162,7 +166,11 @@ export default function AITradingAssistant() {
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            className="fixed bottom-28 right-8 w-96 h-[600px] bg-gradient-to-br from-[#1a1a2e] to-[#16213e] rounded-3xl border border-[#6366F1]/30 shadow-2xl z-50 flex flex-col overflow-hidden"
+            className="fixed right-4 w-[min(96vw,400px)] bg-gradient-to-br from-[#1a1a2e] to-[#16213e] rounded-3xl border border-[#6366F1]/30 shadow-2xl z-50 flex flex-col overflow-hidden"
+            style={{
+              bottom: 'calc(88px + var(--bottom-ui-offset, 0px) + env(safe-area-inset-bottom, 0px))',
+              maxHeight: 'calc(100vh - 112px - var(--bottom-ui-offset, 0px) - env(safe-area-inset-bottom, 0px))'
+            }}
           >
             {/* Header */}
             <div className="bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] p-4 flex items-center gap-3">
