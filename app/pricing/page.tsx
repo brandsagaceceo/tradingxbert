@@ -7,6 +7,30 @@ import { useState } from 'react';
 
 export default function Pricing() {
   const [showSetupModal, setShowSetupModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleProCheckout = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('/api/stripe-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      
+      const data = await response.json();
+      
+      if (data.url) {
+        window.location.href = data.url;
+      } else if (data.error) {
+        alert('Error: ' + data.error);
+        setLoading(false);
+      }
+    } catch (err) {
+      console.error('Checkout error:', err);
+      alert('Failed to start checkout. Please try again.');
+      setLoading(false);
+    }
+  };
   const plans = [
     {
       name: "Free Plan",
@@ -178,18 +202,17 @@ export default function Pricing() {
                 </div>
 
                 {plan.price !== "0" ? (
-                  <a
-                    href="https://buy.stripe.com/test_00g4ivbY84ks6yseUU"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <button
+                    onClick={handleProCheckout}
+                    disabled={loading}
                     className={`block w-full py-4 px-6 rounded-xl font-bold text-center mb-8 transition-all duration-300 ${
                       plan.popular
-                        ? `bg-gradient-to-r ${plan.gradient} text-white hover:shadow-xl hover:shadow-[#6366F1]/30 hover:scale-105`
+                        ? `bg-gradient-to-r ${plan.gradient} text-white hover:shadow-xl hover:shadow-[#6366F1]/30 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed`
                         : 'bg-white/10 text-white hover:bg-white/20 border border-white/20'
                     }`}
                   >
-                    {plan.cta}
-                  </a>
+                    {loading ? '⏳ Loading...' : plan.cta}
+                  </button>
                 ) : (
                   <Link
                     href={plan.href}
