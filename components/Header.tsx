@@ -3,12 +3,32 @@
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import SignInButton from "./SignInButton";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Header() {
   const { data: session } = useSession();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isPro, setIsPro] = useState(false);
+
+  useEffect(() => {
+    if (session?.user?.email) {
+      fetch('/api/validate-subscription')
+        .then(res => res.json())
+        .then(data => setIsPro(data.isPro))
+        .catch(() => setIsPro(false));
+    }
+  }, [session]);
+  const [isPro, setIsPro] = useState(false);
+
+  useEffect(() => {
+    if (session?.user?.email) {
+      fetch('/api/validate-subscription')
+        .then(res => res.json())
+        .then(data => setIsPro(data.isPro))
+        .catch(() => setIsPro(false));
+    }
+  }, [session]);
 
   return (
     <>
@@ -91,17 +111,24 @@ export default function Header() {
           <span className="text-base">👤</span>
         </Link>
         
-        {/* Upgrade to Pro */}
-        <Link 
-          href="/pricing" 
-          className="relative group px-2 md:px-4 py-2 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-bold text-xs md:text-sm rounded-lg overflow-hidden hover:scale-105 transition-transform shadow-lg shadow-[#FFD700]/20"
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-[#FFA500] to-[#FFD700] opacity-0 group-hover:opacity-100 transition-opacity" />
-          <span className="relative flex items-center gap-1">
+        {/* Upgrade to Pro / Pro Badge */}
+        {isPro ? (
+          <div className="px-2 md:px-4 py-2 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-bold text-xs md:text-sm rounded-lg shadow-lg shadow-[#FFD700]/20 flex items-center gap-1">
             <span className="text-base">⚡</span>
-            <span className="hidden sm:inline">Pro</span>
-          </span>
-        </Link>
+            <span className="hidden sm:inline">PRO</span>
+          </div>
+        ) : (
+          <Link 
+            href="/pricing" 
+            className="relative group px-2 md:px-4 py-2 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-bold text-xs md:text-sm rounded-lg overflow-hidden hover:scale-105 transition-transform shadow-lg shadow-[#FFD700]/20"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-[#FFA500] to-[#FFD700] opacity-0 group-hover:opacity-100 transition-opacity" />
+            <span className="relative flex items-center gap-1">
+              <span className="text-base">⚡</span>
+              <span className="hidden sm:inline">Pro</span>
+            </span>
+          </Link>
+        )}
         
         {/* Sign In */}
         <div className="text-xs md:text-base">
@@ -184,14 +211,21 @@ export default function Header() {
               <span className="text-xl">👤</span>
               <span>Profile</span>
             </Link>
-            <Link 
-              href="/pricing"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-bold rounded-lg"
-            >
-              <span className="text-xl">⚡</span>
-              <span>Upgrade to Pro</span>
-            </Link>
+            {isPro ? (
+              <div className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-bold rounded-lg">
+                <span className="text-xl">⚡</span>
+                <span>PRO Member</span>
+              </div>
+            ) : (
+              <Link 
+                href="/pricing"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-bold rounded-lg"
+              >
+                <span className="text-xl">⚡</span>
+                <span>Upgrade to Pro</span>
+              </Link>
+            )}
           </nav>
         </motion.div>
       )}

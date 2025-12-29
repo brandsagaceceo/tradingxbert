@@ -11,8 +11,14 @@ export default function ProfilePage() {
   const [streak, setStreak] = useState(0);
   const [completedCourses, setCompletedCourses] = useState<string[]>([]);
   const [analysisCount, setAnalysisCount] = useState(0);
+  const [isPro, setIsPro] = useState(false);
 
   useEffect(() => {
+    // Check Pro status
+    fetch('/api/validate-subscription')
+      .then(res => res.json())
+      .then(data => setIsPro(data.isPro))
+      .catch(() => setIsPro(false));
     // Load all stats from localStorage
     const savedPoints = localStorage.getItem('tradingxbert_points');
     const savedStreak = localStorage.getItem('tradingxbert_streak');
@@ -143,9 +149,20 @@ export default function ProfilePage() {
             </motion.div>
             
             <div className="flex-1 text-center md:text-left">
-              <h1 className="text-4xl md:text-5xl font-black text-white mb-2">
-                {session?.user?.name || "Trader"}
-              </h1>
+              <div className="flex items-center gap-3 justify-center md:justify-start mb-2">
+                <h1 className="text-4xl md:text-5xl font-black text-white">
+                  {session?.user?.name || "Trader"}
+                </h1>
+                {isPro && (
+                  <motion.div
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className="px-4 py-1 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-black text-sm rounded-full"
+                  >
+                    ⚡ PRO
+                  </motion.div>
+                )}
+              </div>
               <p className="text-xl text-[#FFD700] mb-2">{session?.user?.email}</p>
               <motion.div
                 animate={{ scale: [1, 1.05, 1] }}
