@@ -68,10 +68,7 @@ export default function ChartChat({ analysis, chartImage }: ChartChatProps) {
             confidence: analysis.confidence,
             riskLevel: analysis.riskLevel,
             trendSummary: analysis.trendSummary,
-            keyLevels: analysis.keyLevels,
-            entry: analysis.entry,
-            stopLoss: analysis.stopLoss,
-            takeProfit: analysis.takeProfit
+            keyLevels: analysis.keyLevels
           },
           chatHistory: recentHistory
         }),

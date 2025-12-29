@@ -39,10 +39,7 @@ Chart Analysis:
 - Signal: ${analysis.signal} (${analysis.confidence}% confidence)
 - Risk: ${analysis.riskLevel}
 - Trend: ${analysis.trendSummary || "Not specified"}
-${analysis.keyLevels ? `- Levels: ${JSON.stringify(analysis.keyLevels)}` : ""}
-${analysis.entry ? `- Entry: ${analysis.entry}` : ""}
-${analysis.stopLoss ? `- Stop Loss: ${analysis.stopLoss}` : ""}
-${analysis.takeProfit ? `- Take Profit: ${analysis.takeProfit}` : ""}
+${analysis.keyLevels ? `- Levels: ${analysis.keyLevels}` : ""}
 
 Recent conversation:
 ${conversationContext}
