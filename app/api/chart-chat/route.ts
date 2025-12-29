@@ -56,8 +56,7 @@ Provide concise, actionable trading advice. Keep responses under 3 paragraphs. U
         { role: "user", content: message }
       ],
       temperature: 0.7,
-      max_tokens: 400,
-      timeout: 25000 // 25 second timeout
+      max_tokens: 400
     });
 
     const responseMessage = completion.choices[0]?.message?.content || "I couldn't generate a response.";
