@@ -8,10 +8,29 @@ export default function ProfilePage() {
   const { data: session, status } = useSession();
   const [activeTab, setActiveTab] = useState<"overview" | "stats" | "settings">("overview");
   const [points, setPoints] = useState(0);
+  const [streak, setStreak] = useState(0);
+  const [completedCourses, setCompletedCourses] = useState<string[]>([]);
+  const [analysisCount, setAnalysisCount] = useState(0);
 
   useEffect(() => {
+    // Load all stats from localStorage
     const savedPoints = localStorage.getItem('tradingxbert_points');
+    const savedStreak = localStorage.getItem('tradingxbert_streak');
+    const savedCourses = localStorage.getItem('tradingxbert_completed_courses');
+    const usageData = localStorage.getItem('tradingxbert_usage');
+    
     setPoints(parseInt(savedPoints || '0'));
+    setStreak(parseInt(savedStreak || '0'));
+    setCompletedCourses(savedCourses ? JSON.parse(savedCourses) : []);
+    
+    if (usageData) {
+      try {
+        const usage = JSON.parse(usageData);
+        setAnalysisCount(usage.count || 0);
+      } catch (err) {
+        console.error('Error loading usage data:', err);
+      }
+    }
   }, []);
 
   if (status === "loading") {
@@ -259,9 +278,9 @@ export default function ProfilePage() {
           >
             {[
               { label: "Total Points", value: points, icon: "🏆", color: "from-yellow-500 to-orange-500" },
-              { label: "Courses", value: "0", icon: "🎓", color: "from-blue-500 to-cyan-500" },
-              { label: "Analyses", value: "0", icon: "📊", color: "from-green-500 to-emerald-500" },
-              { label: "Streak", value: "0 days", icon: "🔥", color: "from-red-500 to-pink-500" }
+              { label: "Courses", value: completedCourses.length, icon: "🎓", color: "from-blue-500 to-cyan-500" },
+              { label: "Analyses", value: analysisCount, icon: "📊", color: "from-green-500 to-emerald-500" },
+              { label: "Streak", value: `${streak} day${streak !== 1 ? 's' : ''}`, icon: "🔥", color: "from-red-500 to-pink-500" }
             ].map((stat, i) => (
               <motion.div
                 key={i}

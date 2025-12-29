@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface Lesson {
   id: number;
@@ -28,7 +28,53 @@ export default function CoursePage({ courseId, title, icon, description, level, 
   const [currentLesson, setCurrentLesson] = useState<number>(1);
   const [showCertificate, setShowCertificate] = useState(false);
 
+  // Load completed lessons from localStorage on mount
+  useEffect(() => {
+    const savedCompleted = localStorage.getItem(`course_${courseId}_completed`);
+    if (savedCompleted) {
+      try {
+        const completed = JSON.parse(savedCompleted);
+        setCompletedLessons(new Set(completed));
+        
+        // Check if course was already completed
+        if (completed.length === lessons.length) {
+          setShowCertificate(true);
+        }
+      } catch (err) {
+        console.error('Error loading completed lessons:', err);
+      }
+    }
+    
+    // Update last active date for streak tracking
+    const today = new Date().toDateString();
+    const lastActive = localStorage.getItem('tradingxbert_last_active');
+    
+    if (lastActive !== today) {
+      // Update streak
+      const lastDate = lastActive ? new Date(lastActive) : null;
+      const currentStreak = parseInt(localStorage.getItem('tradingxbert_streak') || '0');
+      
+      if (lastDate) {
+        const daysDiff = Math.floor((new Date().getTime() - lastDate.getTime()) / (1000 * 60 * 60 * 24));
+        if (daysDiff === 1) {
+          // Consecutive day
+          localStorage.setItem('tradingxbert_streak', (currentStreak + 1).toString());
+        } else if (daysDiff > 1) {
+          // Streak broken
+          localStorage.setItem('tradingxbert_streak', '1');
+        }
+      } else {
+        // First time
+        localStorage.setItem('tradingxbert_streak', '1');
+      }
+      
+      localStorage.setItem('tradingxbert_last_active', today);
+    }
+  }, [courseId, lessons.length]);
+
   const handleCompleteLesson = (lessonId: number) => {
+    if (completedLessons.has(lessonId)) return; // Already completed
+    
     const newCompleted = new Set(completedLessons);
     newCompleted.add(lessonId);
     setCompletedLessons(newCompleted);
@@ -40,14 +86,29 @@ export default function CoursePage({ courseId, title, icon, description, level, 
     const lesson = lessons.find(l => l.id === lessonId);
     if (lesson) {
       const currentPoints = parseInt(localStorage.getItem('tradingxbert_points') || '0');
-      localStorage.setItem('tradingxbert_points', (currentPoints + lesson.points).toString());
+      const newPoints = currentPoints + lesson.points;
+      localStorage.setItem('tradingxbert_points', newPoints.toString());
+      
+      // Show points earned notification
+      console.log(`✅ Earned ${lesson.points} points! Total: ${newPoints}`);
     }
     
     // Check if course is complete
     if (newCompleted.size === lessons.length) {
       setShowCertificate(true);
       const currentPoints = parseInt(localStorage.getItem('tradingxbert_points') || '0');
-      localStorage.setItem('tradingxbert_points', (currentPoints + 500).toString()); // Bonus for completing course
+      const bonusPoints = 500;
+      const newPoints = currentPoints + bonusPoints;
+      localStorage.setItem('tradingxbert_points', newPoints.toString());
+      
+      // Track course completion
+      const completedCourses = JSON.parse(localStorage.getItem('tradingxbert_completed_courses') || '[]');
+      if (!completedCourses.includes(courseId)) {
+        completedCourses.push(courseId);
+        localStorage.setItem('tradingxbert_completed_courses', JSON.stringify(completedCourses));
+      }
+      
+      console.log(`🎉 Course completed! Bonus ${bonusPoints} points! Total: ${newPoints}`);
     }
   };
 
