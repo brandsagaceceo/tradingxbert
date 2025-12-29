@@ -2,11 +2,17 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+// Clean the Stripe key (remove any whitespace/newlines)
+const stripeKey = (process.env.STRIPE_SECRET_KEY || '').trim().replace(/[\r\n]/g, '');
+
+const stripe = new Stripe(stripeKey, {
   apiVersion: '2025-11-17.clover',
   maxNetworkRetries: 3,
   timeout: 20000, // 20 seconds
 });
+
+// Fallback direct payment link
+const FALLBACK_STRIPE_URL = "https://buy.stripe.com/test_00g4ivbY84ks6yseUU";
 
 export async function GET(req: NextRequest) {
   try {
@@ -21,10 +27,10 @@ export async function GET(req: NextRequest) {
 
     console.log('User email:', session.user.email);
 
-    // Verify Stripe key is configured
-    if (!process.env.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY === 'dummy') {
-      console.error('Stripe secret key not configured');
-      return NextResponse.redirect(new URL('/pricing?error=Payment system not configured', req.url));
+    // Verify Stripe key is configured and valid
+    if (!stripeKey || stripeKey === 'dummy' || stripeKey.length < 20) {
+      console.error('Stripe secret key not configured properly, using fallback');
+      return NextResponse.redirect(FALLBACK_STRIPE_URL);
     }
 
     // Get the origin for redirect URLs
@@ -57,8 +63,8 @@ export async function GET(req: NextRequest) {
     console.log('Checkout session created:', checkoutSession.id);
 
     if (!checkoutSession.url) {
-      console.error('No checkout URL generated');
-      throw new Error('No checkout URL generated');
+      console.error('No checkout URL generated, using fallback');
+      return NextResponse.redirect(FALLBACK_STRIPE_URL);
     }
 
     console.log('Redirecting to:', checkoutSession.url);
@@ -69,14 +75,20 @@ export async function GET(req: NextRequest) {
       message: error.message,
       type: error.type,
       code: error.code,
-      statusCode: error.statusCode
+      statusCode: error.statusCode,
+      requestId: error.requestId
     });
     
+    // Use fallback link if there's a connection error
+    if (error.type === 'StripeConnectionError' || error.code === 'ETIMEDOUT' || error.code === 'ECONNRESET') {
+      console.log('Connection error, using fallback payment link');
+      return NextResponse.redirect(FALLBACK_STRIPE_URL);
+    }
+    
     let errorMessage = 'Payment system error. Please try again.';
-    if (error.type === 'StripeConnectionError') {
-      errorMessage = 'Connection to payment provider failed. Please check your internet connection and try again.';
-    } else if (error.type === 'StripeAuthenticationError') {
-      errorMessage = 'Payment system configuration error. Please contact support.';
+    if (error.type === 'StripeAuthenticationError') {
+      console.log('Auth error, using fallback payment link');
+      return NextResponse.redirect(FALLBACK_STRIPE_URL);
     } else if (error.message) {
       errorMessage = error.message;
     }
