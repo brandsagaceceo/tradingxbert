@@ -24,7 +24,6 @@ export default function LegalPage() {
       <p className="mb-4 text-neutral-400">
         The creators of QuoteXbert are not liable for any losses or damages arising from use of this site. By using this site, you agree to these terms.
       </p>
-      <p className="text-neutral-500 text-xs mt-8">Built by BigDa — <a href="https://github.com/BigDa/TradingXbert" className="underline">View on GitHub</a></p>
     </main>
   );
 }

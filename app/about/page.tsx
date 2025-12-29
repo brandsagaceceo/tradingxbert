@@ -202,7 +202,7 @@ export default function AboutPage() {
               TradingXbert is developed by traders, for traders. We understand the challenges you face because we face them too.
             </p>
             <p className="text-neutral-500 text-sm">
-              Built by <span className="text-[#6366F1] font-bold">BigDa</span> — <a href="https://github.com/BigDa/TradingXbert" className="underline hover:text-[#6366F1] transition-colors">View on GitHub</a>
+              Join our community and start your trading education journey today.
             </p>
           </div>
         </motion.section>
