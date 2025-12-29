@@ -22,20 +22,20 @@ export default function Header() {
 
   return (
     <>
-    <header className="w-full flex items-center justify-between px-4 py-4 max-w-7xl mx-auto border-b border-[#FFD700]/20 backdrop-blur-xl bg-black/80 sticky top-0 z-50 shadow-lg shadow-[#FFD700]/5">
+    <header className="w-full flex items-center justify-between px-4 py-3 md:py-4 border-b border-[#FFD700]/20 backdrop-blur-xl bg-black/95 fixed top-0 left-0 right-0 z-[100] shadow-lg shadow-[#FFD700]/5">
       {/* Logo */}
-      <Link href="/" className="flex items-center gap-2 group flex-shrink-0">
+      <Link href="/" className="flex items-center gap-1.5 md:gap-2 group flex-shrink-0">
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-r from-[#FFD700] to-[#FFA500] blur-lg opacity-50 group-hover:opacity-100 transition-opacity duration-300" />
-          <div className="relative text-3xl md:text-4xl">📊</div>
+          <div className="relative text-2xl md:text-4xl">📊</div>
         </div>
         <div>
-          <div className="font-black text-lg md:text-2xl tracking-tight">
+          <div className="font-black text-base md:text-2xl tracking-tight">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FFD700] to-[#FFA500]">
               TradingXbert
             </span>
           </div>
-          <div className="text-[8px] md:text-[10px] text-[#FFD700]/60 font-bold tracking-wider">
+          <div className="hidden sm:block text-[8px] md:text-[10px] text-[#FFD700]/60 font-bold tracking-wider">
             AI SPECIALIZED IN TRADING ONLY
           </div>
         </div>
@@ -129,9 +129,10 @@ export default function Header() {
       {/* Mobile Hamburger */}
       <button
         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        className="lg:hidden text-white p-2"
+        className="lg:hidden text-white p-2 hover:bg-white/10 rounded-lg transition-colors active:scale-95"
+        aria-label="Toggle menu"
       >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
           {mobileMenuOpen ? (
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           ) : (
@@ -145,77 +146,112 @@ export default function Header() {
     <AnimatePresence>
       {mobileMenuOpen && (
         <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          exit={{ opacity: 0, height: 0 }}
-          className="lg:hidden bg-black/95 backdrop-blur-xl border-b border-[#FFD700]/20 overflow-hidden fixed top-[73px] left-0 right-0 z-40"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.2 }}
+          className="lg:hidden bg-black/98 backdrop-blur-xl border-b border-[#FFD700]/20 fixed top-[65px] left-0 right-0 z-[90] shadow-2xl max-h-[calc(100vh-65px)] overflow-y-auto"
         >
-          <nav className="flex flex-col p-4 space-y-2">
+          <nav className="flex flex-col p-4 pb-6 space-y-1">
             <Link 
               href="/university"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-2 px-4 py-3 text-white hover:text-[#FFD700] transition-all rounded-lg hover:bg-gradient-to-r hover:from-[#FFD700]/20 hover:to-[#FFA500]/20 font-bold"
+              className="flex items-center gap-3 px-4 py-4 text-base text-white hover:text-[#FFD700] transition-all rounded-xl hover:bg-gradient-to-r hover:from-[#FFD700]/20 hover:to-[#FFA500]/20 font-bold active:scale-95"
             >
-              <span className="text-xl">🎓</span>
+              <span className="text-2xl">🎓</span>
               <span>Learn</span>
+            </Link>
+            <Link 
+              href="/blog/trade-analysis"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center gap-3 px-4 py-4 text-base text-white hover:text-[#FFD700] transition-all rounded-xl hover:bg-white/10 font-bold active:scale-95"
+            >
+              <span className="text-2xl">📝</span>
+              <span>Blog</span>
+            </Link>
+            <Link 
+              href="/about"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center gap-3 px-4 py-4 text-base text-white hover:text-[#FFD700] transition-all rounded-xl hover:bg-white/10 font-bold active:scale-95"
+            >
+              <span className="text-2xl">ℹ️</span>
+              <span>About</span>
+            </Link>
+            <Link 
+              href="/how-to-trade"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center gap-3 px-4 py-4 text-base text-white hover:text-[#FFD700] transition-all rounded-xl hover:bg-white/10 font-bold active:scale-95"
+            >
+              <span className="text-2xl">📚</span>
+              <span>How to Trade</span>
             </Link>
             <Link 
               href="/community"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-2 px-4 py-3 text-white hover:text-[#FFD700] transition-all rounded-lg hover:bg-white/10 font-bold"
+              className="flex items-center gap-3 px-4 py-4 text-base text-white hover:text-[#FFD700] transition-all rounded-xl hover:bg-white/10 font-bold active:scale-95"
             >
-              <span className="text-xl">👥</span>
+              <span className="text-2xl">👥</span>
               <span>Community</span>
             </Link>
             <Link 
               href="/messages"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-2 px-4 py-3 text-white hover:text-[#FFD700] transition-all rounded-lg hover:bg-white/10 font-bold relative"
+              className="flex items-center gap-3 px-4 py-4 text-base text-white hover:text-[#FFD700] transition-all rounded-xl hover:bg-white/10 font-bold active:scale-95 relative"
             >
-              <span className="text-xl">💬</span>
+              <span className="text-2xl">💬</span>
               <span>Messages</span>
               <span className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center">2</span>
             </Link>
             <Link 
-              href="/blog/trade-analysis"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-2 px-4 py-3 text-white hover:text-[#FFD700] transition-all rounded-lg hover:bg-white/10 font-bold"
-            >
-              <span className="text-xl">📝</span>
-              <span>Blog</span>
-            </Link>
-            <Link 
               href="/news"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-2 px-4 py-3 text-white hover:text-[#FFD700] transition-all rounded-lg hover:bg-white/10 font-bold"
+              className="flex items-center gap-3 px-4 py-4 text-base text-white hover:text-[#FFD700] transition-all rounded-xl hover:bg-white/10 font-bold active:scale-95"
             >
-              <span className="text-xl">📰</span>
+              <span className="text-2xl">📰</span>
               <span>News</span>
             </Link>
             <div className="border-t border-white/20 my-2"></div>
             <Link 
               href="/profile"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-2 px-4 py-3 text-white hover:text-[#FFD700] transition-all rounded-lg hover:bg-white/10 font-bold"
+              className="flex items-center gap-3 px-4 py-4 text-base text-white hover:text-[#FFD700] transition-all rounded-xl hover:bg-white/10 font-bold active:scale-95"
             >
-              <span className="text-xl">👤</span>
+              <span className="text-2xl">👤</span>
               <span>Profile</span>
             </Link>
+            <Link 
+              href="/pricing"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center gap-3 px-4 py-4 text-base text-white hover:text-[#FFD700] transition-all rounded-xl hover:bg-white/10 font-bold active:scale-95"
+            >
+              <span className="text-2xl">💎</span>
+              <span>Pricing</span>
+            </Link>
+            <Link 
+              href="/invest"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center gap-3 px-4 py-4 text-base text-white hover:text-[#FFD700] transition-all rounded-xl hover:bg-white/10 font-bold active:scale-95"
+            >
+              <span className="text-2xl">🚀</span>
+              <span>$TXB Token</span>
+            </Link>
+            <div className="border-t border-white/20 my-2"></div>
             {isPro ? (
-              <div className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-bold rounded-lg">
-                <span className="text-xl">⚡</span>
+              <div className="flex items-center gap-3 px-4 py-4 text-base bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-bold rounded-xl">
+                <span className="text-2xl">⚡</span>
                 <span>PRO Member</span>
               </div>
             ) : (
               <Link 
                 href="/pricing"
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-bold rounded-lg"
+                className="flex items-center gap-3 px-4 py-4 text-base bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-bold rounded-xl active:scale-95"
               >
-                <span className="text-xl">⚡</span>
-                <span>Upgrade to Pro</span>
+                <span className="text-2xl">⚡</span>
+                <span>Get Pro</span>
               </Link>
             )}
+            <SignInButton />
           </nav>
         </motion.div>
       )}

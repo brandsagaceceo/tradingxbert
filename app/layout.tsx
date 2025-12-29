@@ -36,7 +36,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={inter.className + " min-h-screen bg-[#0A0A0A] text-neutral-200 antialiased"}>
+      <body className={inter.className + " min-h-screen bg-[#0A0A0A] text-neutral-200 antialiased pt-[65px]"}>
         <SessionProvider>
         <motion.header 
           initial={{ y: -100, opacity: 0 }}
