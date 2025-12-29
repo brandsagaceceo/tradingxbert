@@ -11,6 +11,9 @@ import AlertSignup from "@/components/AlertSignup";
 import AITradingAssistant from "@/components/AITradingAssistant";
 import AnimatedHeroBanner from "@/components/AnimatedHeroBanner";
 import ChartChat from "@/components/ChartChat";
+import AnalysisCompletePopup from "@/components/AnalysisCompletePopup";
+import UniversityPromoPopup from "@/components/UniversityPromoPopup";
+import GuidanceTooltip from "@/components/GuidanceTooltip";
 import { saveToJournal } from "@/lib/localStorage";
 import { canAnalyze, getRemainingAnalyses, incrementUsage, getFreeLimit, getUsageData } from "@/lib/usageLimit";
 import type { TradingXbertAnalysis, Market, Style } from "@/lib/tradingTypes";
@@ -31,18 +34,33 @@ export default function Page() {
   const [remaining, setRemaining] = useState<number>(10);
   const [showUpgrade, setShowUpgrade] = useState(false);
   const [showPromoPopup, setShowPromoPopup] = useState(false);
+  const [showAnalysisPopup, setShowAnalysisPopup] = useState(false);
+  const [showUniversityPopup, setShowUniversityPopup] = useState(false);
+  const [isPro, setIsPro] = useState(false);
 
   useEffect(() => {
     setRemaining(getRemainingAnalyses());
+    
+    // Check Pro status
+    fetch('/api/validate-subscription')
+      .then(res => res.json())
+      .then(data => setIsPro(data.isPro))
+      .catch(() => setIsPro(false));
   }, [analysis]);
 
   useEffect(() => {
     const usage = getUsageData();
     const promoDismissed = localStorage.getItem("promoDismissed");
+    const universityPromoDismissed = localStorage.getItem("universityPromoDismissed");
 
     // Show promo popup after 4 analyses if not dismissed
     if (usage.count >= 4 && promoDismissed !== "true") {
       setShowPromoPopup(true);
+    }
+    
+    // Show university popup after 3 analyses
+    if (usage.count >= 3 && universityPromoDismissed !== "true") {
+      setTimeout(() => setShowUniversityPopup(true), 5000);
     }
   }, [analysis]);
 
@@ -96,6 +114,9 @@ export default function Page() {
       setAnalysis(data);
       incrementUsage();
       setRemaining(getRemainingAnalyses());
+      
+      // Show completion popup
+      setShowAnalysisPopup(true);
       
       // Store chart data for save button
       if (preview) {
@@ -793,6 +814,21 @@ Market: ${market} | Style: ${style}
       
       {/* Testimonials Section */}
       {!analysis && <TestimonialsSection />}
+      
+      {/* Popups */}
+      <AnalysisCompletePopup
+        isVisible={showAnalysisPopup}
+        onDismiss={() => setShowAnalysisPopup(false)}
+      />
+      
+      <UniversityPromoPopup
+        isVisible={showUniversityPopup}
+        onDismiss={() => {
+          setShowUniversityPopup(false);
+          localStorage.setItem("universityPromoDismissed", "true");
+        }}
+        isPro={isPro}
+      />
       
       {/* AI Trading Assistant */}
       <AITradingAssistant />
