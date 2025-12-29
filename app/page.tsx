@@ -96,6 +96,13 @@ export default function Page() {
       incrementUsage();
       setRemaining(getRemainingAnalyses());
       
+      // Store chart data for save button
+      if (preview) {
+        localStorage.setItem('currentChartPreview', preview);
+        localStorage.setItem('currentMarket', market);
+        localStorage.setItem('currentStyle', style);
+      }
+      
       // Save analysis to database if user is logged in AND to localStorage
       try {
         await axios.post("/api/save-analysis", {

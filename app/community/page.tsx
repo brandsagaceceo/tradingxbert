@@ -37,7 +37,7 @@ export default function CommunityPage() {
   const [showShareModal, setShowShareModal] = useState(false);
   const [selectedTrade, setSelectedTrade] = useState<Trade | null>(null);
 
-  // Mock data for demonstration
+  // Mock data for demonstration - Always show to everyone
   useEffect(() => {
     const mockTrades: Trade[] = [
       {
@@ -51,7 +51,7 @@ export default function CommunityPage() {
         exit: "$45,800",
         profit: "$2,550",
         profitPercent: "+5.9%",
-        chartImage: "/api/placeholder/600/400",
+        chartImage: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&h=400&fit=crop",
         aiAnalysis: "Strong bullish momentum detected with volume confirmation. Smart money accumulation visible on 4H timeframe. Risk/Reward: 1:3.2",
         timestamp: new Date(Date.now() - 3600000),
         likes: 47,
@@ -76,11 +76,43 @@ export default function CommunityPage() {
         exit: "1.0815",
         profit: "$1,350",
         profitPercent: "+1.23%",
-        chartImage: "/api/placeholder/600/400",
+        chartImage: "https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=600&h=400&fit=crop",
         aiAnalysis: "Bearish divergence on RSI. Price respecting resistance zone. Clear market structure shift to downside.",
         timestamp: new Date(Date.now() - 7200000),
         likes: 32,
         comments: []
+      },
+      {
+        id: "3",
+        userId: "3",
+        userName: "GoldTrader",
+        userImage: "https://api.dicebear.com/7.x/avataaars/svg?seed=GoldTrader",
+        pair: "XAU/USD",
+        direction: "LONG",
+        entry: "$2,050",
+        exit: "$2,095",
+        profit: "$4,500",
+        profitPercent: "+2.2%",
+        chartImage: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&h=400&fit=crop",
+        aiAnalysis: "Safe-haven demand increasing. Technical breakout confirmed with strong volume. Multiple timeframe alignment.",
+        timestamp: new Date(Date.now() - 14400000),
+        likes: 58,
+        comments: [
+          {
+            id: "2",
+            userId: "4",
+            userName: "Sarah",
+            text: "Perfect timing on this one! 🎯",
+            timestamp: new Date(Date.now() - 10800000)
+          },
+          {
+            id: "3",
+            userId: "5",
+            userName: "Mike",
+            text: "How did you spot this setup?",
+            timestamp: new Date(Date.now() - 7200000)
+          }
+        ]
       }
     ];
     setTrades(mockTrades);

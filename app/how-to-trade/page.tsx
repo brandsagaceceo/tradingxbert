@@ -131,6 +131,22 @@ const FreeCourse = () => {
               <span>42 Lessons Total</span>
             </div>
           </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="mt-8"
+          >
+            <Link 
+              href="/university"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-black text-lg rounded-full hover:scale-105 transition-all shadow-lg shadow-[#FFD700]/20"
+            >
+              <span className="text-2xl">🎓</span>
+              <span>Full University (Pro Members Only)</span>
+              <span className="text-2xl">🔒</span>
+            </Link>
+          </motion.div>
         </div>
       </motion.div>
 
