@@ -9,24 +9,34 @@ export default function UniversityPage() {
   const { data: session } = useSession();
   const [userPoints, setUserPoints] = useState(0);
   const [isPro, setIsPro] = useState(false);
+  const [isLoadingPro, setIsLoadingPro] = useState(true);
 
   useEffect(() => {
     const points = localStorage.getItem('tradingxbert_points');
     setUserPoints(parseInt(points || '0'));
     
     // Check Pro status from API (includes admin whitelist)
+    setIsLoadingPro(true);
     fetch('/api/validate-subscription')
       .then(res => res.json())
       .then(data => {
+        console.log('Pro status check:', data);
         setIsPro(data.isPro);
+        setIsLoadingPro(false);
         // Sync to localStorage
         if (data.isPro) {
           localStorage.setItem('tradingxbert_pro', 'true');
+          console.log('✅ Pro access granted!');
         } else {
           localStorage.removeItem('tradingxbert_pro');
+          console.log('❌ No Pro access');
         }
       })
-      .catch(() => setIsPro(false));
+      .catch((err) => {
+        console.error('Pro check error:', err);
+        setIsPro(false);
+        setIsLoadingPro(false);
+      });
   }, []);
 
   const courses = [
@@ -274,8 +284,8 @@ export default function UniversityPage() {
 
         {/* Courses Grid */}
         <div className="relative">
-          {/* Paywall Overlay for Non-Pro Users */}
-          {!isPro && (
+          {/* Paywall Overlay for Non-Pro Users - Only show if NOT loading and NOT pro */}
+          {!isLoadingPro && !isPro && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

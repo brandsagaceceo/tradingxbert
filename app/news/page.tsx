@@ -228,7 +228,7 @@ export default function NewsPage() {
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -100, opacity: 0 }}
-            className="fixed top-24 left-1/2 -translate-x-1/2 z-50 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] px-8 py-4 rounded-full shadow-2xl shadow-[#6366F1]/50 border border-white/20"
+            className="md:fixed relative top-0 md:top-24 left-0 md:left-1/2 md:-translate-x-1/2 z-50 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] px-4 md:px-8 py-3 md:py-4 rounded-full shadow-2xl shadow-[#6366F1]/50 border border-white/20 mx-4 md:mx-0 mb-4 md:mb-0"
           >
             <div className="flex items-center gap-3">
               <motion.div
