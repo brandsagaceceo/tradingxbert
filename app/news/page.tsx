@@ -17,6 +17,8 @@ import PriceAlerts from "@/components/PriceAlerts";
 import NewsShareButtons from "@/components/NewsShareButtons";
 import EmailNotificationPopup from "@/components/EmailNotificationPopup";
 import BTCFactsSidebar from "@/components/BTCFactsSidebar";
+import Watchlist from "@/components/Watchlist";
+import MarketStats from "@/components/MarketStats";
 import ServiceBanners from "@/components/ServiceBanners";
 import ChartModal from "@/components/ChartModal";
 import Image from "next/image";
@@ -46,6 +48,11 @@ export default function NewsPage() {
   
   // USD to CAD exchange rate (approximate)
   const CAD_RATE = 1.35;
+  
+  // Format numbers with spaces instead of commas
+  const formatNumber = (num: number): string => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  };
 
   // Fetch news from multiple sources
   const fetchNews = useCallback(async () => {
@@ -217,8 +224,9 @@ export default function NewsPage() {
 
   // Format price with currency symbol
   const formatPrice = (usdPrice: number): string => {
-    const converted = convertPrice(usdPrice);
-    return currency === 'USD' ? `$${converted}` : `C$${converted}`;
+    const price = currency === 'CAD' ? usdPrice * CAD_RATE : usdPrice;
+    const formatted = formatNumber(Math.round(price));
+    return currency === 'CAD' ? `C$${formatted}` : `$${formatted}`;
   };
 
   const categories = [
@@ -630,6 +638,15 @@ export default function NewsPage() {
             {/* Trading Insights */}
             <TradingInsights />
             
+            {/* Watchlist */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <Watchlist />
+            </motion.div>
+            
             {/* Economic Calendar */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -637,6 +654,15 @@ export default function NewsPage() {
               viewport={{ once: true }}
             >
               <EconomicCalendar />
+            </motion.div>
+            
+            {/* Market Stats */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <MarketStats />
             </motion.div>
             
             {/* Popular Assets */}

@@ -12,30 +12,57 @@ export default function ProfessionalChart({ symbol = "BTCUSD", title = "Bitcoin"
   
   const timeframes = ["5m", "15m", "1H", "4H", "1D", "1W"];
   
-  // Dynamic price data based on symbol
+  // Dynamic price data based on symbol (using space-separated thousands)
   const priceData: Record<string, { price: string; change: string; changePercent: string; high: string; low: string; volume: string; marketCap: string }> = {
-    BTCUSD: { price: "$96,247", change: "+$3,890", changePercent: "+4.2%", high: "$97,420", low: "$93,185", volume: "$45.2B", marketCap: "$1.89T" },
-    SPX: { price: "5,881", change: "+46.71", changePercent: "+0.8%", high: "5,895", low: "5,834", volume: "$285B", marketCap: "$43.2T" },
+    BTCUSD: { price: "$96 247", change: "+$3 890", changePercent: "+4.2%", high: "$97 420", low: "$93 185", volume: "$45.2B", marketCap: "$1.89T" },
+    SPX: { price: "5 881", change: "+46.71", changePercent: "+0.8%", high: "5 895", low: "5 834", volume: "$285B", marketCap: "$43.2T" },
     AAPL: { price: "$250.17", change: "+$2.01", changePercent: "+0.8%", high: "$251.20", low: "$248.15", volume: "$8.2B", marketCap: "$3.85T" },
     TSLA: { price: "$463.02", change: "-$5.63", changePercent: "-1.2%", high: "$468.90", low: "$461.25", volume: "$15.3B", marketCap: "$1.47T" },
     NVDA: { price: "$140.15", change: "+$2.89", changePercent: "+2.1%", high: "$141.50", low: "$137.20", volume: "$12.5B", marketCap: "$345B" },
-    ETH: { price: "$3,421", change: "+$128.50", changePercent: "+3.9%", high: "$3,485", low: "$3,292", volume: "$18.0B", marketCap: "$412B" },
+    ETH: { price: "$3 421", change: "+$128.50", changePercent: "+3.9%", high: "$3 485", low: "$3 292", volume: "$18.0B", marketCap: "$412B" },
   };
   
   const currentPrice = priceData[symbol] || priceData.BTCUSD;
   const isPositive = currentPrice.changePercent.startsWith('+');
   
-  // Generate smooth line chart data
+  // Generate unique chart patterns for each symbol
   const generateChartData = () => {
     const points: { x: number; y: number }[] = [];
     const numPoints = 100;
     
+    // Use symbol to create unique seed for different patterns
+    const symbolSeed = symbol.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const freq1 = 0.08 + (symbolSeed % 5) * 0.01;
+    const freq2 = 0.12 + (symbolSeed % 7) * 0.015;
+    const freq3 = 0.05 + (symbolSeed % 3) * 0.02;
+    
     for (let i = 0; i < numPoints; i++) {
       const progress = i / numPoints;
-      // Create a more realistic price movement pattern
-      const volatility = Math.sin(i * 0.1) * 5 + Math.cos(i * 0.15) * 3;
-      const trend = isPositive ? progress * 20 : -progress * 10;
-      const y = 50 + trend + volatility + (Math.random() - 0.5) * 2;
+      
+      // Create unique patterns for different assets
+      const wave1 = Math.sin(i * freq1) * 5;
+      const wave2 = Math.cos(i * freq2) * 3;
+      const wave3 = Math.sin(i * freq3) * 2;
+      const volatility = wave1 + wave2 + wave3;
+      
+      // Different trend patterns based on symbol
+      let trend = 0;
+      if (symbol === 'BTCUSD') {
+        trend = Math.sin(progress * Math.PI * 1.5) * 15 + progress * 10;
+      } else if (symbol === 'SPX') {
+        trend = progress * 8 + Math.sin(progress * Math.PI * 2) * 5;
+      } else if (symbol === 'ETH') {
+        trend = Math.cos(progress * Math.PI) * 12 + progress * 12;
+      } else if (symbol === 'NVDA') {
+        trend = Math.pow(progress, 1.5) * 18 + Math.sin(progress * 4) * 4;
+      } else if (symbol === 'AAPL') {
+        trend = progress * 6 + Math.sin(progress * Math.PI * 3) * 3;
+      } else {
+        trend = isPositive ? progress * 15 : -progress * 8;
+      }
+      
+      const randomness = (Math.sin(symbolSeed + i) - 0.5) * 1.5;
+      const y = 50 + trend + volatility + randomness;
       points.push({ x: (i / numPoints) * 100, y: Math.max(10, Math.min(90, y)) });
     }
     return points;
