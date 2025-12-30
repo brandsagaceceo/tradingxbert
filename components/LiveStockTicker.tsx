@@ -174,15 +174,6 @@ export default function LiveStockTicker() {
 
     return () => clearInterval(interval);
   }, []);
-            change: newChange,
-            changePercent: newChangePercent
-          };
-        })
-      );
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   // Duplicate stocks array for seamless loop (5 copies for smooth infinite scroll)
   const duplicatedStocks = [...stocks, ...stocks, ...stocks, ...stocks, ...stocks];

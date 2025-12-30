@@ -120,7 +120,7 @@ export default function BlogPage() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-[#6366F1] to-[#8B5CF6] bg-clip-text text-transparent"
           >
-            TradingXbert Trading Academy
+            Trading Education Hub
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0 }}
@@ -128,7 +128,7 @@ export default function BlogPage() {
             transition={{ duration: 0.5, delay: 0.4 }}
             className="text-xl text-neutral-300 mb-4"
           >
-            Master the markets with professional insights, proven strategies, and cutting-edge analysis
+            Expert trading guides, market analysis, and professional strategies to elevate your trading game
           </motion.p>
           <motion.p 
             initial={{ opacity: 0 }}
@@ -136,7 +136,7 @@ export default function BlogPage() {
             transition={{ duration: 0.5, delay: 0.6 }}
             className="text-sm text-[#6366F1] font-semibold"
           >
-            📈 {blogPosts.length} In-Depth Guides • 🎯 Proven Strategies • 🚀 Real Results
+            📚 {blogPosts.length} Professional Guides • 💡 Expert Analysis • 🎯 Trading Education
           </motion.p>
         </div>
       </motion.div>
