@@ -38,7 +38,7 @@ export default function AnalysisCompletePopup({ isVisible, onDismiss }: Analysis
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[200]"
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[9998]"
             onClick={onDismiss}
           />
 
@@ -48,7 +48,7 @@ export default function AnalysisCompletePopup({ isVisible, onDismiss }: Analysis
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.5, y: 100 }}
             transition={{ type: "spring", duration: 0.6 }}
-            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[201] w-[90vw] max-w-lg"
+            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[9999] w-[90vw] max-w-lg"
           >
             <div className="bg-gradient-to-br from-[#1a1a2e] to-[#16213e] rounded-3xl border-2 border-[#FFD700] shadow-2xl shadow-[#FFD700]/50 p-8 relative overflow-hidden">
               {/* Animated Background */}

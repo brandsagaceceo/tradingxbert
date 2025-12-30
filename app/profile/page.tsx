@@ -74,7 +74,7 @@ export default function ProfilePage() {
           className="text-center max-w-md"
         >
           <motion.div
-            animate={{ rotate: [0, 10, -10, 0] }}
+            animate={{ scale: [1, 1.05, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
             className="text-8xl mb-6"
           >
