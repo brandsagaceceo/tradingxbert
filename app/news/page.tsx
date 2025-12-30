@@ -281,23 +281,62 @@ export default function NewsPage() {
           <motion.div
             animate={{ rotate: [0, 5, -5, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
-            className="text-6xl mb-4"
+            className="text-5xl md:text-6xl mb-4"
           >
             📰
           </motion.div>
-          <h1 className="text-5xl md:text-7xl font-black mb-4 bg-gradient-to-r from-[#6366F1] via-white to-[#8B5CF6] bg-clip-text text-transparent">
-            Live Market News
+          <h1 className="text-4xl md:text-6xl font-black mb-3 bg-gradient-to-r from-[#6366F1] via-white to-[#8B5CF6] bg-clip-text text-transparent">
+            Live Market Intelligence
           </h1>
-          <p className="text-xl text-neutral-300 mb-4">
-            Real-time updates on financial markets • Auto-refreshing every 5 minutes
+          <p className="text-lg md:text-xl text-neutral-300 mb-4">
+            Real-time market data, news & analysis • Professional trading terminal
           </p>
-          <div className="flex items-center justify-center gap-2 text-sm text-neutral-400">
-            <motion.div
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="w-2 h-2 bg-green-500 rounded-full"
-            />
-            <span>Live • Last updated: {lastUpdate.toLocaleTimeString()}</span>
+          <div className="flex items-center justify-center gap-4 text-sm text-neutral-400 flex-wrap">
+            <div className="flex items-center gap-2">
+              <motion.div
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="w-2 h-2 bg-green-500 rounded-full"
+              />
+              <span>Live • Updated {lastUpdate.toLocaleTimeString()}</span>
+            </div>
+            <button
+              onClick={handleRefresh}
+              disabled={isRefreshing}
+              className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg font-semibold transition-all disabled:opacity-50 flex items-center gap-2"
+            >
+              <span>🔄</span>
+              <span className="hidden sm:inline">{isRefreshing ? 'Refreshing...' : 'Refresh Now'}</span>
+            </button>
+          </div>
+        </motion.div>
+
+        {/* Quick Stats Bar */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
+        >
+          <div className="bg-gradient-to-br from-green-500/20 to-green-600/10 border border-green-500/30 rounded-xl p-4">
+            <div className="text-xs text-green-400 font-semibold mb-1">Bitcoin</div>
+            <div className="text-xl md:text-2xl font-black text-white">$96,247</div>
+            <div className="text-sm text-green-400">+4.2% 📈</div>
+          </div>
+          <div className="bg-gradient-to-br from-blue-500/20 to-blue-600/10 border border-blue-500/30 rounded-xl p-4">
+            <div className="text-xs text-blue-400 font-semibold mb-1">S&P 500</div>
+            <div className="text-xl md:text-2xl font-black text-white">5,881</div>
+            <div className="text-sm text-green-400">+0.8% 📊</div>
+          </div>
+          <div className="bg-gradient-to-br from-purple-500/20 to-purple-600/10 border border-purple-500/30 rounded-xl p-4">
+            <div className="text-xs text-purple-400 font-semibold mb-1">Ethereum</div>
+            <div className="text-xl md:text-2xl font-black text-white">$3,421</div>
+            <div className="text-sm text-green-400">+3.9% 🚀</div>
+          </div>
+          <div className="bg-gradient-to-br from-amber-500/20 to-amber-600/10 border border-amber-500/30 rounded-xl p-4">
+            <div className="text-xs text-amber-400 font-semibold mb-1">Gold</div>
+            <div className="text-xl md:text-2xl font-black text-white">$2,631</div>
+            <div className="text-sm text-green-400">+0.3% 💰</div>
           </div>
         </motion.div>
 
@@ -306,7 +345,7 @@ export default function NewsPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-3 mb-8"
+          className="flex flex-wrap justify-center gap-2 md:gap-3 mb-8"
         >
           {categories.map((category) => (
             <motion.button
@@ -314,34 +353,54 @@ export default function NewsPage() {
               onClick={() => setSelectedCategory(category.id)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className={`px-6 py-3 rounded-full font-bold transition-all ${
+              className={`px-4 md:px-6 py-2 md:py-3 rounded-full font-bold text-sm md:text-base transition-all ${
                 selectedCategory === category.id
                   ? 'bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] text-white shadow-lg shadow-[#6366F1]/50'
                   : 'bg-white/10 text-neutral-300 hover:bg-white/20'
               }`}
             >
               <span className="mr-2">{category.icon}</span>
-              {category.label}
+              <span className="hidden sm:inline">{category.label}</span>
             </motion.button>
           ))}
         </motion.div>
 
+        {/* Navigation Tabs */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+          className="flex gap-2 mb-8 overflow-x-auto pb-2 scrollbar-hide"
+        >
+          {[
+            { id: 'overview', label: 'Overview', icon: '📊' },
+            { id: 'charts', label: 'Charts', icon: '📈' },
+            { id: 'news', label: 'News', icon: '📰' },
+            { id: 'analysis', label: 'Analysis', icon: '🔍' }
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => {
+                const element = document.getElementById(tab.id);
+                element?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }}
+              className="px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#6366F1]/50 rounded-xl font-semibold whitespace-nowrap transition-all flex items-center gap-2"
+            >
+              <span>{tab.icon}</span>
+              <span>{tab.label}</span>
+            </button>
+          ))}
+        </motion.div>
+
         {/* Market Overview Section */}
-        <div className="space-y-6 mb-12">
-          {/* Primary Charts Row */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <TradingViewWidget symbol="BTCUSD" title="Bitcoin" />
-            <TradingViewWidget symbol="SPX" title="S&P 500" />
-          </div>
-
-          {/* Market Heatmap */}
+        <div id="overview" className="scroll-mt-32 space-y-6 mb-12">
+          <h2 className="text-3xl font-black text-white mb-6 flex items-center gap-3">
+            <span>📊</span>
+            <span>Market Overview</span>
+          </h2>
+          
+          {/* Market Heatmap - Featured */}
           <MarketHeatmap />
-
-          {/* Trending News and Price Alerts Row */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <TrendingNews />
-            <PriceAlerts />
-          </div>
 
           {/* Top Movers and Fear & Greed */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -358,34 +417,42 @@ export default function NewsPage() {
           </div>
         </div>
 
-        {/* Auto-refresh Indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="text-center mb-8"
-        >
-          <div className="inline-flex items-center gap-4">
-            <button
-              onClick={fetchNews}
-              className="px-6 py-3 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] hover:from-[#8B5CF6] hover:to-[#6366F1] rounded-full text-sm font-bold transition-all border border-white/20 hover:shadow-lg hover:shadow-[#6366F1]/50"
-            >
-              <span className="mr-2">🔄</span>
-              Refresh News
-            </button>
-            <div className="px-4 py-2 bg-black/40 rounded-full text-sm">
-              <span className="text-neutral-400">Total Articles:</span>
-              <span className="font-black text-white ml-2">{filteredNews.length}</span>
-            </div>
+        {/* Professional Charts Section */}
+        <div id="charts" className="scroll-mt-32 space-y-6 mb-12">
+          <h2 className="text-3xl font-black text-white mb-6 flex items-center gap-3">
+            <span>📈</span>
+            <span>Live Charts</span>
+          </h2>
+          
+          {/* Primary Charts Row */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <TradingViewWidget symbol="BTCUSD" title="Bitcoin" />
+            <TradingViewWidget symbol="SPX" title="S&P 500" />
           </div>
-        </motion.div>
 
-        {/* News Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-8"
-        >
-          <h2 className="text-4xl font-black text-white mb-2">Latest Market News</h2>
+          {/* Secondary Charts Row */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <TradingViewWidget symbol="ETH" title="Ethereum" />
+            <TradingViewWidget symbol="AAPL" title="Apple" />
+            <TradingViewWidget symbol="NVDA" title="NVIDIA" />
+          </div>
+
+          {/* Trending News and Price Alerts Row */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <TrendingNews />
+            <PriceAlerts />
+          </div>
+        </div>
+
+        {/* News Articles Section */}
+        <div id="news" className="scroll-mt-32 mb-12">
+          <h2 className="text-3xl font-black text-white mb-6 flex items-center gap-3">
+            <span>📰</span>
+            <span>Latest Market News</span>
+            <span className="text-sm font-normal text-neutral-400">({filteredNews.length} articles)</span>
+          </h2>
+
+        {/* News Grid */}
           <p className="text-neutral-400">Breaking stories from top financial sources</p>
         </motion.div>
 
