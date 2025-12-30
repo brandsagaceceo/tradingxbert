@@ -73,13 +73,9 @@ export default function ProfilePage() {
           animate={{ opacity: 1, scale: 1 }}
           className="text-center max-w-md"
         >
-          <motion.div
-            animate={{ scale: [1, 1.05, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="text-8xl mb-6"
-          >
+          <div className="text-8xl mb-6">
             🔒
-          </motion.div>
+          </div>
           <h1 className="text-5xl font-black text-white mb-4">Sign In Required</h1>
           <p className="text-xl text-neutral-300 mb-8">
             Create your account to access your trading profile

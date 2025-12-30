@@ -8,13 +8,22 @@ export async function GET(req: NextRequest) {
       { next: { revalidate: 60 } } // Cache for 1 minute
     );
     
-    // Fetch real-time stock prices from Finnhub (free tier)
-    const stockSymbols = ['AAPL', 'TSLA', 'NVDA', 'GOOGL', 'MSFT', 'AMZN', 'META', 'NFLX', 'AMD'];
-    const stockPromises = stockSymbols.map(symbol =>
-      fetch(`https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${process.env.FINNHUB_API_KEY || 'demo'}`)
-        .then(res => res.json())
-        .catch(() => null)
-    );
+    // Fetch real-time stock prices from Yahoo Finance via API
+    const stockSymbols = ['AAPL', 'TSLA', 'NVDA', 'GOOGL', 'MSFT', 'AMZN', 'META'];
+    const yahooPromises = stockSymbols.map(async (symbol) => {
+      try {
+        const res = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=1d`);
+        const data = await res.json();
+        const quote = data?.chart?.result?.[0];
+        return {
+          symbol,
+          price: quote?.meta?.regularMarketPrice || 0,
+          change: quote?.meta?.regularMarketChangePercent || 0
+        };
+      } catch {
+        return { symbol, price: 0, change: 0 };
+      }
+    });
 
     // Fetch forex rates
     const forexResponse = await fetch(
@@ -23,7 +32,7 @@ export async function GET(req: NextRequest) {
     );
 
     const cryptoData = await cryptoResponse.json();
-    const stockData = await Promise.all(stockPromises);
+    const stockData = await Promise.all(yahooPromises);
     const forexData = await forexResponse.json();
 
     // Format crypto prices
@@ -58,14 +67,13 @@ export async function GET(req: NextRequest) {
       }
     };
 
-    // Format stock prices
+    // Format stock prices from Yahoo Finance
     const stocks: any = {};
-    stockSymbols.forEach((symbol, index) => {
-      const data = stockData[index];
-      if (data && data.c) {
-        stocks[symbol] = {
-          price: data.c, // Current price
-          change: data.dp || 0, // Percent change
+    stockData.forEach((data) => {
+      if (data && data.price > 0) {
+        stocks[data.symbol] = {
+          price: data.price,
+          change: data.change,
         };
       }
     });

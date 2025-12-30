@@ -50,7 +50,7 @@ export default function RootLayout({
         />
       </head>
       <body 
-        className={inter.className + " min-h-screen bg-[#0A0A0A] text-neutral-200 antialiased pt-[65px]"}
+        className={inter.className + " min-h-screen bg-[#0A0A0A] text-neutral-200 antialiased pt-[105px]"}
         style={{
           paddingBottom: 'calc(var(--bottom-ui-offset, 0px) + env(safe-area-inset-bottom, 0px))'
         }}
@@ -60,7 +60,7 @@ export default function RootLayout({
         <Header />
         
         {/* Stock Exchange Style Sale Banner */}
-        <div className="relative bg-gradient-to-r from-[#6366F1] via-[#8B5CF6] to-[#EC4899] overflow-hidden py-2 border-b border-white/10">
+        <div className="fixed top-[65px] left-0 right-0 z-[150] bg-gradient-to-r from-[#6366F1] via-[#8B5CF6] to-[#EC4899] overflow-hidden py-2 border-b border-white/10">
           <motion.div
             animate={{ x: [0, -1000] }}
             transition={{ 

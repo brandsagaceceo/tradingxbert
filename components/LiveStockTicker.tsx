@@ -232,8 +232,9 @@ export default function LiveStockTicker() {
 
               {/* Price */}
               <div className="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-lg border border-white/10">
+                <span className="text-xs text-neutral-400 font-semibold">USD</span>
                 <span className="font-bold text-white">
-                  ${stock.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  ${stock.price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: stock.price < 1 ? 4 : 2 })}
                 </span>
               </div>
 
