@@ -7,35 +7,53 @@ export default function FearGreedIndex() {
   const [fearGreedValue, setFearGreedValue] = useState(52);
   const [sentiment, setSentiment] = useState("Neutral");
   const [color, setColor] = useState("#FFD700");
+  const [loading, setLoading] = useState(true);
+
+  const updateSentimentDisplay = (value: number) => {
+    // Determine sentiment and color based on value
+    if (value <= 25) {
+      setSentiment("Extreme Fear");
+      setColor("#EF4444");
+    } else if (value <= 45) {
+      setSentiment("Fear");
+      setColor("#F97316");
+    } else if (value <= 55) {
+      setSentiment("Neutral");
+      setColor("#FFD700");
+    } else if (value <= 75) {
+      setSentiment("Greed");
+      setColor("#84CC16");
+    } else {
+      setSentiment("Extreme Greed");
+      setColor("#22C55E");
+    }
+  };
 
   useEffect(() => {
-    // Simulate real-time fear & greed updates
-    const updateSentiment = () => {
-      // Random value between 0-100 for demo (in production, fetch from API)
-      const value = Math.floor(Math.random() * 100);
-      setFearGreedValue(value);
-
-      // Determine sentiment and color
-      if (value <= 25) {
-        setSentiment("Extreme Fear");
-        setColor("#EF4444");
-      } else if (value <= 45) {
-        setSentiment("Fear");
-        setColor("#F97316");
-      } else if (value <= 55) {
-        setSentiment("Neutral");
-        setColor("#FFD700");
-      } else if (value <= 75) {
-        setSentiment("Greed");
-        setColor("#84CC16");
-      } else {
-        setSentiment("Extreme Greed");
-        setColor("#22C55E");
+    // Fetch AI-powered market sentiment
+    const fetchSentiment = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/market-sentiment');
+        const data = await response.json();
+        
+        if (data.value) {
+          setFearGreedValue(data.value);
+          updateSentimentDisplay(data.value);
+        }
+      } catch (error) {
+        console.error('Failed to fetch sentiment:', error);
+        // Default to neutral if fetch fails
+        setFearGreedValue(52);
+        updateSentimentDisplay(52);
+      } finally {
+        setLoading(false);
       }
     };
 
-    updateSentiment();
-    const interval = setInterval(updateSentiment, 10000); // Update every 10 seconds
+    fetchSentiment();
+    // Update every 5 minutes (300000ms) for fresh AI analysis
+    const interval = setInterval(fetchSentiment, 300000);
 
     return () => clearInterval(interval);
   }, []);
