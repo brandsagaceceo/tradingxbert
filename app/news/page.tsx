@@ -32,6 +32,7 @@ export default function NewsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [showNotification, setShowNotification] = useState(false);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   // Fetch news from multiple sources
   const fetchNews = useCallback(async () => {
@@ -177,6 +178,13 @@ export default function NewsPage() {
 
     return () => clearInterval(interval);
   }, [fetchNews]);
+
+  // Manual refresh handler
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    await fetchNews();
+    setTimeout(() => setIsRefreshing(false), 1000);
+  };
 
   const categories = [
     { id: "all", label: "All News", icon: "📰" },
@@ -451,10 +459,8 @@ export default function NewsPage() {
             <span>Latest Market News</span>
             <span className="text-sm font-normal text-neutral-400">({filteredNews.length} articles)</span>
           </h2>
-
-        {/* News Grid */}
-          <p className="text-neutral-400">Breaking stories from top financial sources</p>
-        </motion.div>
+          <p className="text-neutral-400 mb-6">Breaking stories from top financial sources</p>
+        </div>
 
         {/* Loading State */}
         {loading && (
