@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function PopularAssets() {
   const assets = [
-    { symbol: "BTC", name: "Bitcoin", price: "$96,247", change: "+4.2%", isPositive: true, volume: "$45B" },
+    { symbol: "BTC", name: "Bitcoin", price: "$88,000", change: "+2.4%", isPositive: true, volume: "$42.8B" },
     { symbol: "ETH", name: "Ethereum", price: "$3,421", change: "+3.9%", isPositive: true, volume: "$18B" },
     { symbol: "AAPL", name: "Apple", price: "$250.17", change: "+0.8%", isPositive: true, volume: "$8.2B" },
     { symbol: "NVDA", name: "NVIDIA", price: "$140.15", change: "+2.1%", isPositive: true, volume: "$12.5B" },

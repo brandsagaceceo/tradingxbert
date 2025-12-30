@@ -13,7 +13,6 @@ import PopularAssets from "@/components/PopularAssets";
 import SectorPerformance from "@/components/SectorPerformance";
 import GlobalIndices from "@/components/GlobalIndices";
 import TrendingNews from "@/components/TrendingNews";
-import PriceAlerts from "@/components/PriceAlerts";
 import NewsShareButtons from "@/components/NewsShareButtons";
 import EmailNotificationPopup from "@/components/EmailNotificationPopup";
 import BTCFactsSidebar from "@/components/BTCFactsSidebar";
@@ -63,8 +62,8 @@ export default function NewsPage() {
       
       const mockNews: NewsArticle[] = [
         {
-          title: "Bitcoin Rallies to $96,000 as ETF Inflows Hit Record Highs",
-          description: "Bitcoin continues its historic bull run as spot Bitcoin ETFs see unprecedented institutional demand. Major banks increase crypto exposure amid regulatory clarity.",
+          title: "Bitcoin Rallies to $88,000 as ETF Inflows Hit Record Highs",
+          description: "Bitcoin maintains strong momentum as spot Bitcoin ETFs see unprecedented institutional demand. Major banks increase crypto exposure amid regulatory clarity.",
           url: "https://news.google.com/search?q=bitcoin+cryptocurrency",
           publishedAt: new Date().toISOString(),
           source: "Crypto Daily",
@@ -403,7 +402,7 @@ export default function NewsPage() {
             className="bg-gradient-to-br from-green-500/20 to-green-600/10 border border-green-500/30 hover:border-green-500/60 rounded-xl p-4 transition-all cursor-pointer text-left"
           >
             <div className="text-xs text-green-400 font-semibold mb-1">Bitcoin</div>
-            <div className="text-xl md:text-2xl font-black text-white">{formatPrice(96247)}</div>
+            <div className="text-xl md:text-2xl font-black text-white">{formatPrice(88000)}</div>
             <div className="text-sm text-green-400">+4.43% 📈</div>
           </motion.button>
           <motion.button
@@ -671,21 +670,14 @@ export default function NewsPage() {
                 </motion.div>
               </div>
 
-              {/* Trending News and Price Alerts Row */}
-              <div className="grid grid-cols-1 gap-6 mt-6">
+              {/* Trending News */}
+              <div className="mt-6">
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                 >
                   <TrendingNews />
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                >
-                  <PriceAlerts />
                 </motion.div>
               </div>
             </div>

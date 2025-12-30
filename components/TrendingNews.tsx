@@ -11,7 +11,7 @@ interface TrendingArticle {
 
 export default function TrendingNews() {
   const [trending, setTrending] = useState<TrendingArticle[]>([
-    { title: "Bitcoin Rallies to $96K", views: "45.2K", trend: "🔥", category: "Crypto" },
+    { title: "Bitcoin Rallies to $88K", views: "45.2K", trend: "🔥", category: "Crypto" },
     { title: "NVIDIA Hits New ATH", views: "38.5K", trend: "🔥", category: "Stocks" },
     { title: "Fed Holds Rates Steady", views: "32.1K", trend: "📈", category: "Forex" },
     { title: "Gold Breaks $2,600", views: "28.7K", trend: "⚡", category: "Commodities" },

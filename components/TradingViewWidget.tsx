@@ -14,7 +14,7 @@ export default function TradingViewWidget({ symbol = "BTCUSD", title = "Bitcoin"
   
   // Dynamic price data based on symbol
   const priceData: Record<string, { price: string; change: string; changePercent: string }> = {
-    BTCUSD: { price: "$96,247.50", change: "+$3,890", changePercent: "+4.2%" },
+    BTCUSD: { price: "$88,000.00", change: "+$2,100", changePercent: "+2.4%" },
     SPX: { price: "5,881.63", change: "+46.71", changePercent: "+0.8%" },
     AAPL: { price: "$250.17", change: "+2.01", changePercent: "+0.8%" },
     TSLA: { price: "$463.02", change: "-5.63", changePercent: "-1.2%" },

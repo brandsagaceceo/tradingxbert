@@ -14,7 +14,7 @@ export default function ProfessionalChart({ symbol = "BTCUSD", title = "Bitcoin"
   
   // Dynamic price data based on symbol (using space-separated thousands)
   const priceData: Record<string, { price: string; change: string; changePercent: string; high: string; low: string; volume: string; marketCap: string }> = {
-    BTCUSD: { price: "$96 247", change: "+$3 890", changePercent: "+4.2%", high: "$97 420", low: "$93 185", volume: "$45.2B", marketCap: "$1.89T" },
+    BTCUSD: { price: "$88 000", change: "+$2 100", changePercent: "+2.4%", high: "$89 200", low: "$86 500", volume: "$42.8B", marketCap: "$1.73T" },
     SPX: { price: "5 881", change: "+46.71", changePercent: "+0.8%", high: "5 895", low: "5 834", volume: "$285B", marketCap: "$43.2T" },
     AAPL: { price: "$250.17", change: "+$2.01", changePercent: "+0.8%", high: "$251.20", low: "$248.15", volume: "$8.2B", marketCap: "$3.85T" },
     TSLA: { price: "$463.02", change: "-$5.63", changePercent: "-1.2%", high: "$468.90", low: "$461.25", volume: "$15.3B", marketCap: "$1.47T" },

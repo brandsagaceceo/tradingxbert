@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function Watchlist() {
   const [watchlist] = useState([
-    { symbol: "BTC", name: "Bitcoin", price: "$96 247", change: "+4.2%", positive: true },
+    { symbol: "BTC", name: "Bitcoin", price: "$88 000", change: "+2.4%", positive: true },
     { symbol: "ETH", name: "Ethereum", price: "$3 421", change: "+3.9%", positive: true },
     { symbol: "SOL", name: "Solana", price: "$143", change: "+8.9%", positive: true },
     { symbol: "AAPL", name: "Apple", price: "$250", change: "+0.8%", positive: true },

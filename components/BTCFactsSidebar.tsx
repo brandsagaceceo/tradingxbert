@@ -13,7 +13,7 @@ interface BTCFact {
 
 export default function BTCFactsSidebar() {
   const [facts, setFacts] = useState<BTCFact[]>([
-    { icon: "₿", label: "Bitcoin Price", value: "$96,247", change: "+4.2%", isPositive: true },
+    { icon: "₿", label: "Bitcoin Price", value: "$88,000", change: "+2.4%", isPositive: true },
     { icon: "📊", label: "Market Cap", value: "$1.89T", change: "+3.8%", isPositive: true },
     { icon: "💎", label: "24h Volume", value: "$48.2B" },
     { icon: "⚡", label: "Hash Rate", value: "528 EH/s" },
@@ -28,7 +28,7 @@ export default function BTCFactsSidebar() {
     const interval = setInterval(() => {
       setFacts(prev => prev.map((fact, idx) => {
         if (idx === 0) { // Update Bitcoin price
-          const basePrice = 96247;
+          const basePrice = 88000;
           const variance = (Math.random() - 0.5) * 1000;
           const newPrice = basePrice + variance;
           const changePercent = ((variance / basePrice) * 100).toFixed(2);

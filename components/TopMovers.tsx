@@ -18,7 +18,7 @@ export default function TopMovers() {
       { symbol: "SOL", name: "Solana", price: "$143.25", change: 8.92, volume: "$3.2B", marketCap: "$67B" },
       { symbol: "NVDA", name: "NVIDIA", price: "$140.15", change: 7.22, volume: "$12.5B", marketCap: "$345B" },
       { symbol: "XRP", name: "Ripple", price: "$2.47", change: 5.72, volume: "$2.8B", marketCap: "$141B" },
-      { symbol: "BTC", name: "Bitcoin", price: "$96,247", change: 4.17, volume: "$45B", marketCap: "$1.89T" },
+      { symbol: "BTC", name: "Bitcoin", price: "$88,000", change: 2.4, volume: "$42.8B", marketCap: "$1.73T" },
       { symbol: "ETH", name: "Ethereum", price: "$3,421", change: 4.26, volume: "$18B", marketCap: "$412B" }
     ],
     losers: [
