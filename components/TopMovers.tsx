@@ -1,11 +1,12 @@
 "use client";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { useLivePrices, formatPrice, formatChange } from "@/hooks/useLivePrices";
 
 interface Mover {
   symbol: string;
   name: string;
-  price: string;
+  price: number;
   change: number;
   volume: string;
   marketCap: string;
@@ -13,39 +14,31 @@ interface Mover {
 
 export default function TopMovers() {
   const [tab, setTab] = useState<"gainers" | "losers">("gainers");
-  const [movers, setMovers] = useState<{ gainers: Mover[], losers: Mover[] }>({
-    gainers: [
-      { symbol: "SOL", name: "Solana", price: "$143.25", change: 8.92, volume: "$3.2B", marketCap: "$67B" },
-      { symbol: "NVDA", name: "NVIDIA", price: "$140.15", change: 7.22, volume: "$12.5B", marketCap: "$345B" },
-      { symbol: "XRP", name: "Ripple", price: "$2.47", change: 5.72, volume: "$2.8B", marketCap: "$141B" },
-      { symbol: "BTC", name: "Bitcoin", price: "$88,000", change: 2.4, volume: "$42.8B", marketCap: "$1.73T" },
-      { symbol: "ETH", name: "Ethereum", price: "$3,421", change: 4.26, volume: "$18B", marketCap: "$412B" }
-    ],
-    losers: [
-      { symbol: "TSLA", name: "Tesla", price: "$358.00", change: -2.24, volume: "$15.3B", marketCap: "$1.14T" },
-      { symbol: "META", name: "Meta", price: "$638.40", change: -0.78, volume: "$3.9B", marketCap: "$1.62T" },
-      { symbol: "COIN", name: "Coinbase", price: "$234.50", change: -1.34, volume: "$2.1B", marketCap: "$58B" },
-      { symbol: "SQ", name: "Block", price: "$78.90", change: -1.92, volume: "$1.5B", marketCap: "$46B" },
-      { symbol: "PYPL", name: "PayPal", price: "$62.15", change: -0.67, volume: "$2.3B", marketCap: "$68B" }
-    ]
-  });
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setMovers(prev => ({
-        gainers: prev.gainers.map(m => ({
-          ...m,
-          change: m.change + (Math.random() - 0.3) * 0.3
-        })),
-        losers: prev.losers.map(m => ({
-          ...m,
-          change: m.change + (Math.random() - 0.7) * 0.3
-        }))
-      }));
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
-
+  const { prices, loading } = useLivePrices(60000);
+  
+  // Generate movers from live prices
+  const getMovers = () => {
+    if (!prices) return { gainers: [], losers: [] };
+    
+    const allAssets = [
+      { symbol: "BTC", name: "Bitcoin", price: prices.crypto.BTC.price, change: prices.crypto.BTC.change, volume: "$42.8B", marketCap: "$1.73T" },
+      { symbol: "ETH", name: "Ethereum", price: prices.crypto.ETH.price, change: prices.crypto.ETH.change, volume: "$18B", marketCap: "$412B" },
+      { symbol: "SOL", name: "Solana", price: prices.crypto.SOL.price, change: prices.crypto.SOL.change, volume: "$3.2B", marketCap: "$67B" },
+      { symbol: "XRP", name: "Ripple", price: prices.crypto.XRP.price, change: prices.crypto.XRP.change, volume: "$2.8B", marketCap: "$141B" },
+      { symbol: "NVDA", name: "NVIDIA", price: prices.stocks.NVDA.price, change: prices.stocks.NVDA.change, volume: "$12.5B", marketCap: "$345B" },
+      { symbol: "AAPL", name: "Apple", price: prices.stocks.AAPL.price, change: prices.stocks.AAPL.change, volume: "$8.2B", marketCap: "$3.85T" },
+      { symbol: "TSLA", name: "Tesla", price: prices.stocks.TSLA.price, change: prices.stocks.TSLA.change, volume: "$15.3B", marketCap: "$1.14T" },
+      { symbol: "MSFT", name: "Microsoft", price: prices.stocks.MSFT.price, change: prices.stocks.MSFT.change, volume: "$7.1B", marketCap: "$3.1T" },
+    ];
+    
+    const sorted = [...allAssets].sort((a, b) => b.change - a.change);
+    return {
+      gainers: sorted.filter(a => a.change > 0).slice(0, 5),
+      losers: sorted.filter(a => a.change < 0).slice(0, 5)
+    };
+  };
+  
+  const movers = getMovers();
   const currentMovers = movers[tab];
 
   return (
@@ -95,7 +88,7 @@ export default function TopMovers() {
                   <div className="text-xs text-neutral-400">{mover.name}</div>
                 </div>
                 <div className="text-right">
-                  <div className="font-bold text-white">{mover.price}</div>
+                  <div className="font-bold text-white">${formatPrice(mover.price)}</div>
                   <div className="text-xs text-neutral-400">{mover.marketCap}</div>
                 </div>
               </div>
@@ -105,7 +98,7 @@ export default function TopMovers() {
                   transition={{ duration: 2, repeat: Infinity }}
                   className={`text-2xl font-black ${mover.change > 0 ? 'text-green-400' : 'text-red-400'}`}
                 >
-                  {mover.change > 0 ? '+' : ''}{mover.change.toFixed(2)}%
+                  {formatChange(mover.change)}
                 </motion.div>
                 <div className="text-xs text-neutral-400">Vol: {mover.volume}</div>
               </div>

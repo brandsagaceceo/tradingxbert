@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useLivePrices, formatPrice, formatChange } from "@/hooks/useLivePrices";
 
 interface BTCFact {
   icon: string;
@@ -12,39 +12,22 @@ interface BTCFact {
 }
 
 export default function BTCFactsSidebar() {
-  const [facts, setFacts] = useState<BTCFact[]>([
-    { icon: "₿", label: "Bitcoin Price", value: "$88,000", change: "+2.4%", isPositive: true },
-    { icon: "📊", label: "Market Cap", value: "$1.89T", change: "+3.8%", isPositive: true },
+  const { prices, loading } = useLivePrices(60000);
+  
+  const btcPrice = prices?.crypto.BTC.price || 0;
+  const btcChange = prices?.crypto.BTC.change || 0;
+  const marketCap = btcPrice * 19.6; // Approximate market cap in billions
+  
+  const facts: BTCFact[] = [
+    { icon: "₿", label: "Bitcoin Price", value: `$${formatPrice(btcPrice)}`, change: formatChange(btcChange), isPositive: btcChange >= 0 },
+    { icon: "📊", label: "Market Cap", value: `$${(marketCap / 1000).toFixed(2)}T`, change: formatChange(btcChange * 1.2), isPositive: btcChange >= 0 },
     { icon: "💎", label: "24h Volume", value: "$48.2B" },
     { icon: "⚡", label: "Hash Rate", value: "528 EH/s" },
     { icon: "🔥", label: "Circulating Supply", value: "19.6M BTC" },
     { icon: "📈", label: "All-Time High", value: "$108,135" },
     { icon: "⏰", label: "Next Halving", value: "2028" },
     { icon: "🌍", label: "Active Addresses", value: "1.2M/day" },
-  ]);
-
-  // Simulate live price updates
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setFacts(prev => prev.map((fact, idx) => {
-        if (idx === 0) { // Update Bitcoin price
-          const basePrice = 88000;
-          const variance = (Math.random() - 0.5) * 1000;
-          const newPrice = basePrice + variance;
-          const changePercent = ((variance / basePrice) * 100).toFixed(2);
-          return {
-            ...fact,
-            value: `$${newPrice.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`,
-            change: `${parseFloat(changePercent) >= 0 ? '+' : ''}${changePercent}%`,
-            isPositive: parseFloat(changePercent) >= 0
-          };
-        }
-        return fact;
-      }));
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, []);
+  ];
 
   return (
     <motion.div

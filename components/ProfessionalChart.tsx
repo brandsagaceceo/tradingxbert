@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { useState, useMemo } from "react";
+import { useLivePrices, formatPrice, formatChange } from "@/hooks/useLivePrices";
 
 interface ProfessionalChartProps {
   symbol?: string;
@@ -9,21 +10,38 @@ interface ProfessionalChartProps {
 
 export default function ProfessionalChart({ symbol = "BTCUSD", title = "Bitcoin" }: ProfessionalChartProps) {
   const [timeframe, setTimeframe] = useState("1D");
+  const { prices, loading } = useLivePrices(60000);
   
   const timeframes = ["5m", "15m", "1H", "4H", "1D", "1W"];
   
-  // Dynamic price data based on symbol (using space-separated thousands)
-  const priceData: Record<string, { price: string; change: string; changePercent: string; high: string; low: string; volume: string; marketCap: string }> = {
-    BTCUSD: { price: "$88 000", change: "+$2 100", changePercent: "+2.4%", high: "$89 200", low: "$86 500", volume: "$42.8B", marketCap: "$1.73T" },
-    SPX: { price: "5 881", change: "+46.71", changePercent: "+0.8%", high: "5 895", low: "5 834", volume: "$285B", marketCap: "$43.2T" },
-    AAPL: { price: "$250.17", change: "+$2.01", changePercent: "+0.8%", high: "$251.20", low: "$248.15", volume: "$8.2B", marketCap: "$3.85T" },
-    TSLA: { price: "$463.02", change: "-$5.63", changePercent: "-1.2%", high: "$468.90", low: "$461.25", volume: "$15.3B", marketCap: "$1.47T" },
-    NVDA: { price: "$140.15", change: "+$2.89", changePercent: "+2.1%", high: "$141.50", low: "$137.20", volume: "$12.5B", marketCap: "$345B" },
-    ETH: { price: "$3 421", change: "+$128.50", changePercent: "+3.9%", high: "$3 485", low: "$3 292", volume: "$18.0B", marketCap: "$412B" },
+  // Get live price data from API
+  const getLivePrice = () => {
+    if (!prices) return null;
+    
+    switch(symbol) {
+      case 'BTCUSD':
+        return { price: prices.crypto.BTC.price, change: prices.crypto.BTC.change };
+      case 'ETH':
+        return { price: prices.crypto.ETH.price, change: prices.crypto.ETH.change };
+      case 'SPX':
+        return { price: prices.indices.SPX.price, change: prices.indices.SPX.change };
+      case 'AAPL':
+        return { price: prices.stocks.AAPL.price, change: prices.stocks.AAPL.change };
+      case 'TSLA':
+        return { price: prices.stocks.TSLA.price, change: prices.stocks.TSLA.change };
+      case 'NVDA':
+        return { price: prices.stocks.NVDA.price, change: prices.stocks.NVDA.change };
+      default:
+        return null;
+    }
   };
   
-  const currentPrice = priceData[symbol] || priceData.BTCUSD;
-  const isPositive = currentPrice.changePercent.startsWith('+');
+  const livePrice = getLivePrice();
+  const isPositive = (livePrice?.change || 0) >= 0;
+  
+  // Format the display price
+  const displayPrice = livePrice ? `$${formatPrice(livePrice.price)}` : 'Loading...';
+  const displayChange = livePrice ? formatChange(livePrice.change) : '+0.00%';
   
   // Generate unique chart patterns for each symbol and timeframe
   const chartPoints = useMemo(() => {
@@ -139,17 +157,14 @@ export default function ProfessionalChart({ symbol = "BTCUSD", title = "Bitcoin"
       
       {/* Price Display */}
       <div className="mb-5 overflow-hidden">
-        <div className="text-2xl md:text-3xl font-black text-white mb-1 truncate">{currentPrice.price}</div>
+        <div className="text-2xl md:text-3xl font-black text-white mb-1 truncate">{displayPrice}</div>
         <div className="flex items-center gap-2 flex-wrap">
           <div className={`text-sm md:text-base font-bold whitespace-nowrap ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
-            {currentPrice.changePercent}
-          </div>
-          <div className={`text-xs md:text-sm whitespace-nowrap ${isPositive ? 'text-emerald-400/70' : 'text-red-400/70'}`}>
-            ({currentPrice.change})
+            {displayChange}
           </div>
           <div className="flex items-center gap-1 ml-auto">
             <div className={`w-2 h-2 rounded-full animate-pulse ${isPositive ? 'bg-emerald-500' : 'bg-red-500'}`} />
-            <span className="text-xs text-neutral-400">Live</span>
+            <span className="text-xs text-neutral-400">{loading ? 'Loading...' : 'Live'}</span>
           </div>
         </div>
       </div>

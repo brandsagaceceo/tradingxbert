@@ -1,14 +1,21 @@
 "use client";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useLivePrices, formatPrice, formatChange } from "@/hooks/useLivePrices";
 
 export default function Watchlist() {
-  const [watchlist] = useState([
-    { symbol: "BTC", name: "Bitcoin", price: "$88 000", change: "+2.4%", positive: true },
-    { symbol: "ETH", name: "Ethereum", price: "$3 421", change: "+3.9%", positive: true },
-    { symbol: "SOL", name: "Solana", price: "$143", change: "+8.9%", positive: true },
-    { symbol: "AAPL", name: "Apple", price: "$250", change: "+0.8%", positive: true },
-  ]);
+  const { prices, loading } = useLivePrices(60000);
+  
+  const getWatchlist = () => {
+    if (!prices) return [];
+    return [
+      { symbol: "BTC", name: "Bitcoin", price: prices.crypto.BTC.price, change: prices.crypto.BTC.change },
+      { symbol: "ETH", name: "Ethereum", price: prices.crypto.ETH.price, change: prices.crypto.ETH.change },
+      { symbol: "SOL", name: "Solana", price: prices.crypto.SOL.price, change: prices.crypto.SOL.change },
+      { symbol: "AAPL", name: "Apple", price: prices.stocks.AAPL.price, change: prices.stocks.AAPL.change },
+    ];
+  };
+  
+  const watchlist = getWatchlist();
 
   return (
     <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-6">
@@ -38,9 +45,9 @@ export default function Watchlist() {
               <div className="text-xs text-neutral-400">{asset.name}</div>
             </div>
             <div className="text-right">
-              <div className="text-sm font-bold text-white">{asset.price}</div>
-              <div className={`text-xs font-bold ${asset.positive ? 'text-green-400' : 'text-red-400'}`}>
-                {asset.change}
+              <div className="text-sm font-bold text-white">${formatPrice(asset.price)}</div>
+              <div className={`text-xs font-bold ${asset.change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                {formatChange(asset.change)}
               </div>
             </div>
           </motion.button>

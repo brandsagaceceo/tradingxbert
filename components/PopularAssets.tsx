@@ -2,16 +2,24 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useLivePrices, formatPrice, formatChange } from "@/hooks/useLivePrices";
 
 export default function PopularAssets() {
-  const assets = [
-    { symbol: "BTC", name: "Bitcoin", price: "$88,000", change: "+2.4%", isPositive: true, volume: "$42.8B" },
-    { symbol: "ETH", name: "Ethereum", price: "$3,421", change: "+3.9%", isPositive: true, volume: "$18B" },
-    { symbol: "AAPL", name: "Apple", price: "$250.17", change: "+0.8%", isPositive: true, volume: "$8.2B" },
-    { symbol: "NVDA", name: "NVIDIA", price: "$140.15", change: "+2.1%", isPositive: true, volume: "$12.5B" },
-    { symbol: "TSLA", name: "Tesla", price: "$463.02", change: "-1.2%", isPositive: false, volume: "$15.3B" },
-    { symbol: "GOOGL", name: "Google", price: "$178.32", change: "+1.5%", isPositive: true, volume: "$4.8B" },
-  ];
+  const { prices, loading } = useLivePrices(60000);
+  
+  const getAssets = () => {
+    if (!prices) return [];
+    return [
+      { symbol: "BTC", name: "Bitcoin", price: prices.crypto.BTC.price, change: prices.crypto.BTC.change, volume: "$42.8B" },
+      { symbol: "ETH", name: "Ethereum", price: prices.crypto.ETH.price, change: prices.crypto.ETH.change, volume: "$18B" },
+      { symbol: "AAPL", name: "Apple", price: prices.stocks.AAPL.price, change: prices.stocks.AAPL.change, volume: "$8.2B" },
+      { symbol: "NVDA", name: "NVIDIA", price: prices.stocks.NVDA.price, change: prices.stocks.NVDA.change, volume: "$12.5B" },
+      { symbol: "TSLA", name: "Tesla", price: prices.stocks.TSLA.price, change: prices.stocks.TSLA.change, volume: "$15.3B" },
+      { symbol: "GOOGL", name: "Google", price: prices.stocks.GOOGL.price, change: prices.stocks.GOOGL.change, volume: "$4.8B" },
+    ];
+  };
+  
+  const assets = getAssets();
 
   return (
     <motion.div
@@ -45,9 +53,9 @@ export default function PopularAssets() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-sm font-bold text-white">{asset.price}</div>
-                  <div className={`text-xs font-bold ${asset.isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
-                    {asset.change}
+                  <div className="text-sm font-bold text-white">${formatPrice(asset.price)}</div>
+                  <div className={`text-xs font-bold ${asset.change >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                    {formatChange(asset.change)}
                   </div>
                 </div>
               </div>

@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useLivePrices, formatPrice } from "@/hooks/useLivePrices";
 
 interface TrendingArticle {
   title: string;
@@ -10,13 +10,17 @@ interface TrendingArticle {
 }
 
 export default function TrendingNews() {
-  const [trending, setTrending] = useState<TrendingArticle[]>([
-    { title: "Bitcoin Rallies to $88K", views: "45.2K", trend: "🔥", category: "Crypto" },
+  const { prices, loading } = useLivePrices(60000);
+  
+  const btcPrice = prices ? formatPrice(prices.crypto.BTC.price, 0) : '88K';
+  
+  const trending: TrendingArticle[] = [
+    { title: `Bitcoin Rallies to $${btcPrice}`, views: "45.2K", trend: "🔥", category: "Crypto" },
     { title: "NVIDIA Hits New ATH", views: "38.5K", trend: "🔥", category: "Stocks" },
     { title: "Fed Holds Rates Steady", views: "32.1K", trend: "📈", category: "Forex" },
     { title: "Gold Breaks $2,600", views: "28.7K", trend: "⚡", category: "Commodities" },
     { title: "S&P 500 Record High", views: "25.3K", trend: "📈", category: "Stocks" }
-  ]);
+  ];
 
   return (
     <div className="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl rounded-3xl border border-white/10 p-6">
