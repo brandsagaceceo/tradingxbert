@@ -42,11 +42,26 @@ export default function Page() {
     // Check Pro status
     fetch('/api/validate-subscription')
       .then(res => res.json())
-      .then(data => {
+      .then(async (data) => {
         setIsPro(data.isPro);
         // Store Pro status in localStorage for offline checks
         if (data.isPro) {
           localStorage.setItem('tradingxbert_pro', 'true');
+          
+          // Auto-subscribe Pro users to email alerts
+          try {
+            const response = await fetch('/api/profile');
+            const profile = await response.json();
+            if (profile.email) {
+              await fetch('/api/alert-subscription', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: profile.email })
+              });
+            }
+          } catch (err) {
+            console.log('Alert subscription check:', err);
+          }
         } else {
           localStorage.removeItem('tradingxbert_pro');
         }

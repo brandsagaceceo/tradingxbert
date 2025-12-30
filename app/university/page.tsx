@@ -14,10 +14,19 @@ export default function UniversityPage() {
     const points = localStorage.getItem('tradingxbert_points');
     setUserPoints(parseInt(points || '0'));
     
-    // Check if user has Pro subscription
-    // TODO: Replace with actual subscription check from database
-    const proStatus = localStorage.getItem('tradingxbert_pro');
-    setIsPro(proStatus === 'true');
+    // Check Pro status from API (includes admin whitelist)
+    fetch('/api/validate-subscription')
+      .then(res => res.json())
+      .then(data => {
+        setIsPro(data.isPro);
+        // Sync to localStorage
+        if (data.isPro) {
+          localStorage.setItem('tradingxbert_pro', 'true');
+        } else {
+          localStorage.removeItem('tradingxbert_pro');
+        }
+      })
+      .catch(() => setIsPro(false));
   }, []);
 
   const courses = [
