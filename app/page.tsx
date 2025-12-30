@@ -42,7 +42,15 @@ export default function Page() {
     // Check Pro status
     fetch('/api/validate-subscription')
       .then(res => res.json())
-      .then(data => setIsPro(data.isPro))
+      .then(data => {
+        setIsPro(data.isPro);
+        // Store Pro status in localStorage for offline checks
+        if (data.isPro) {
+          localStorage.setItem('tradingxbert_pro', 'true');
+        } else {
+          localStorage.removeItem('tradingxbert_pro');
+        }
+      })
       .catch(() => setIsPro(false));
   }, [analysis]);
 
