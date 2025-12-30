@@ -432,31 +432,6 @@ export default function NewsPage() {
           </motion.button>
         </motion.div>
 
-        {/* Category Filters */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-2 md:gap-3 mb-8"
-        >
-          {categories.map((category) => (
-            <motion.button
-              key={category.id}
-              onClick={() => setSelectedCategory(category.id)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className={`px-4 md:px-6 py-2 md:py-3 rounded-full font-bold text-sm md:text-base transition-all ${
-                selectedCategory === category.id
-                  ? 'bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] text-white shadow-lg shadow-[#6366F1]/50'
-                  : 'bg-white/10 text-neutral-300 hover:bg-white/20'
-              }`}
-            >
-              <span className="mr-2">{category.icon}</span>
-              <span className="hidden sm:inline">{category.label}</span>
-            </motion.button>
-          ))}
-        </motion.div>
-
         {/* Navigation Tabs */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -684,15 +659,62 @@ export default function NewsPage() {
           </div>
         </div>
 
-        {/* News Articles Section */}
+        {/* News Articles Section with Sidebar */}
         <div id="news" className="scroll-mt-32 mb-12">
-          <h2 className="text-3xl font-black text-white mb-6 flex items-center gap-3">
-            <span>📰</span>
-            <span>Latest Market News</span>
-            <span className="text-sm font-normal text-neutral-400">({filteredNews.length} articles)</span>
-          </h2>
-          <p className="text-neutral-400 mb-6">Breaking stories from top financial sources</p>
-        </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            {/* News Category Sidebar */}
+            <div className="lg:col-span-3">
+              <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-6 sticky top-24">
+                <h3 className="text-xl font-black text-white mb-6 flex items-center gap-2">
+                  <span>📰</span>
+                  <span>Categories</span>
+                </h3>
+                <div className="space-y-2">
+                  {categories.map((category) => (
+                    <motion.button
+                      key={category.id}
+                      onClick={() => setSelectedCategory(category.id)}
+                      whileHover={{ scale: 1.02, x: 5 }}
+                      whileTap={{ scale: 0.98 }}
+                      className={`w-full text-left px-4 py-3 rounded-xl font-bold text-sm transition-all flex items-center gap-3 ${
+                        selectedCategory === category.id
+                          ? 'bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] text-white shadow-lg shadow-[#6366F1]/30'
+                          : 'bg-white/5 text-neutral-300 hover:bg-white/10 border border-white/10'
+                      }`}
+                    >
+                      <span className="text-xl">{category.icon}</span>
+                      <span>{category.label}</span>
+                      <span className="ml-auto text-xs opacity-60">
+                        {news.filter(n => category.id === 'all' || n.category === category.id).length}
+                      </span>
+                    </motion.button>
+                  ))}
+                </div>
+                
+                {/* Live Indicator */}
+                <div className="mt-6 p-4 bg-green-500/10 border border-green-500/30 rounded-xl">
+                  <div className="flex items-center gap-2 mb-2">
+                    <motion.div
+                      animate={{ scale: [1, 1.2, 1] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                      className="w-2 h-2 bg-green-500 rounded-full"
+                    />
+                    <span className="text-green-400 font-bold text-sm">Live Updates</span>
+                  </div>
+                  <p className="text-xs text-neutral-400">Auto-refreshing every 5 minutes</p>
+                </div>
+              </div>
+            </div>
+
+            {/* News Grid */}
+            <div className="lg:col-span-9">
+              <div className="mb-6">
+                <h2 className="text-3xl font-black text-white mb-2 flex items-center gap-3">
+                  <span>📰</span>
+                  <span>Latest Market News</span>
+                </h2>
+                <p className="text-neutral-400">{filteredNews.length} breaking stories from top financial sources</p>
+              </div>
 
         {/* Analysis Section */}
         <div id="analysis" className="scroll-mt-32 mb-12">
@@ -744,60 +766,61 @@ export default function NewsPage() {
           </motion.div>
         </div>
 
-        {/* Loading State */}
-        {loading && (
-          <div className="text-center py-20">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-              className="text-6xl mb-4 inline-block"
-            >
-              ⚡
-            </motion.div>
-            <p className="text-xl text-neutral-300">Loading news...</p>
-          </div>
-        )}
 
-        {/* News Grid */}
-        {!loading && (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredNews.map((article, index) => (
-              <motion.a
-                key={index}
-                href={article.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ scale: 1.03, y: -5 }}
-                className={`bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl border hover:border-[#6366F1]/50 transition-all cursor-pointer relative overflow-hidden ${
-                  article.isNew ? 'border-[#6366F1]' : 'border-white/20'
-                }`}
-              >
-                {article.isNew && (
+
+              {/* Loading State */}
+              {loading && (
+                <div className="text-center py-20">
                   <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    className="absolute top-4 right-4 z-10 px-3 py-1 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] rounded-full text-xs font-black"
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                    className="text-6xl mb-4 inline-block"
                   >
-                    NEW
+                    ⚡
                   </motion.div>
-                )}
+                  <p className="text-xl text-neutral-300">Loading news...</p>
+                </div>
+              )}
 
-                {/* Article Image */}
-                <div className="relative h-48 w-full mb-4 rounded-xl overflow-hidden">
-                  <Image
-                    src={article.image}
-                    alt={article.title}
-                    width={800}
-                    height={500}
-                    className="object-cover w-full h-full"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                  
-                  {/* Category Badge on Image */}
-                  <div className="absolute top-3 left-3">
+              {/* News Articles Grid */}
+              {!loading && (
+                <div className="grid md:grid-cols-2 gap-6">
+                {filteredNews.map((article, index) => (
+                  <motion.a
+                    key={index}
+                    href={article.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                    whileHover={{ y: -5 }}
+                    className="group bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-[#6366F1]/50 transition-all overflow-hidden"
+                  >
+                    {/* Professional Article Image */}
+                    <div className="relative h-56 w-full overflow-hidden">
+                      <Image
+                        src={article.image}
+                        alt={article.title}
+                        width={800}
+                        height={500}
+                        className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
+                      
+                      {/* NEW Badge */}
+                      {article.isNew && (
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          className="absolute top-4 right-4 z-10 px-3 py-1.5 bg-red-600 rounded-lg text-xs font-black shadow-lg"
+                        >
+                          🔴 LIVE
+                        </motion.div>
+                      )}
+                      
+                      {/* Category Badge */}
+                      <div className="absolute top-4 left-4 z-10">
                     <span className="px-3 py-1 bg-[#6366F1]/90 backdrop-blur-sm border border-white/20 rounded-full text-xs font-bold text-white">
                       {article.category.toUpperCase()}
                     </span>
