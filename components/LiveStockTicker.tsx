@@ -14,50 +14,166 @@ interface StockData {
 
 export default function LiveStockTicker() {
   const [stocks, setStocks] = useState<StockData[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Simulate live price updates
+  // Fetch real-time prices from API
   useEffect(() => {
-    const initialStocks: StockData[] = [
-      { symbol: "BTC", name: "Bitcoin", price: 96234.50, change: 2134.50, changePercent: 2.27, icon: "₿" },
-      { symbol: "ETH", name: "Ethereum", price: 3456.89, change: 189.45, changePercent: 5.78, icon: "Ξ" },
-      { symbol: "AAPL", name: "Apple", price: 194.32, change: 2.45, changePercent: 1.28, icon: "🍎" },
-      { symbol: "TSLA", name: "Tesla", price: 358.67, change: -12.92, changePercent: -3.47, icon: "⚡" },
-      { symbol: "NVDA", name: "NVIDIA", price: 879.52, change: 24.45, changePercent: 2.86, icon: "💎" },
-      { symbol: "GOOGL", name: "Google", price: 167.89, change: 3.21, changePercent: 1.95, icon: "🔍" },
-      { symbol: "MSFT", name: "Microsoft", price: 414.78, change: 5.89, changePercent: 1.44, icon: "🪟" },
-      { symbol: "SPX", name: "S&P 500", price: 5878.34, change: 67.23, changePercent: 1.16, icon: "📈" },
-      { symbol: "GOLD", name: "Gold", price: 2627.80, change: 18.50, changePercent: 0.71, icon: "🥇" },
-      { symbol: "SOL", name: "Solana", price: 198.76, change: 15.43, changePercent: 8.42, icon: "◎" },
-      { symbol: "EUR/USD", name: "Euro", price: 1.0389, change: -0.0023, changePercent: -0.22, icon: "💱" },
-      { symbol: "OIL", name: "Crude Oil", price: 71.23, change: 2.15, changePercent: 3.11, icon: "🛢️" },
-      { symbol: "AMZN", name: "Amazon", price: 219.78, change: 6.32, changePercent: 2.96, icon: "📦" },
-      { symbol: "META", name: "Meta", price: 614.92, change: 18.67, changePercent: 3.13, icon: "👥" },
-      { symbol: "DJI", name: "Dow Jones", price: 42458.90, change: 334.56, changePercent: 0.79, icon: "📊" },
-      { symbol: "ADA", name: "Cardano", price: 0.89, change: 0.07, changePercent: 8.54, icon: "🔷" },
-      { symbol: "XRP", name: "Ripple", price: 2.47, change: 0.18, changePercent: 7.86, icon: "💧" },
-      { symbol: "GBP/USD", name: "Pound", price: 1.2534, change: 0.0045, changePercent: 0.36, icon: "💷" },
-      { symbol: "JPY/USD", name: "Yen", price: 157.89, change: -1.34, changePercent: -0.84, icon: "💴" },
-      { symbol: "SILVER", name: "Silver", price: 29.87, change: 0.78, changePercent: 2.68, icon: "🥈" },
-      { symbol: "NFLX", name: "Netflix", price: 867.45, change: 23.89, changePercent: 2.83, icon: "🎬" },
-      { symbol: "AMD", name: "AMD", price: 123.67, change: 4.21, changePercent: 3.52, icon: "🔴" },
-      { symbol: "DOGE", name: "Dogecoin", price: 0.317, change: 0.023, changePercent: 7.82, icon: "🐕" },
-      { symbol: "LINK", name: "Chainlink", price: 23.45, change: 1.89, changePercent: 8.77, icon: "🔗" }
-    ];
+    const fetchPrices = async () => {
+      try {
+        const response = await fetch('/api/live-prices');
+        const data = await response.json();
 
-    setStocks(initialStocks);
+        if (data.crypto && data.stocks) {
+          const formattedStocks: StockData[] = [
+            // Crypto
+            { 
+              symbol: "BTC", 
+              name: "Bitcoin", 
+              price: data.crypto.BTC?.price || 0, 
+              change: (data.crypto.BTC?.price || 0) * (data.crypto.BTC?.change || 0) / 100,
+              changePercent: data.crypto.BTC?.change || 0, 
+              icon: "₿" 
+            },
+            { 
+              symbol: "ETH", 
+              name: "Ethereum", 
+              price: data.crypto.ETH?.price || 0, 
+              change: (data.crypto.ETH?.price || 0) * (data.crypto.ETH?.change || 0) / 100,
+              changePercent: data.crypto.ETH?.change || 0, 
+              icon: "Ξ" 
+            },
+            { 
+              symbol: "SOL", 
+              name: "Solana", 
+              price: data.crypto.SOL?.price || 0, 
+              change: (data.crypto.SOL?.price || 0) * (data.crypto.SOL?.change || 0) / 100,
+              changePercent: data.crypto.SOL?.change || 0, 
+              icon: "◎" 
+            },
+            { 
+              symbol: "XRP", 
+              name: "Ripple", 
+              price: data.crypto.XRP?.price || 0, 
+              change: (data.crypto.XRP?.price || 0) * (data.crypto.XRP?.change || 0) / 100,
+              changePercent: data.crypto.XRP?.change || 0, 
+              icon: "💧" 
+            },
+            { 
+              symbol: "ADA", 
+              name: "Cardano", 
+              price: data.crypto.ADA?.price || 0, 
+              change: (data.crypto.ADA?.price || 0) * (data.crypto.ADA?.change || 0) / 100,
+              changePercent: data.crypto.ADA?.change || 0, 
+              icon: "🔷" 
+            },
+            // Stocks
+            { 
+              symbol: "AAPL", 
+              name: "Apple", 
+              price: data.stocks.AAPL?.price || 0, 
+              change: (data.stocks.AAPL?.price || 0) * (data.stocks.AAPL?.change || 0) / 100,
+              changePercent: data.stocks.AAPL?.change || 0, 
+              icon: "🍎" 
+            },
+            { 
+              symbol: "TSLA", 
+              name: "Tesla", 
+              price: data.stocks.TSLA?.price || 0, 
+              change: (data.stocks.TSLA?.price || 0) * (data.stocks.TSLA?.change || 0) / 100,
+              changePercent: data.stocks.TSLA?.change || 0, 
+              icon: "⚡" 
+            },
+            { 
+              symbol: "NVDA", 
+              name: "NVIDIA", 
+              price: data.stocks.NVDA?.price || 0, 
+              change: (data.stocks.NVDA?.price || 0) * (data.stocks.NVDA?.change || 0) / 100,
+              changePercent: data.stocks.NVDA?.change || 0, 
+              icon: "💎" 
+            },
+            { 
+              symbol: "GOOGL", 
+              name: "Google", 
+              price: data.stocks.GOOGL?.price || 0, 
+              change: (data.stocks.GOOGL?.price || 0) * (data.stocks.GOOGL?.change || 0) / 100,
+              changePercent: data.stocks.GOOGL?.change || 0, 
+              icon: "🔍" 
+            },
+            { 
+              symbol: "MSFT", 
+              name: "Microsoft", 
+              price: data.stocks.MSFT?.price || 0, 
+              change: (data.stocks.MSFT?.price || 0) * (data.stocks.MSFT?.change || 0) / 100,
+              changePercent: data.stocks.MSFT?.change || 0, 
+              icon: "🪟" 
+            },
+            { 
+              symbol: "AMZN", 
+              name: "Amazon", 
+              price: data.stocks.AMZN?.price || 0, 
+              change: (data.stocks.AMZN?.price || 0) * (data.stocks.AMZN?.change || 0) / 100,
+              changePercent: data.stocks.AMZN?.change || 0, 
+              icon: "📦" 
+            },
+            { 
+              symbol: "META", 
+              name: "Meta", 
+              price: data.stocks.META?.price || 0, 
+              change: (data.stocks.META?.price || 0) * (data.stocks.META?.change || 0) / 100,
+              changePercent: data.stocks.META?.change || 0, 
+              icon: "👥" 
+            },
+            // Indices
+            { 
+              symbol: "SPX", 
+              name: "S&P 500", 
+              price: data.indices?.SPX?.price || 5878.34, 
+              change: (data.indices?.SPX?.price || 5878.34) * (data.indices?.SPX?.change || 1.16) / 100,
+              changePercent: data.indices?.SPX?.change || 1.16, 
+              icon: "📈" 
+            },
+            { 
+              symbol: "DJI", 
+              name: "Dow Jones", 
+              price: data.indices?.DJI?.price || 42458.90, 
+              change: (data.indices?.DJI?.price || 42458.90) * (data.indices?.DJI?.change || 0.79) / 100,
+              changePercent: data.indices?.DJI?.change || 0.79, 
+              icon: "📊" 
+            },
+            // Commodities
+            { 
+              symbol: "GOLD", 
+              name: "Gold", 
+              price: data.commodities?.GOLD?.price || 2627.80, 
+              change: (data.commodities?.GOLD?.price || 2627.80) * (data.commodities?.GOLD?.change || 0.71) / 100,
+              changePercent: data.commodities?.GOLD?.change || 0.71, 
+              icon: "🥇" 
+            },
+            { 
+              symbol: "OIL", 
+              name: "Crude Oil", 
+              price: data.commodities?.OIL?.price || 71.23, 
+              change: (data.commodities?.OIL?.price || 71.23) * (data.commodities?.OIL?.change || 3.11) / 100,
+              changePercent: data.commodities?.OIL?.change || 3.11, 
+              icon: "🛢️" 
+            },
+          ];
 
-    // Update prices every 3 seconds to simulate live market
-    const interval = setInterval(() => {
-      setStocks(prevStocks =>
-        prevStocks.map(stock => {
-          const randomChange = (Math.random() - 0.5) * 2; // Random change between -1 and 1
-          const newPrice = stock.price + randomChange;
-          const newChange = stock.change + randomChange;
-          const newChangePercent = (newChange / (newPrice - newChange)) * 100;
-          
-          return {
-            ...stock,
-            price: newPrice,
+          setStocks(formattedStocks);
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error('Failed to fetch live prices:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchPrices();
+    // Refetch every 60 seconds for real-time updates
+    const interval = setInterval(fetchPrices, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
             change: newChange,
             changePercent: newChangePercent
           };
