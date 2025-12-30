@@ -13,6 +13,7 @@ import AnimatedHeroBanner from "@/components/AnimatedHeroBanner";
 import ChartChat from "@/components/ChartChat";
 import UniversityPromoPopup from "@/components/UniversityPromoPopup";
 import GuidanceTooltip from "@/components/GuidanceTooltip";
+import Image from "next/image";
 import { saveToJournal } from "@/lib/localStorage";
 import { canAnalyze, getRemainingAnalyses, incrementUsage, getFreeLimit, getUsageData } from "@/lib/usageLimit";
 import type { TradingXbertAnalysis, Market, Style } from "@/lib/tradingTypes";
@@ -271,9 +272,204 @@ Market: ${market} | Style: ${style}
   };
 
   return (
-    <main className="min-h-screen bg-[#0A0A0A] text-neutral-200">
+    <main className="min-h-screen bg-[#0A0A0A] text-neutral-200 relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <motion.div
+          animate={{
+            x: [0, 100, 0],
+            y: [0, 50, 0],
+            scale: [1, 1.2, 1],
+            opacity: [0.1, 0.3, 0.1]
+          }}
+          transition={{ duration: 20, repeat: Infinity }}
+          className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] rounded-full blur-3xl"
+        />
+        <motion.div
+          animate={{
+            x: [0, -100, 0],
+            y: [0, -50, 0],
+            scale: [1.2, 1, 1.2],
+            opacity: [0.1, 0.3, 0.1]
+          }}
+          transition={{ duration: 15, repeat: Infinity }}
+          className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-r from-[#EC4899] to-[#8B5CF6] rounded-full blur-3xl"
+        />
+        {/* Floating particles */}
+        {[...Array(15)].map((_, i) => (
+          <motion.div
+            key={i}
+            animate={{
+              y: [0, -100, 0],
+              x: [0, Math.sin(i) * 50, 0],
+              opacity: [0, 0.5, 0]
+            }}
+            transition={{
+              duration: 5 + i,
+              repeat: Infinity,
+              delay: i * 0.5
+            }}
+            className="absolute w-1 h-1 bg-[#6366F1] rounded-full"
+            style={{
+              left: `${(i * 7) % 100}%`,
+              top: `${(i * 13) % 100}%`
+            }}
+          />
+        ))}
+      </div>
       {/* Animated Hero Banner */}
       {!analysis && <AnimatedHeroBanner />}
+      
+      {/* Professional Hero Image Section */}
+      {!analysis && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="container mx-auto px-4 mb-12 relative z-10"
+        >
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            {/* Left: Featured Image */}
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              className="relative h-[400px] rounded-3xl overflow-hidden border-2 border-[#6366F1]/30 shadow-2xl group"
+            >
+              <Image
+                src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop"
+                alt="Professional Trading Analysis"
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-700"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+              <div className="absolute bottom-6 left-6 right-6">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+                    <span className="text-emerald-400 text-sm font-bold">LIVE MARKET DATA</span>
+                  </div>
+                  <h3 className="text-2xl font-black text-white mb-2">
+                    AI-Powered Chart Analysis
+                  </h3>
+                  <p className="text-neutral-300 text-sm">
+                    Upload any chart and get professional analysis in seconds
+                  </p>
+                </motion.div>
+              </div>
+            </motion.div>
+
+            {/* Right: Stats Grid */}
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { icon: "🤖", label: "AI Analyses", value: "50,000+", color: "from-[#6366F1] to-[#8B5CF6]" },
+                { icon: "⭐", label: "Accuracy Rate", value: "94.2%", color: "from-[#8B5CF6] to-[#EC4899]" },
+                { icon: "👥", label: "Active Users", value: "12,000+", color: "from-[#EC4899] to-[#F59E0B]" },
+                { icon: "📈", label: "Win Rate", value: "87.5%", color: "from-[#10B981] to-[#6366F1]" }
+              ].map((stat, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.5 + idx * 0.1 }}
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  className="relative group"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl blur-xl ${stat.color}" />
+                  <div className={`relative bg-gradient-to-br ${stat.color} p-6 rounded-2xl border-2 border-white/10 group-hover:border-white/30 transition-all`}>
+                    <motion.div
+                      animate={{ rotate: [0, 10, -10, 0] }}
+                      transition={{ duration: 2, repeat: Infinity, delay: idx * 0.2 }}
+                      className="text-4xl mb-3"
+                    >
+                      {stat.icon}
+                    </motion.div>
+                    <div className="text-3xl font-black text-white mb-1">{stat.value}</div>
+                    <div className="text-sm text-white/80 font-semibold">{stat.label}</div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      )}
+      
+      {/* Live News CTA Button */}
+      {!analysis && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+          className="container mx-auto px-4 mb-8"
+        >
+          <Link href="/news">
+            <motion.div
+              whileHover={{ scale: 1.02, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#6366F1] via-[#8B5CF6] to-[#EC4899] p-[2px] cursor-pointer group"
+            >
+              <div className="relative bg-[#0A0A0A] rounded-2xl p-6 flex items-center justify-between gap-4 overflow-hidden">
+                {/* Animated Background */}
+                <motion.div
+                  animate={{
+                    x: [0, 100, 0],
+                    opacity: [0.3, 0.5, 0.3]
+                  }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                  className="absolute inset-0 bg-gradient-to-r from-[#6366F1]/20 to-transparent"
+                />
+                
+                {/* Content */}
+                <div className="relative z-10 flex items-center gap-4 flex-1">
+                  <motion.div
+                    animate={{
+                      scale: [1, 1.2, 1],
+                      rotate: [0, 5, -5, 0]
+                    }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className="text-4xl"
+                  >
+                    📰
+                  </motion.div>
+                  <div>
+                    <h3 className="text-xl md:text-2xl font-black text-white mb-1">
+                      Live Market News & Analysis
+                    </h3>
+                    <p className="text-sm md:text-base text-neutral-300">
+                      Get real-time updates while we lock in the next big trade 🎯
+                    </p>
+                  </div>
+                </div>
+                
+                {/* Arrow */}
+                <motion.div
+                  animate={{ x: [0, 5, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                  className="relative z-10 text-white text-2xl"
+                >
+                  →
+                </motion.div>
+                
+                {/* Live Indicator */}
+                <div className="absolute top-4 right-4 flex items-center gap-2 bg-red-500/20 px-3 py-1 rounded-full border border-red-500/50">
+                  <motion.div
+                    animate={{
+                      scale: [1, 1.3, 1],
+                      opacity: [0.5, 1, 0.5]
+                    }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className="w-2 h-2 bg-red-500 rounded-full"
+                  />
+                  <span className="text-xs font-bold text-white">LIVE</span>
+                </div>
+              </div>
+            </motion.div>
+          </Link>
+        </motion.div>
+      )}
       
       {/* Promo Popup */}
       {showPromoPopup && (
@@ -835,7 +1031,43 @@ Market: ${market} | Style: ${style}
       )}
       
       {/* Testimonials Section */}
-      {!analysis && <TestimonialsSection />}
+      {!analysis && (
+        <div className="relative z-10">
+          {/* Professional Trading Floor Image */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="container mx-auto px-4 mb-12"
+          >
+            <div className="relative h-[300px] md:h-[400px] rounded-3xl overflow-hidden border-2 border-[#6366F1]/30 shadow-2xl">
+              <Image
+                src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=1600&h=800&fit=crop"
+                alt="Professional Trading Environment"
+                fill
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="text-center px-6"
+                >
+                  <h2 className="text-4xl md:text-6xl font-black text-white mb-4">
+                    Trusted by <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6366F1] to-[#EC4899]">12,000+</span> Traders
+                  </h2>
+                  <p className="text-xl text-neutral-200">
+                    Join the fastest-growing AI trading community
+                  </p>
+                </motion.div>
+              </div>
+            </div>
+          </motion.div>
+          <TestimonialsSection />
+        </div>
+      )}
       
       {/* Popups */}
       <UniversityPromoPopup

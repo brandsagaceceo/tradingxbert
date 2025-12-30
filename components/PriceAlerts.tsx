@@ -11,9 +11,9 @@ export default function PriceAlerts() {
 
   const assets = [
     { symbol: "BTC", name: "Bitcoin", currentPrice: "$96,247" },
-    { symbol: "ETH", name: "Ethereum", currentPrice: "$3,425" },
-    { symbol: "NVDA", name: "NVIDIA", currentPrice: "$872.50" },
-    { symbol: "SPX", name: "S&P 500", currentPrice: "5,847" }
+    { symbol: "ETH", name: "Ethereum", currentPrice: "$3,421" },
+    { symbol: "NVDA", name: "NVIDIA", currentPrice: "$140.15" },
+    { symbol: "SPX", name: "S&P 500", currentPrice: "5,881" }
   ];
 
   const handleSetAlert = async (e: React.FormEvent) => {

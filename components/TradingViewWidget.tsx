@@ -48,34 +48,61 @@ export default function TradingViewWidget({ symbol = "BTCUSD", title = "Bitcoin"
         </div>
       </div>
       
-      <div className="relative h-[400px] bg-black/40 rounded-xl overflow-hidden border border-white/5">
-        {/* Simulated Candlestick Chart */}
-        <div className="absolute inset-0 flex items-end justify-around px-4 py-8">
-          {[...Array(40)].map((_, i) => {
-            const isGreen = Math.random() > 0.45;
-            const height = 20 + Math.random() * 70;
-            const wickTop = Math.random() * 15;
-            const wickBottom = Math.random() * 15;
+      <div className="relative h-[400px] bg-[#0a0e1a] rounded-xl overflow-hidden border border-white/10">
+        {/* Grid Lines */}
+        <div className="absolute inset-0">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="absolute w-full border-t border-white/5" style={{ top: `${i * 25}%` }} />
+          ))}
+        </div>
+        
+        {/* Price Labels */}
+        <div className="absolute left-2 top-0 bottom-0 flex flex-col justify-around text-xs text-neutral-500">
+          {['$98,000', '$96,500', '$95,000', '$93,500', '$92,000'].map((price, i) => (
+            <div key={i}>{price}</div>
+          ))}
+        </div>
+        
+        {/* Realistic Candlestick Chart */}
+        <div className="absolute inset-0 flex items-end justify-around px-8 py-8">
+          {[...Array(50)].map((_, i) => {
+            // Generate more realistic candle data
+            const trend = Math.sin(i * 0.15) * 30 + 50; // Wave pattern
+            const isGreen = Math.random() > 0.48;
+            const bodyHeight = 8 + Math.random() * 25;
+            const wickTop = Math.random() * 12;
+            const wickBottom = Math.random() * 12;
+            const candleBase = trend;
             
             return (
-              <div key={i} className="flex flex-col items-center justify-end" style={{ width: '2%', height: '100%' }}>
+              <div key={i} className="relative flex flex-col items-center justify-end" style={{ width: '1.5%', height: '100%' }}>
                 {/* Top Wick */}
                 <div 
-                  className={`w-[1px] ${isGreen ? 'bg-green-500' : 'bg-red-500'}`}
-                  style={{ height: `${wickTop}%` }}
+                  className={`w-[2px] ${isGreen ? 'bg-[#26a69a]' : 'bg-[#ef5350]'} absolute`}
+                  style={{ 
+                    height: `${wickTop}%`,
+                    bottom: `${candleBase + bodyHeight}%`
+                  }}
                 />
                 {/* Candle Body */}
                 <motion.div
-                  initial={{ scaleY: 0 }}
-                  animate={{ scaleY: 1 }}
-                  transition={{ delay: i * 0.02 }}
-                  className={`w-full ${isGreen ? 'bg-green-500' : 'bg-red-500'} rounded-sm`}
-                  style={{ height: `${height}%` }}
+                  initial={{ scaleY: 0, opacity: 0 }}
+                  animate={{ scaleY: 1, opacity: 1 }}
+                  transition={{ delay: i * 0.015, duration: 0.3 }}
+                  className={`w-full absolute ${isGreen ? 'bg-[#26a69a]' : 'bg-[#ef5350]'} ${isGreen ? 'border border-[#26a69a]' : 'border border-[#ef5350]'}`}
+                  style={{ 
+                    height: `${bodyHeight}%`,
+                    bottom: `${candleBase}%`,
+                    boxShadow: isGreen ? '0 0 8px rgba(38, 166, 154, 0.3)' : '0 0 8px rgba(239, 83, 80, 0.3)'
+                  }}
                 />
                 {/* Bottom Wick */}
                 <div 
-                  className={`w-[1px] ${isGreen ? 'bg-green-500' : 'bg-red-500'}`}
-                  style={{ height: `${wickBottom}%` }}
+                  className={`w-[2px] ${isGreen ? 'bg-[#26a69a]' : 'bg-[#ef5350]'} absolute`}
+                  style={{ 
+                    height: `${wickBottom}%`,
+                    bottom: `${candleBase - wickBottom}%`
+                  }}
                 />
               </div>
             );

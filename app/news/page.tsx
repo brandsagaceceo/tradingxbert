@@ -13,6 +13,9 @@ import TrendingNews from "@/components/TrendingNews";
 import PriceAlerts from "@/components/PriceAlerts";
 import NewsShareButtons from "@/components/NewsShareButtons";
 import EmailNotificationPopup from "@/components/EmailNotificationPopup";
+import BTCFactsSidebar from "@/components/BTCFactsSidebar";
+import ServiceBanners from "@/components/ServiceBanners";
+import ChartModal from "@/components/ChartModal";
 import Image from "next/image";
 
 interface NewsArticle {
@@ -35,6 +38,7 @@ export default function NewsPage() {
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [currency, setCurrency] = useState<'USD' | 'CAD'>('USD');
+  const [selectedChart, setSelectedChart] = useState<{url: string; title: string} | null>(null);
   
   // USD to CAD exchange rate (approximate)
   const CAD_RATE = 1.35;
@@ -456,55 +460,182 @@ export default function NewsPage() {
           ))}
         </motion.div>
 
-        {/* Market Overview Section */}
-        <div id="overview" className="scroll-mt-32 space-y-6 mb-12">
-          <h2 className="text-3xl font-black text-white mb-6 flex items-center gap-3">
-            <span>📊</span>
-            <span>Market Overview</span>
-          </h2>
-          
-          {/* Market Heatmap - Featured */}
-          <MarketHeatmap />
+        {/* Market Overview Section with Sidebars */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+          {/* Left Sidebar - BTC Facts (hidden on mobile) */}
+          <div className="hidden lg:block lg:col-span-3">
+            <BTCFactsSidebar />
+          </div>
 
-          {/* Top Movers and Fear & Greed */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2">
-              <TopMovers />
+          {/* Main Content */}
+          <div className="lg:col-span-6">
+            <div id="overview" className="scroll-mt-32 space-y-6">
+              <motion.h2 
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="text-3xl font-black text-white mb-6 flex items-center gap-3"
+              >
+                <motion.span
+                  animate={{ rotate: [0, 360] }}
+                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                >
+                  📊
+                </motion.span>
+                <span>Market Overview</span>
+              </motion.h2>
+              
+              {/* Market Heatmap - Featured */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                <MarketHeatmap />
+              </motion.div>
+
+              {/* Top Movers and Fear & Greed */}
+              <div className="grid grid-cols-1 gap-6">
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                >
+                  <TopMovers />
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                >
+                  <FearGreedIndex />
+                </motion.div>
+              </div>
+
+              {/* Sector Performance and Global Indices */}
+              <div className="grid grid-cols-1 gap-6">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <SectorPerformance />
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3 }}
+                >
+                  <GlobalIndices />
+                </motion.div>
+              </div>
             </div>
-            <FearGreedIndex />
+
+            {/* Professional Charts Section */}
+            <div id="charts" className="scroll-mt-32 space-y-6 mt-12">
+              <motion.h2 
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="text-3xl font-black text-white mb-6 flex items-center gap-3"
+              >
+                <motion.span
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  📈
+                </motion.span>
+                <span>Live Charts</span>
+                <span className="text-sm font-normal text-neutral-400">(Click to expand)</span>
+              </motion.h2>
+              
+              {/* Primary Charts Row */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ scale: 1.02 }}
+                  onClick={() => setSelectedChart({url: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200', title: 'Bitcoin Live Chart'})}
+                  className="cursor-zoom-in"
+                >
+                  <TradingViewWidget symbol="BTCUSD" title="Bitcoin" />
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ scale: 1.02 }}
+                  onClick={() => setSelectedChart({url: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=1200', title: 'S&P 500 Live Chart'})}
+                  className="cursor-zoom-in"
+                >
+                  <TradingViewWidget symbol="SPX" title="S&P 500" />
+                </motion.div>
+              </div>
+
+              {/* Secondary Charts Row */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  whileHover={{ scale: 1.02 }}
+                  onClick={() => setSelectedChart({url: 'https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=1200', title: 'Ethereum Live Chart'})}
+                  className="cursor-zoom-in"
+                >
+                  <TradingViewWidget symbol="ETH" title="Ethereum" />
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 }}
+                  whileHover={{ scale: 1.02 }}
+                  onClick={() => setSelectedChart({url: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200', title: 'Apple Stock Chart'})}
+                  className="cursor-zoom-in"
+                >
+                  <TradingViewWidget symbol="AAPL" title="Apple" />
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 }}
+                  whileHover={{ scale: 1.02 }}
+                  onClick={() => setSelectedChart({url: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1200', title: 'NVIDIA Stock Chart'})}
+                  className="cursor-zoom-in"
+                >
+                  <TradingViewWidget symbol="NVDA" title="NVIDIA" />
+                </motion.div>
+              </div>
+
+              {/* Trending News and Price Alerts Row */}
+              <div className="grid grid-cols-1 gap-6 mt-6">
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                >
+                  <TrendingNews />
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                >
+                  <PriceAlerts />
+                </motion.div>
+              </div>
+            </div>
           </div>
 
-          {/* Sector Performance and Global Indices */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <SectorPerformance />
-            <GlobalIndices />
-          </div>
-        </div>
-
-        {/* Professional Charts Section */}
-        <div id="charts" className="scroll-mt-32 space-y-6 mb-12">
-          <h2 className="text-3xl font-black text-white mb-6 flex items-center gap-3">
-            <span>📈</span>
-            <span>Live Charts</span>
-          </h2>
-          
-          {/* Primary Charts Row */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <TradingViewWidget symbol="BTCUSD" title="Bitcoin" />
-            <TradingViewWidget symbol="SPX" title="S&P 500" />
-          </div>
-
-          {/* Secondary Charts Row */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <TradingViewWidget symbol="ETH" title="Ethereum" />
-            <TradingViewWidget symbol="AAPL" title="Apple" />
-            <TradingViewWidget symbol="NVDA" title="NVIDIA" />
-          </div>
-
-          {/* Trending News and Price Alerts Row */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <TrendingNews />
-            <PriceAlerts />
+          {/* Right Sidebar - Service Banners */}
+          <div className="lg:col-span-3">
+            <div className="sticky top-24">
+              <ServiceBanners />
+            </div>
           </div>
         </div>
 
@@ -683,6 +814,17 @@ export default function NewsPage() {
       
       {/* Email Notification Popup */}
       <EmailNotificationPopup />
+
+      {/* Chart Expansion Modal */}
+      {selectedChart && (
+        <ChartModal
+          isOpen={true}
+          onClose={() => setSelectedChart(null)}
+          imageUrl={selectedChart.url}
+          title={selectedChart.title}
+          description="Professional trading chart with live market data"
+        />
+      )}
     </main>
   );
 }

@@ -16,14 +16,14 @@ export default function TopMovers() {
   const [movers, setMovers] = useState<{ gainers: Mover[], losers: Mover[] }>({
     gainers: [
       { symbol: "SOL", name: "Solana", price: "$143.25", change: 8.4, volume: "$3.2B", marketCap: "$67B" },
-      { symbol: "NVDA", name: "NVIDIA", price: "$872.50", change: 6.7, volume: "$12.5B", marketCap: "$2.1T" },
+      { symbol: "NVDA", name: "NVIDIA", price: "$140.15", change: 6.7, volume: "$12.5B", marketCap: "$345B" },
       { symbol: "XRP", name: "Ripple", price: "$2.47", change: 5.2, volume: "$2.8B", marketCap: "$141B" },
       { symbol: "BTC", name: "Bitcoin", price: "$96,247", change: 4.2, volume: "$45B", marketCap: "$1.89T" },
-      { symbol: "ETH", name: "Ethereum", price: "$3,425", change: 3.8, volume: "$18B", marketCap: "$412B" }
+      { symbol: "ETH", name: "Ethereum", price: "$3,421", change: 3.8, volume: "$18B", marketCap: "$412B" }
     ],
     losers: [
-      { symbol: "TSLA", name: "Tesla", price: "$358.20", change: -2.3, volume: "$15.3B", marketCap: "$1.14T" },
-      { symbol: "META", name: "Meta", price: "$487.30", change: -0.8, volume: "$3.9B", marketCap: "$1.24T" },
+      { symbol: "TSLA", name: "Tesla", price: "$463.02", change: -2.3, volume: "$15.3B", marketCap: "$1.47T" },
+      { symbol: "META", name: "Meta", price: "$638.40", change: -0.8, volume: "$3.9B", marketCap: "$1.62T" },
       { symbol: "COIN", name: "Coinbase", price: "$234.50", change: -1.2, volume: "$2.1B", marketCap: "$58B" },
       { symbol: "SQ", name: "Block", price: "$78.90", change: -1.8, volume: "$1.5B", marketCap: "$46B" },
       { symbol: "PYPL", name: "PayPal", price: "$62.15", change: -0.5, volume: "$2.3B", marketCap: "$68B" }

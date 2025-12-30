@@ -29,9 +29,9 @@ export default function UniversityPromoPopup({ isVisible, onDismiss, isPro = fal
             animate={{ opacity: 1, scale: 1, rotateY: 0 }}
             exit={{ opacity: 0, scale: 0.5, rotateY: 90 }}
             transition={{ type: "spring", duration: 0.7, bounce: 0.4 }}
-            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[201] w-[90vw] max-w-3xl"
+            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[201] w-[95vw] max-w-3xl max-h-[90vh] overflow-y-auto"
           >
-            <div className="bg-gradient-to-br from-[#1a1a2e] via-[#0f1729] to-[#1a1a2e] rounded-3xl border-4 border-[#6366F1] shadow-2xl shadow-[#6366F1]/50 p-8 md:p-16 relative overflow-hidden">
+            <div className="bg-gradient-to-br from-[#1a1a2e] via-[#0f1729] to-[#1a1a2e] rounded-2xl md:rounded-3xl border-2 md:border-4 border-[#6366F1] shadow-2xl shadow-[#6366F1]/50 p-6 md:p-12 lg:p-16 relative overflow-hidden">
               {/* Animated Background Glow */}
               <motion.div
                 animate={{
@@ -74,7 +74,7 @@ export default function UniversityPromoPopup({ isVisible, onDismiss, isPro = fal
                 {/* Close Button */}
                 <button
                   onClick={onDismiss}
-                  className="absolute -top-6 -right-6 w-12 h-12 bg-gradient-to-br from-[#6366F1] via-[#8B5CF6] to-[#EC4899] rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-2xl hover:shadow-[#6366F1]/80"
+                  className="absolute top-2 right-2 md:-top-6 md:-right-6 w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-[#6366F1] via-[#8B5CF6] to-[#EC4899] rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-2xl hover:shadow-[#6366F1]/80 z-20"
                 >
                   <svg className="w-6 h-6 text-white font-bold" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -112,7 +112,7 @@ export default function UniversityPromoPopup({ isVisible, onDismiss, isPro = fal
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="text-4xl md:text-5xl font-black text-center mb-4"
+                  className="text-2xl md:text-4xl lg:text-5xl font-black text-center mb-3 md:mb-4"
                 >
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6366F1] via-[#8B5CF6] to-[#EC4899]">
                     TradingXbert University
@@ -124,7 +124,7 @@ export default function UniversityPromoPopup({ isVisible, onDismiss, isPro = fal
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3 }}
-                  className="text-white text-xl md:text-2xl text-center mb-10 font-bold"
+                  className="text-white text-base md:text-xl lg:text-2xl text-center mb-6 md:mb-10 font-bold"
                 >
                   {isPro ? (
                     <span className="flex items-center justify-center gap-2">
@@ -141,7 +141,7 @@ export default function UniversityPromoPopup({ isVisible, onDismiss, isPro = fal
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="grid grid-cols-2 gap-4 mb-10"
+                  className="grid grid-cols-2 gap-2 md:gap-4 mb-6 md:mb-10"
                 >
                   {[
                     { icon: "📚", text: "10+ Professional Courses", color: "from-[#6366F1] to-[#8B5CF6]" },
@@ -155,10 +155,10 @@ export default function UniversityPromoPopup({ isVisible, onDismiss, isPro = fal
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.5 + i * 0.1 }}
                       whileHover={{ scale: 1.05, y: -2 }}
-                      className={`flex flex-col items-center gap-2 bg-gradient-to-br ${feature.color} rounded-2xl p-5 border-2 border-white/20 shadow-lg hover:shadow-xl transition-all`}
+                      className={`flex flex-col items-center gap-1 md:gap-2 bg-gradient-to-br ${feature.color} rounded-xl md:rounded-2xl p-3 md:p-5 border border-white/20 md:border-2 shadow-lg hover:shadow-xl transition-all`}
                     >
-                      <span className="text-4xl">{feature.icon}</span>
-                      <span className="text-white font-black text-center text-sm md:text-base">{feature.text}</span>
+                      <span className="text-2xl md:text-4xl">{feature.icon}</span>
+                      <span className="text-white font-black text-center text-xs md:text-sm lg:text-base">{feature.text}</span>
                     </motion.div>
                   ))}
                 </motion.div>
