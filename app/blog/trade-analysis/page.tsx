@@ -140,7 +140,7 @@ export default function TradeAnalysisPage() {
             Trade Analysis Blog
           </h1>
           <p className="text-xl text-neutral-300">
-            Real trades. Real profits. Real losses. Learn from my journey! 🚀
+            Professional trading insights, market analysis, and educational content for traders. 📊
           </p>
         </motion.div>
 

@@ -12,6 +12,7 @@ export default function ProfilePage() {
   const [completedCourses, setCompletedCourses] = useState<string[]>([]);
   const [analysisCount, setAnalysisCount] = useState(0);
   const [isPro, setIsPro] = useState(false);
+  const [recentAnalyses, setRecentAnalyses] = useState<any[]>([]);
 
   useEffect(() => {
     // Check Pro status
@@ -19,25 +20,29 @@ export default function ProfilePage() {
       .then(res => res.json())
       .then(data => setIsPro(data.isPro))
       .catch(() => setIsPro(false));
+    
+    // Load database stats if logged in
+    if (status === 'authenticated') {
+      fetch('/api/user-stats')
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            setAnalysisCount(data.stats.totalAnalyses);
+            setRecentAnalyses(data.stats.recentAnalyses);
+          }
+        })
+        .catch(err => console.error('Failed to load stats:', err));
+    }
+    
     // Load all stats from localStorage
     const savedPoints = localStorage.getItem('tradingxbert_points');
     const savedStreak = localStorage.getItem('tradingxbert_streak');
     const savedCourses = localStorage.getItem('tradingxbert_completed_courses');
-    const usageData = localStorage.getItem('tradingxbert_usage');
     
     setPoints(parseInt(savedPoints || '0'));
     setStreak(parseInt(savedStreak || '0'));
     setCompletedCourses(savedCourses ? JSON.parse(savedCourses) : []);
-    
-    if (usageData) {
-      try {
-        const usage = JSON.parse(usageData);
-        setAnalysisCount(usage.count || 0);
-      } catch (err) {
-        console.error('Error loading usage data:', err);
-      }
-    }
-  }, []);
+  }, [status]);
 
   if (status === "loading") {
     return (
@@ -287,32 +292,79 @@ export default function ProfilePage() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="grid md:grid-cols-4 gap-6"
+            className="space-y-8"
           >
-            {[
-              { label: "Total Points", value: points, icon: "🏆", color: "from-yellow-500 to-orange-500" },
-              { label: "Courses", value: completedCourses.length, icon: "🎓", color: "from-blue-500 to-cyan-500" },
-              { label: "Analyses", value: analysisCount, icon: "📊", color: "from-green-500 to-emerald-500" },
-              { label: "Streak", value: `${streak} day${streak !== 1 ? 's' : ''}`, icon: "🔥", color: "from-red-500 to-pink-500" }
-            ].map((stat, i) => (
+            <div className="grid md:grid-cols-4 gap-6">
+              {[
+                { label: "Total Points", value: points, icon: "🏆", color: "from-yellow-500 to-orange-500" },
+                { label: "Courses", value: completedCourses.length, icon: "🎓", color: "from-blue-500 to-cyan-500" },
+                { label: "Analyses", value: analysisCount, icon: "📊", color: "from-green-500 to-emerald-500" },
+                { label: "Streak", value: `${streak} day${streak !== 1 ? 's' : ''}`, icon: "🔥", color: "from-red-500 to-pink-500" }
+              ].map((stat, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl border border-white/20 p-8 relative overflow-hidden"
+                >
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                    className={`absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-r ${stat.color} opacity-20 blur-2xl`}
+                  />
+                  <div className="text-5xl mb-4">{stat.icon}</div>
+                  <div className="text-4xl font-black text-white mb-2">{stat.value}</div>
+                  <div className="text-sm text-neutral-400">{stat.label}</div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Recent Analyses */}
+            {recentAnalyses.length > 0 && (
               <motion.div
-                key={i}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-                whileHover={{ scale: 1.05, y: -5 }}
-                className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl border border-white/20 p-8 relative overflow-hidden"
+                className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl border border-white/20 p-8"
               >
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                  className={`absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-r ${stat.color} opacity-20 blur-2xl`}
-                />
-                <div className="text-5xl mb-4">{stat.icon}</div>
-                <div className="text-4xl font-black text-white mb-2">{stat.value}</div>
-                <div className="text-sm text-neutral-400">{stat.label}</div>
+                <h3 className="text-3xl font-black text-white mb-6">📈 Recent Analyses</h3>
+                <div className="space-y-4">
+                  {recentAnalyses.map((analysis, i) => (
+                    <motion.div
+                      key={analysis.id}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.05 }}
+                      whileHover={{ scale: 1.02 }}
+                      className="flex items-center justify-between p-6 bg-white/5 rounded-2xl"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className={`text-3xl ${analysis.signal === 'BUY' ? '🟢' : analysis.signal === 'SELL' ? '🔴' : '⚪'}`}>
+                          {analysis.signal === 'BUY' ? '📈' : analysis.signal === 'SELL' ? '📉' : '⏸️'}
+                        </div>
+                        <div>
+                          <div className="text-xl font-black text-white">
+                            {analysis.signal} Signal
+                          </div>
+                          <div className="text-sm text-neutral-400">
+                            {new Date(analysis.createdAt).toLocaleDateString()} at {new Date(analysis.createdAt).toLocaleTimeString()}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-2xl font-black text-[#6366F1]">
+                          {analysis.confidence}%
+                        </div>
+                        <div className="text-sm text-neutral-400">
+                          {analysis.riskLevel} Risk
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
               </motion.div>
-            ))}
+            )}
           </motion.div>
         )}
 

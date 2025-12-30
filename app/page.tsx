@@ -135,6 +135,10 @@ export default function Page() {
           emotionSummary: data.emotionSummary,
           riskPlan: data.riskPlan,
         });
+        
+        // Award points for analysis
+        const currentPoints = parseInt(localStorage.getItem('tradingxbert_points') || '0');
+        localStorage.setItem('tradingxbert_points', (currentPoints + 10).toString());
       } catch (saveErr) {
         console.log("Failed to save to database (user may not be logged in)", saveErr);
       }

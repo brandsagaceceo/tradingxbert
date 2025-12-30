@@ -45,7 +45,7 @@ export default function AlertSignup() {
       </div>
 
       <form onSubmit={handleSubscribe} className="space-y-3">
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2">
           <input
             type="email"
             value={email}
@@ -56,7 +56,7 @@ export default function AlertSignup() {
           <button
             type="submit"
             disabled={loading}
-            className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-green-500 text-white font-bold rounded-lg hover:scale-105 transition-transform disabled:opacity-50"
+            className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-emerald-500 to-green-500 text-white font-bold rounded-lg hover:scale-105 transition-transform disabled:opacity-50 whitespace-nowrap"
           >
             {loading ? "..." : "Subscribe"}
           </button>
