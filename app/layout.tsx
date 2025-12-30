@@ -60,7 +60,7 @@ export default function RootLayout({
         <Header />
         
         {/* Stock Exchange Style Sale Banner */}
-        <div className="fixed top-[65px] left-0 right-0 z-[150] bg-gradient-to-r from-[#6366F1] via-[#8B5CF6] to-[#EC4899] overflow-hidden py-2 border-b border-white/10">
+        <div className="fixed top-[65px] left-0 right-0 z-[8000] bg-gradient-to-r from-[#6366F1] via-[#8B5CF6] to-[#EC4899] overflow-hidden py-2 border-b border-white/10">
           <motion.div
             animate={{ x: [0, -1000] }}
             transition={{ 
