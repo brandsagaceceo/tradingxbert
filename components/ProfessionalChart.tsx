@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 
 interface ProfessionalChartProps {
   symbol?: string;
@@ -9,14 +9,8 @@ interface ProfessionalChartProps {
 
 export default function ProfessionalChart({ symbol = "BTCUSD", title = "Bitcoin" }: ProfessionalChartProps) {
   const [timeframe, setTimeframe] = useState("1D");
-  const [chartKey, setChartKey] = useState(0);
   
   const timeframes = ["5m", "15m", "1H", "4H", "1D", "1W"];
-  
-  // Regenerate chart when timeframe changes
-  useEffect(() => {
-    setChartKey(prev => prev + 1);
-  }, [timeframe]);
   
   // Dynamic price data based on symbol (using space-separated thousands)
   const priceData: Record<string, { price: string; change: string; changePercent: string; high: string; low: string; volume: string; marketCap: string }> = {
@@ -31,25 +25,48 @@ export default function ProfessionalChart({ symbol = "BTCUSD", title = "Bitcoin"
   const currentPrice = priceData[symbol] || priceData.BTCUSD;
   const isPositive = currentPrice.changePercent.startsWith('+');
   
-  // Generate unique chart patterns for each symbol
-  const generateChartData = () => {
+  // Generate unique chart patterns for each symbol and timeframe
+  const chartPoints = useMemo(() => {
     const points: { x: number; y: number }[] = [];
-    const numPoints = 100;
+    
+    // Different data point amounts for different timeframes
+    const dataPoints: Record<string, number> = {
+      "5m": 60,
+      "15m": 80,
+      "1H": 100,
+      "4H": 120,
+      "1D": 150,
+      "1W": 200
+    };
+    const numPoints = dataPoints[timeframe] || 100;
     
     // Use symbol and timeframe to create unique seed for different patterns
     const symbolSeed = symbol.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
     const timeframeSeed = timeframe.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    const freq1 = 0.08 + (symbolSeed % 5) * 0.01;
-    const freq2 = 0.12 + (symbolSeed % 7) * 0.015;
-    const freq3 = 0.05 + (symbolSeed % 3) * 0.02;
+    const combinedSeed = symbolSeed + timeframeSeed;
+    
+    // Timeframe affects frequency and volatility
+    const timeframeMultipliers: Record<string, { freq: number; vol: number }> = {
+      "5m": { freq: 0.15, vol: 2.5 },
+      "15m": { freq: 0.12, vol: 2.0 },
+      "1H": { freq: 0.10, vol: 1.5 },
+      "4H": { freq: 0.08, vol: 1.2 },
+      "1D": { freq: 0.06, vol: 1.0 },
+      "1W": { freq: 0.04, vol: 0.8 }
+    };
+    const tfMult = timeframeMultipliers[timeframe] || { freq: 0.08, vol: 1.0 };
+    
+    const freq1 = (0.08 + (symbolSeed % 5) * 0.01) * tfMult.freq;
+    const freq2 = (0.12 + (symbolSeed % 7) * 0.015) * tfMult.freq;
+    const freq3 = (0.05 + (symbolSeed % 3) * 0.02) * tfMult.freq;
     
     for (let i = 0; i < numPoints; i++) {
       const progress = i / numPoints;
       
       // Create unique patterns for different assets
-      const wave1 = Math.sin(i * freq1) * 5;
-      const wave2 = Math.cos(i * freq2) * 3;
-      const wave3 = Math.sin(i * freq3) * 2;
+      const wave1 = Math.sin(i * freq1 + combinedSeed) * 5 * tfMult.vol;
+      const wave2 = Math.cos(i * freq2 + combinedSeed) * 3 * tfMult.vol;
+      const wave3 = Math.sin(i * freq3 + combinedSeed) * 2 * tfMult.vol;
       const volatility = wave1 + wave2 + wave3;
       
       // Different trend patterns based on symbol
@@ -68,14 +85,12 @@ export default function ProfessionalChart({ symbol = "BTCUSD", title = "Bitcoin"
         trend = isPositive ? progress * 15 : -progress * 8;
       }
       
-      const randomness = (Math.sin(symbolSeed + i) - 0.5) * 1.5;
+      const randomness = (Math.sin(combinedSeed + i) - 0.5) * 1.5;
       const y = 50 + trend + volatility + randomness;
       points.push({ x: (i / numPoints) * 100, y: Math.max(10, Math.min(90, y)) });
     }
     return points;
-  };
-  
-  const chartPoints = generateChartData();
+  }, [symbol, timeframe, isPositive]);
   
   // Create SVG path
   const createPath = () => {
@@ -142,7 +157,7 @@ export default function ProfessionalChart({ symbol = "BTCUSD", title = "Bitcoin"
       {/* Chart */}
       <div className="relative h-[200px] md:h-[280px] bg-gradient-to-b from-[#0a0e1a] to-[#050810] rounded-xl overflow-hidden border border-white/5 mb-4">
         {/* Grid Lines */}
-        <svg key={chartKey} className="absolute inset-0 w-full h-full">
+        <svg className="absolute inset-0 w-full h-full">
           <defs>
             <linearGradient id={`gradient-${symbol}`} x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stopColor={isPositive ? "#10b981" : "#ef4444"} stopOpacity="0.4" />
