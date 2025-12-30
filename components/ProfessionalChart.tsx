@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface ProfessionalChartProps {
   symbol?: string;
@@ -9,8 +9,14 @@ interface ProfessionalChartProps {
 
 export default function ProfessionalChart({ symbol = "BTCUSD", title = "Bitcoin" }: ProfessionalChartProps) {
   const [timeframe, setTimeframe] = useState("1D");
+  const [chartKey, setChartKey] = useState(0);
   
   const timeframes = ["5m", "15m", "1H", "4H", "1D", "1W"];
+  
+  // Regenerate chart when timeframe changes
+  useEffect(() => {
+    setChartKey(prev => prev + 1);
+  }, [timeframe]);
   
   // Dynamic price data based on symbol (using space-separated thousands)
   const priceData: Record<string, { price: string; change: string; changePercent: string; high: string; low: string; volume: string; marketCap: string }> = {
@@ -30,8 +36,9 @@ export default function ProfessionalChart({ symbol = "BTCUSD", title = "Bitcoin"
     const points: { x: number; y: number }[] = [];
     const numPoints = 100;
     
-    // Use symbol to create unique seed for different patterns
+    // Use symbol and timeframe to create unique seed for different patterns
     const symbolSeed = symbol.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const timeframeSeed = timeframe.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
     const freq1 = 0.08 + (symbolSeed % 5) * 0.01;
     const freq2 = 0.12 + (symbolSeed % 7) * 0.015;
     const freq3 = 0.05 + (symbolSeed % 3) * 0.02;
@@ -90,15 +97,15 @@ export default function ProfessionalChart({ symbol = "BTCUSD", title = "Bitcoin"
   return (
     <motion.div 
       whileHover={{ y: -2, boxShadow: "0 10px 40px rgba(99, 102, 241, 0.2)" }}
-      className="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl rounded-3xl border border-white/10 p-4 md:p-6 transition-all"
+      className="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl rounded-3xl border border-white/10 p-5 md:p-6 transition-all overflow-hidden"
     >
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-3">
-        <div>
-          <h3 className="text-xl md:text-2xl font-black text-white">{title}</h3>
-          <p className="text-xs md:text-sm text-neutral-400">Real-time data</p>
+      <div className="flex flex-col md:flex-row md:items-center justify-between mb-5 gap-3">
+        <div className="min-w-0 flex-shrink">
+          <h3 className="text-lg md:text-xl font-black text-white truncate">{title}</h3>
+          <p className="text-xs text-neutral-400">Real-time data</p>
         </div>
-        <div className="flex gap-1 bg-black/30 p-1 rounded-lg overflow-x-auto">
+        <div className="flex gap-1 bg-black/30 p-1 rounded-lg overflow-x-auto scrollbar-hide flex-shrink-0">
           {timeframes.map((tf) => (
             <button
               key={tf}
@@ -116,13 +123,13 @@ export default function ProfessionalChart({ symbol = "BTCUSD", title = "Bitcoin"
       </div>
       
       {/* Price Display */}
-      <div className="mb-4">
-        <div className="text-3xl md:text-4xl font-black text-white mb-1">{currentPrice.price}</div>
-        <div className="flex items-center gap-2">
-          <div className={`text-sm md:text-base font-bold ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
+      <div className="mb-5 overflow-hidden">
+        <div className="text-2xl md:text-3xl font-black text-white mb-1 truncate">{currentPrice.price}</div>
+        <div className="flex items-center gap-2 flex-wrap">
+          <div className={`text-sm md:text-base font-bold whitespace-nowrap ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
             {currentPrice.changePercent}
           </div>
-          <div className={`text-xs md:text-sm ${isPositive ? 'text-emerald-400/70' : 'text-red-400/70'}`}>
+          <div className={`text-xs md:text-sm whitespace-nowrap ${isPositive ? 'text-emerald-400/70' : 'text-red-400/70'}`}>
             ({currentPrice.change})
           </div>
           <div className="flex items-center gap-1 ml-auto">
@@ -133,9 +140,9 @@ export default function ProfessionalChart({ symbol = "BTCUSD", title = "Bitcoin"
       </div>
       
       {/* Chart */}
-      <div className="relative h-[250px] md:h-[300px] bg-gradient-to-b from-[#0a0e1a] to-[#050810] rounded-xl overflow-hidden border border-white/5 mb-4">
+      <div className="relative h-[200px] md:h-[280px] bg-gradient-to-b from-[#0a0e1a] to-[#050810] rounded-xl overflow-hidden border border-white/5 mb-4">
         {/* Grid Lines */}
-        <svg className="absolute inset-0 w-full h-full">
+        <svg key={chartKey} className="absolute inset-0 w-full h-full">
           <defs>
             <linearGradient id={`gradient-${symbol}`} x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stopColor={isPositive ? "#10b981" : "#ef4444"} stopOpacity="0.4" />
@@ -226,7 +233,7 @@ export default function ProfessionalChart({ symbol = "BTCUSD", title = "Bitcoin"
       </div>
       
       {/* Chart Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 overflow-hidden">
         {[
           { label: "24h High", value: currentPrice.high, color: "text-emerald-400", icon: "↑" },
           { label: "24h Low", value: currentPrice.low, color: "text-red-400", icon: "↓" },
@@ -238,14 +245,14 @@ export default function ProfessionalChart({ symbol = "BTCUSD", title = "Bitcoin"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 2.5 + i * 0.1 }}
-            whileHover={{ scale: 1.05, backgroundColor: "rgba(99, 102, 241, 0.1)" }}
-            className="bg-black/30 rounded-lg p-2 md:p-3 transition-all"
+            whileHover={{ scale: 1.02, backgroundColor: "rgba(99, 102, 241, 0.1)" }}
+            className="bg-black/30 rounded-lg p-2 md:p-3 transition-all overflow-hidden min-w-0"
           >
             <div className="flex items-center gap-1 mb-1">
-              <span className="text-xs">{stat.icon}</span>
-              <div className="text-xs text-neutral-400">{stat.label}</div>
+              <span className="text-xs flex-shrink-0">{stat.icon}</span>
+              <div className="text-xs text-neutral-400 truncate">{stat.label}</div>
             </div>
-            <div className={`text-sm md:text-base font-black ${stat.color}`}>{stat.value}</div>
+            <div className={`text-sm md:text-base font-black ${stat.color} truncate`}>{stat.value}</div>
           </motion.div>
         ))}
       </div>

@@ -10,7 +10,6 @@ export default function Header() {
   const { data: session } = useSession();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isPro, setIsPro] = useState(false);
-  const [points, setPoints] = useState(0);
 
   useEffect(() => {
     if (session?.user?.email) {
@@ -20,24 +19,6 @@ export default function Header() {
         .catch(() => setIsPro(false));
     }
   }, [session]);
-
-  useEffect(() => {
-    // Load points from localStorage
-    const savedPoints = localStorage.getItem('tradingxbert_points');
-    if (savedPoints) {
-      setPoints(parseInt(savedPoints));
-    }
-    
-    // Update points every second to keep in sync
-    const interval = setInterval(() => {
-      const currentPoints = localStorage.getItem('tradingxbert_points');
-      if (currentPoints) {
-        setPoints(parseInt(currentPoints));
-      }
-    }, 1000);
-    
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <>
@@ -108,16 +89,6 @@ export default function Header() {
         
         {/* Divider */}
         <div className="w-px h-6 bg-white/20 mx-1" />
-        
-        {/* Points Display */}
-        <Link 
-          href="/profile" 
-          className="flex items-center gap-2 px-3 md:px-4 py-2 text-xs md:text-sm text-white hover:text-[#FFD700] transition-all duration-300 rounded-lg hover:bg-gradient-to-r hover:from-yellow-500/20 hover:to-orange-500/20 border border-transparent hover:border-yellow-500/50 font-bold hover:shadow-lg hover:shadow-yellow-500/20 hover:-translate-y-0.5"
-        >
-          <span className="text-base">🏆</span>
-          <span className="hidden xl:inline">{points.toLocaleString()}</span>
-          <span className="xl:hidden">{points}</span>
-        </Link>
         
         {/* Profile */}
         <Link 
@@ -228,20 +199,6 @@ export default function Header() {
               <span className="text-2xl">📰</span>
               <span>News</span>
             </Link>
-            
-            {/* Points Display for Mobile */}
-            <Link 
-              href="/profile"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-between px-4 py-4 text-base text-white hover:text-[#FFD700] transition-all duration-300 rounded-xl hover:bg-gradient-to-r hover:from-yellow-500/20 hover:to-orange-500/20 font-black active:scale-95 border border-yellow-500/30 hover:border-yellow-500/50 bg-gradient-to-r from-yellow-500/10 to-orange-500/10"
-            >
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">🏆</span>
-                <span>Your Points</span>
-              </div>
-              <span className="text-xl font-black text-[#FFD700]">{points.toLocaleString()}</span>
-            </Link>
-            
             <div className="border-t border-white/20 my-2"></div>
             <Link 
               href="/profile"
