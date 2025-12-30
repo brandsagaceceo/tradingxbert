@@ -20,6 +20,7 @@ import BTCFactsSidebar from "@/components/BTCFactsSidebar";
 import ServiceBanners from "@/components/ServiceBanners";
 import ChartModal from "@/components/ChartModal";
 import Image from "next/image";
+import Link from "next/link";
 
 interface NewsArticle {
   title: string;
