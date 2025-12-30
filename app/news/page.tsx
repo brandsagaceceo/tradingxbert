@@ -304,20 +304,78 @@ export default function NewsPage() {
             <FearGreedIndex />
           </motion.div>
 
-          {/* Featured Image - Trading Floor */}
+          {/* Featured Images - Market Activity */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="lg:col-span-2"
+            className="lg:col-span-2 grid grid-cols-2 gap-4"
           >
-            <div className="relative h-full rounded-2xl overflow-hidden border-2 border-[#6366F1]/30 shadow-xl">
+            {/* Trading Floor Image */}
+            <div className="relative h-48 rounded-xl overflow-hidden border-2 border-[#6366F1]/30 shadow-xl">
               <Image
-                src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&h=400&fit=crop"
+                src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&h=400&fit=crop"
                 alt="Trading floor"
-                width={1200}
+                width={600}
                 height={400}
                 className="object-cover w-full h-full"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute bottom-3 left-3">
+                <p className="text-white font-bold text-sm">📊 Market Overview</p>
+                <p className="text-neutral-300 text-xs">Real-time data</p>
+              </div>
+            </div>
+
+            {/* Charts & Analysis Image */}
+            <div className="relative h-48 rounded-xl overflow-hidden border-2 border-[#8B5CF6]/30 shadow-xl">
+              <Image
+                src="https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=600&h=400&fit=crop"
+                alt="Market analysis charts"
+                width={600}
+                height={400}
+                className="object-cover w-full h-full"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute bottom-3 left-3">
+                <p className="text-white font-bold text-sm">📈 Live Analysis</p>
+                <p className="text-neutral-300 text-xs">Technical charts</p>
+              </div>
+            </div>
+
+            {/* Business News Image */}
+            <div className="relative h-48 rounded-xl overflow-hidden border-2 border-[#EC4899]/30 shadow-xl">
+              <Image
+                src="https://images.unsplash.com/photo-1590650153855-d9e808231d41?w=600&h=400&fit=crop"
+                alt="Business professionals"
+                width={600}
+                height={400}
+                className="object-cover w-full h-full"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute bottom-3 left-3">
+                <p className="text-white font-bold text-sm">💼 Market Insights</p>
+                <p className="text-neutral-300 text-xs">Expert analysis</p>
+              </div>
+            </div>
+
+            {/* Crypto Trading Image */}
+            <div className="relative h-48 rounded-xl overflow-hidden border-2 border-[#6366F1]/30 shadow-xl">
+              <Image
+                src="https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&h=400&fit=crop"
+                alt="Cryptocurrency trading"
+                width={600}
+                height={400}
+                className="object-cover w-full h-full"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute bottom-3 left-3">
+                <p className="text-white font-bold text-sm">₿ Crypto Markets</p>
+                <p className="text-neutral-300 text-xs">Digital assets</p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
               <div className="absolute bottom-0 left-0 p-6">
