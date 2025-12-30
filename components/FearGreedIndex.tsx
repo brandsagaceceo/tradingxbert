@@ -4,9 +4,9 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
 export default function FearGreedIndex() {
-  const [fearGreedValue, setFearGreedValue] = useState(52);
-  const [sentiment, setSentiment] = useState("Neutral");
-  const [color, setColor] = useState("#FFD700");
+  const [fearGreedValue, setFearGreedValue] = useState(23);
+  const [sentiment, setSentiment] = useState("Extreme Fear");
+  const [color, setColor] = useState("#EF4444");
   const [loading, setLoading] = useState(true);
 
   const updateSentimentDisplay = (value: number) => {
@@ -43,9 +43,9 @@ export default function FearGreedIndex() {
         }
       } catch (error) {
         console.error('Failed to fetch sentiment:', error);
-        // Default to neutral if fetch fails
-        setFearGreedValue(52);
-        updateSentimentDisplay(52);
+        // Default to current market sentiment (Extreme Fear)
+        setFearGreedValue(23);
+        updateSentimentDisplay(23);
       } finally {
         setLoading(false);
       }

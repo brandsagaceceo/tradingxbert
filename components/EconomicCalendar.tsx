@@ -97,7 +97,10 @@ export default function EconomicCalendar() {
             <div className="text-sm font-bold text-white mb-1">Set Alerts</div>
             <div className="text-xs text-neutral-400">Get notified of key events</div>
           </div>
-          <button className="bg-[#6366F1] text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-[#5558E3] transition-all">
+          <button 
+            onClick={() => window.location.href = '/pricing'}
+            className="bg-[#6366F1] text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-[#5558E3] transition-all"
+          >
             Enable
           </button>
         </div>

@@ -11,18 +11,18 @@ interface Asset {
 
 export default function MarketHeatmap() {
   const [assets, setAssets] = useState<Asset[]>([
-    { symbol: "BTC", name: "Bitcoin", change: 4.2, volume: "$45B" },
-    { symbol: "ETH", name: "Ethereum", change: 3.8, volume: "$18B" },
-    { symbol: "AAPL", name: "Apple", change: 1.5, volume: "$8.2B" },
-    { symbol: "NVDA", name: "NVIDIA", change: 6.7, volume: "$12.5B" },
-    { symbol: "TSLA", name: "Tesla", change: -2.3, volume: "$15.3B" },
-    { symbol: "GOOGL", name: "Google", change: 2.1, volume: "$4.8B" },
-    { symbol: "MSFT", name: "Microsoft", change: 1.9, volume: "$6.1B" },
-    { symbol: "SOL", name: "Solana", change: 8.4, volume: "$3.2B" },
-    { symbol: "XRP", name: "Ripple", change: 5.2, volume: "$2.8B" },
-    { symbol: "AMZN", name: "Amazon", change: 1.2, volume: "$5.5B" },
-    { symbol: "META", name: "Meta", change: -0.8, volume: "$3.9B" },
-    { symbol: "GOLD", name: "Gold", change: 0.5, volume: "$2.1B" }
+    { symbol: "BTC", name: "Bitcoin", change: 4.43, volume: "$45B" },
+    { symbol: "ETH", name: "Ethereum", change: 3.76, volume: "$18B" },
+    { symbol: "AAPL", name: "Apple", change: 1.47, volume: "$8.2B" },
+    { symbol: "NVDA", name: "NVIDIA", change: 6.42, volume: "$12.5B" },
+    { symbol: "TSLA", name: "Tesla", change: -2.24, volume: "$15.3B" },
+    { symbol: "GOOGL", name: "Google", change: 1.53, volume: "$4.8B" },
+    { symbol: "MSFT", name: "Microsoft", change: 1.64, volume: "$6.1B" },
+    { symbol: "SOL", name: "Solana", change: 8.48, volume: "$3.2B" },
+    { symbol: "XRP", name: "Ripple", change: 4.79, volume: "$2.8B" },
+    { symbol: "AMZN", name: "Amazon", change: 1.60, volume: "$5.5B" },
+    { symbol: "META", name: "Meta", change: -0.78, volume: "$3.9B" },
+    { symbol: "GOLD", name: "Gold", change: 0.13, volume: "$2.1B" }
   ]);
 
   useEffect(() => {
@@ -69,13 +69,15 @@ export default function MarketHeatmap() {
       
       <div className="grid grid-cols-4 md:grid-cols-6 gap-2 auto-rows-[80px]">
         {assets.map((asset, i) => (
-          <motion.div
+          <motion.button
             key={asset.symbol}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: i * 0.05 }}
-            whileHover={{ scale: 1.05, zIndex: 10 }}
-            className={`relative ${getSize(asset.change)} bg-gradient-to-br ${getColor(asset.change)} rounded-xl p-3 overflow-hidden cursor-pointer group`}
+            whileHover={{ scale: 1.08, zIndex: 10 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => window.open(`https://www.tradingview.com/symbols/${asset.symbol}/`, '_blank')}
+            className={`relative ${getSize(asset.change)} bg-gradient-to-br ${getColor(asset.change)} rounded-xl p-3 overflow-hidden cursor-pointer group shadow-lg hover:shadow-xl transition-shadow`}
           >
             <div className="relative z-10 h-full flex flex-col justify-between">
               <div>
@@ -92,7 +94,8 @@ export default function MarketHeatmap() {
               transition={{ duration: 2, repeat: Infinity }}
               className="absolute inset-0 bg-white/10"
             />
-          </motion.div>
+            <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors" />
+          </motion.button>
         ))}
       </div>
     </div>

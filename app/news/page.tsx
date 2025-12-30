@@ -382,33 +382,53 @@ export default function NewsPage() {
           </div>
         </motion.div>
 
-        {/* Quick Stats Bar */}
+        {/* Quick Stats Bar - Clickable */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
           className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
         >
-          <div className="bg-gradient-to-br from-green-500/20 to-green-600/10 border border-green-500/30 rounded-xl p-4">
+          <motion.button
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => window.open('https://www.tradingview.com/symbols/BTCUSD/', '_blank')}
+            className="bg-gradient-to-br from-green-500/20 to-green-600/10 border border-green-500/30 hover:border-green-500/60 rounded-xl p-4 transition-all cursor-pointer text-left"
+          >
             <div className="text-xs text-green-400 font-semibold mb-1">Bitcoin</div>
             <div className="text-xl md:text-2xl font-black text-white">{formatPrice(96247)}</div>
-            <div className="text-sm text-green-400">+4.2% 📈</div>
-          </div>
-          <div className="bg-gradient-to-br from-blue-500/20 to-blue-600/10 border border-blue-500/30 rounded-xl p-4">
+            <div className="text-sm text-green-400">+4.43% 📈</div>
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => window.open('https://www.tradingview.com/symbols/SPX/', '_blank')}
+            className="bg-gradient-to-br from-blue-500/20 to-blue-600/10 border border-blue-500/30 hover:border-blue-500/60 rounded-xl p-4 transition-all cursor-pointer text-left"
+          >
             <div className="text-xs text-blue-400 font-semibold mb-1">S&P 500</div>
             <div className="text-xl md:text-2xl font-black text-white">5,881</div>
-            <div className="text-sm text-green-400">+0.8% 📊</div>
-          </div>
-          <div className="bg-gradient-to-br from-purple-500/20 to-purple-600/10 border border-purple-500/30 rounded-xl p-4">
+            <div className="text-sm text-green-400">+1.18% 📊</div>
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => window.open('https://www.tradingview.com/symbols/ETHUSD/', '_blank')}
+            className="bg-gradient-to-br from-purple-500/20 to-purple-600/10 border border-purple-500/30 hover:border-purple-500/60 rounded-xl p-4 transition-all cursor-pointer text-left"
+          >
             <div className="text-xs text-purple-400 font-semibold mb-1">Ethereum</div>
             <div className="text-xl md:text-2xl font-black text-white">{formatPrice(3421)}</div>
-            <div className="text-sm text-green-400">+3.9% 🚀</div>
-          </div>
-          <div className="bg-gradient-to-br from-amber-500/20 to-amber-600/10 border border-amber-500/30 rounded-xl p-4">
+            <div className="text-sm text-green-400">+3.76% 🚀</div>
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => window.open('https://www.tradingview.com/symbols/XAUUSD/', '_blank')}
+            className="bg-gradient-to-br from-amber-500/20 to-amber-600/10 border border-amber-500/30 hover:border-amber-500/60 rounded-xl p-4 transition-all cursor-pointer text-left"
+          >
             <div className="text-xs text-amber-400 font-semibold mb-1">Gold</div>
             <div className="text-xl md:text-2xl font-black text-white">{formatPrice(2631)}</div>
-            <div className="text-sm text-green-400">+0.3% 💰</div>
-          </div>
+            <div className="text-sm text-green-400">+0.13% 💰</div>
+          </motion.button>
         </motion.div>
 
         {/* Category Filters */}
@@ -671,6 +691,56 @@ export default function NewsPage() {
             <span className="text-sm font-normal text-neutral-400">({filteredNews.length} articles)</span>
           </h2>
           <p className="text-neutral-400 mb-6">Breaking stories from top financial sources</p>
+        </div>
+
+        {/* Analysis Section */}
+        <div id="analysis" className="scroll-mt-32 mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="bg-gradient-to-br from-[#6366F1]/10 to-[#8B5CF6]/10 rounded-3xl border-2 border-[#6366F1]/30 p-8"
+          >
+            <h2 className="text-3xl font-black text-white mb-4 flex items-center gap-3">
+              <span>🔍</span>
+              <span>Market Analysis</span>
+            </h2>
+            <p className="text-neutral-300 mb-6">
+              Professional insights and trading signals powered by AI
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Link href="/">
+                <motion.div
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  className="bg-white/5 rounded-2xl p-6 border border-white/10 hover:border-[#6366F1]/50 transition-all cursor-pointer"
+                >
+                  <div className="text-4xl mb-3">🤖</div>
+                  <h3 className="text-xl font-bold text-white mb-2">AI Chart Analysis</h3>
+                  <p className="text-neutral-400 text-sm mb-4">
+                    Upload any trading chart and get instant AI-powered analysis with entry/exit points
+                  </p>
+                  <div className="text-[#6366F1] font-bold flex items-center gap-2">
+                    Analyze Now →
+                  </div>
+                </motion.div>
+              </Link>
+              <Link href="/journal">
+                <motion.div
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  className="bg-white/5 rounded-2xl p-6 border border-white/10 hover:border-[#6366F1]/50 transition-all cursor-pointer"
+                >
+                  <div className="text-4xl mb-3">📓</div>
+                  <h3 className="text-xl font-bold text-white mb-2">Trading Journal</h3>
+                  <p className="text-neutral-400 text-sm mb-4">
+                    Track your trades, analyze performance, and improve your strategy with detailed insights
+                  </p>
+                  <div className="text-[#6366F1] font-bold flex items-center gap-2">
+                    View Journal →
+                  </div>
+                </motion.div>
+              </Link>
+            </div>
+          </motion.div>
         </div>
 
         {/* Loading State */}

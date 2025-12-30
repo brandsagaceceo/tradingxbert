@@ -10,14 +10,14 @@ interface SectorData {
 
 export default function SectorPerformance() {
   const [sectors, setSectors] = useState<SectorData[]>([
-    { name: "Technology", change: 3.2, icon: "💻" },
-    { name: "Crypto", change: 5.8, icon: "₿" },
-    { name: "Energy", change: 1.4, icon: "⚡" },
-    { name: "Finance", change: 2.1, icon: "🏦" },
-    { name: "Healthcare", change: -0.5, icon: "🏥" },
-    { name: "Consumer", change: 1.8, icon: "🛒" },
-    { name: "Real Estate", change: -1.2, icon: "🏠" },
-    { name: "Utilities", change: 0.3, icon: "🔌" }
+    { name: "Crypto", change: 6.07, icon: "₿" },
+    { name: "Technology", change: 3.18, icon: "💻" },
+    { name: "Finance", change: 1.97, icon: "🏦" },
+    { name: "Energy", change: 1.63, icon: "⚡" },
+    { name: "Consumer", change: 1.60, icon: "🛒" },
+    { name: "Utilities", change: 0.44, icon: "🔌" },
+    { name: "Healthcare", change: -0.69, icon: "🏥" },
+    { name: "Real Estate", change: -1.16, icon: "🏠" }
   ]);
 
   useEffect(() => {
