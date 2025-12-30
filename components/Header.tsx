@@ -152,6 +152,14 @@ export default function Header() {
         >
           <nav className="flex flex-col p-4 pb-6 space-y-1">
             <Link 
+              href="/"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center gap-3 px-4 py-4 text-base text-white hover:text-[#6366F1] transition-all duration-300 rounded-xl hover:bg-gradient-to-r hover:from-[#6366F1]/20 hover:to-[#8B5CF6]/20 font-bold active:scale-95 border border-transparent hover:border-[#6366F1]/30"
+            >
+              <span className="text-2xl">📊</span>
+              <span>Chart Analyzer</span>
+            </Link>
+            <Link 
               href="/university"
               onClick={() => setMobileMenuOpen(false)}
               className="flex items-center gap-3 px-4 py-4 text-base text-white hover:text-[#6366F1] transition-all duration-300 rounded-xl hover:bg-gradient-to-r hover:from-[#6366F1]/20 hover:to-[#8B5CF6]/20 font-bold active:scale-95 border border-transparent hover:border-[#6366F1]/30"
