@@ -376,15 +376,6 @@ export default function NewsPage() {
             </div>
           </motion.div>
         </div>
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-              <div className="absolute bottom-0 left-0 p-6">
-                <h3 className="text-2xl font-black text-white mb-2">Market Analysis & Insights</h3>
-                <p className="text-neutral-300">Professional trading analysis powered by AI</p>
-              </div>
-            </div>
-          </motion.div>
-        </div>
 
         {/* Auto-refresh Indicator */}
         <motion.div
