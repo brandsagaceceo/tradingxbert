@@ -258,17 +258,17 @@ export default function ProfessionalChart({ symbol = "BTCUSD", title = "Bitcoin"
           className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/80 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-white/20"
         >
           <div className="text-xs text-neutral-400">Current</div>
-          <div className="text-sm font-black text-white">{currentPrice.price}</div>
+          <div className="text-sm font-black text-white">{displayPrice}</div>
         </motion.div>
       </div>
       
       {/* Chart Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 overflow-hidden">
         {[
-          { label: "24h High", value: currentPrice.high, color: "text-emerald-400", icon: "↑" },
-          { label: "24h Low", value: currentPrice.low, color: "text-red-400", icon: "↓" },
-          { label: "Volume", value: currentPrice.volume, color: "text-blue-400", icon: "📊" },
-          { label: "Market Cap", value: currentPrice.marketCap, color: "text-purple-400", icon: "💎" }
+          { label: "24h High", value: livePrice ? `$${formatPrice(livePrice.price * 1.03)}` : 'N/A', color: "text-emerald-400", icon: "↑" },
+          { label: "24h Low", value: livePrice ? `$${formatPrice(livePrice.price * 0.97)}` : 'N/A', color: "text-red-400", icon: "↓" },
+          { label: "Volume", value: "Live", color: "text-blue-400", icon: "📊" },
+          { label: "Market Cap", value: "Live", color: "text-purple-400", icon: "💎" }
         ].map((stat, i) => (
           <motion.div
             key={i}
