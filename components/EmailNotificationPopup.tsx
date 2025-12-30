@@ -23,6 +23,18 @@ export default function EmailNotificationPopup() {
     }
   }, []);
 
+  // Add ESC key handler
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && showPopup) {
+        handleDismiss();
+      }
+    };
+    
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, [showPopup]);
+
   const handleSubscribe = async () => {
     if (!email || !email.includes("@")) {
       setError("Please enter a valid email address");
@@ -39,7 +51,9 @@ export default function EmailNotificationPopup() {
         body: JSON.stringify({ email }),
       });
 
-      if (response.ok) {
+      const data = await response.json();
+
+      if (response.ok || data.success || data.message) {
         setSuccess(true);
         localStorage.setItem("emailSubscribed", "true");
         localStorage.setItem("emailPopupSeen", "true");
@@ -48,10 +62,11 @@ export default function EmailNotificationPopup() {
           setShowPopup(false);
         }, 2000);
       } else {
-        setError("Failed to subscribe. Please try again.");
+        setError(data.error || "Failed to subscribe. Please try again.");
       }
     } catch (err) {
-      setError("Something went wrong. Please try again.");
+      console.error("Subscription error:", err);
+      setError("Connection error. Please check your internet and try again.");
     } finally {
       setLoading(false);
     }
@@ -71,7 +86,11 @@ export default function EmailNotificationPopup() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/80 backdrop-blur-md z-[9999] flex items-center justify-center p-4"
-            onClick={handleDismiss}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                handleDismiss();
+              }
+            }}
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -102,8 +121,12 @@ export default function EmailNotificationPopup() {
                 </div>
 
                 <button
-                  onClick={handleDismiss}
-                  className="absolute top-3 right-3 md:top-4 md:right-4 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-all text-white hover:rotate-90 z-10 text-xl"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDismiss();
+                  }}
+                  className="absolute top-3 right-3 md:top-4 md:right-4 w-10 h-10 flex items-center justify-center rounded-full bg-red-500/80 hover:bg-red-600 transition-all text-white hover:scale-110 z-[100] text-xl shadow-lg cursor-pointer"
+                  aria-label="Close popup"
                 >
                   ✕
                 </button>
