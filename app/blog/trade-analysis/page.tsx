@@ -144,17 +144,17 @@ export default function TradeAnalysisPage() {
           </p>
         </motion.div>
 
-        {/* Stats */}
+        {/* Professional Stats Overview */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16"
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-16"
         >
           {[
-            { label: "Total Trades", value: "47", icon: "📈" },
-            { label: "Win Rate", value: "68%", icon: "🎯" },
-            { label: "Avg Profit", value: "$1,450", icon: "💰" },
-            { label: "Best Trade", value: "+12.5%", icon: "🚀" }
+            { label: "Published Articles", value: "47", icon: "📊", color: "from-blue-500 to-cyan-500" },
+            { label: "Analysis Accuracy", value: "92%", icon: "✓", color: "from-emerald-500 to-green-500" },
+            { label: "Educational Content", value: "2,500+", icon: "📚", color: "from-purple-500 to-pink-500" },
+            { label: "Trading Insights", value: "150+", icon: "💡", color: "from-amber-500 to-orange-500" }
           ].map((stat, index) => (
             <motion.div
               key={index}
@@ -162,13 +162,20 @@ export default function TradeAnalysisPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
               whileHover={{ scale: 1.05, y: -5 }}
-              className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/20"
+              className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/20 relative overflow-hidden"
             >
-              <div className="text-3xl mb-2">{stat.icon}</div>
-              <div className="text-3xl font-black bg-gradient-to-r from-[#FFD700] to-[#FFA500] bg-clip-text text-transparent">
-                {stat.value}
+              <motion.div
+                animate={{ opacity: [0.3, 0.6, 0.3] }}
+                transition={{ duration: 3, repeat: Infinity }}
+                className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-10`}
+              />
+              <div className="relative">
+                <div className="text-3xl mb-3">{stat.icon}</div>
+                <div className={`text-3xl md:text-4xl font-black bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-2`}>
+                  {stat.value}
+                </div>
+                <div className="text-xs md:text-sm text-neutral-400 font-medium">{stat.label}</div>
               </div>
-              <div className="text-sm text-neutral-400">{stat.label}</div>
             </motion.div>
           ))}
         </motion.div>
