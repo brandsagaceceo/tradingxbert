@@ -263,7 +263,7 @@ export default function NewsPage() {
             </motion.div>
             <div className="flex-1">
               <p className="text-white font-bold">
-                Bitcoin Rallies Past $96K • NVIDIA Hits All-Time High • Fed Holds Rates Steady
+                Bitcoin Surges to $96K • S&P 500 Reaches 5,850 • Tech Stocks Rally
               </p>
             </div>
             <button className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-bold transition-all">
