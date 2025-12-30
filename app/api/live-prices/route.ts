@@ -14,11 +14,11 @@ export async function GET(req: NextRequest) {
     const currentStockPrices: any = {
       AAPL: { price: 194.50, change: 1.2 },
       TSLA: { price: 358.20, change: -2.1 },
-      NVDA: { price: 495.75, change: 2.3 },
+      NVDA: { price: 872.50, change: 6.7 },  // Updated to match news - AI chip dominance
       GOOGL: { price: 167.80, change: 1.5 },
       MSFT: { price: 414.90, change: 0.8 },
       AMZN: { price: 219.50, change: 1.9 },
-      META: { price: 614.30, change: 2.4 }
+      META: { price: 487.30, change: -0.8 }  // Updated to match market conditions
     };
     
     const yahooPromises = stockSymbols.map(async (symbol) => {
@@ -101,15 +101,15 @@ export async function GET(req: NextRequest) {
 
     // Fetch commodity prices (using Yahoo Finance alternative)
     const commodities = {
-      GOLD: { price: 2627.80, change: 0.71 }, // These require paid APIs
+      GOLD: { price: 2614.50, change: 0.5 }, // Gold at $2,600+ range
       SILVER: { price: 29.87, change: 2.68 },
-      OIL: { price: 71.23, change: 3.11 }
+      OIL: { price: 71.15, change: 2.8 }  // Oil at $71 with OPEC+ cuts
     };
 
     // Index prices (SPX, DJI) - using fallback since free APIs are limited
     const indices = {
-      SPX: { price: 5878.34, change: 1.16 },
-      DJI: { price: 42458.90, change: 0.79 }
+      SPX: { price: 5847.50, change: 1.2 },  // S&P 500 above 5,800 milestone
+      DJI: { price: 42892.30, change: 0.8 }
     };
 
     return NextResponse.json({

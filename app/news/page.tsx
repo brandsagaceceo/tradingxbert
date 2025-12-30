@@ -4,6 +4,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useCallback } from "react";
 import LiveStockTicker from "@/components/LiveStockTicker";
 import FearGreedIndex from "@/components/FearGreedIndex";
+import MarketHeatmap from "@/components/MarketHeatmap";
+import TradingViewWidget from "@/components/TradingViewWidget";
+import TopMovers from "@/components/TopMovers";
+import SectorPerformance from "@/components/SectorPerformance";
+import GlobalIndices from "@/components/GlobalIndices";
 import Image from "next/image";
 
 interface NewsArticle {
@@ -294,87 +299,29 @@ export default function NewsPage() {
         </motion.div>
 
         {/* Market Overview Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
-          {/* Fear & Greed Index */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
+        <div className="space-y-6 mb-12">
+          {/* Primary Charts Row */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <TradingViewWidget symbol="BTCUSD" title="Bitcoin" />
+            <TradingViewWidget symbol="SPX" title="S&P 500" />
+          </div>
+
+          {/* Market Heatmap */}
+          <MarketHeatmap />
+
+          {/* Top Movers and Fear & Greed */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2">
+              <TopMovers />
+            </div>
             <FearGreedIndex />
-          </motion.div>
+          </div>
 
-          {/* Featured Images - Market Activity */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="lg:col-span-2 grid grid-cols-2 gap-4"
-          >
-            {/* Trading Floor Image */}
-            <div className="relative h-48 rounded-xl overflow-hidden border-2 border-[#6366F1]/30 shadow-xl">
-              <Image
-                src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&h=400&fit=crop"
-                alt="Trading floor"
-                width={600}
-                height={400}
-                className="object-cover w-full h-full"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-              <div className="absolute bottom-3 left-3">
-                <p className="text-white font-bold text-sm">📊 Market Overview</p>
-                <p className="text-neutral-300 text-xs">Real-time data</p>
-              </div>
-            </div>
-
-            {/* Charts & Analysis Image */}
-            <div className="relative h-48 rounded-xl overflow-hidden border-2 border-[#8B5CF6]/30 shadow-xl">
-              <Image
-                src="https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=600&h=400&fit=crop"
-                alt="Market analysis charts"
-                width={600}
-                height={400}
-                className="object-cover w-full h-full"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-              <div className="absolute bottom-3 left-3">
-                <p className="text-white font-bold text-sm">📈 Live Analysis</p>
-                <p className="text-neutral-300 text-xs">Technical charts</p>
-              </div>
-            </div>
-
-            {/* Business News Image */}
-            <div className="relative h-48 rounded-xl overflow-hidden border-2 border-[#EC4899]/30 shadow-xl">
-              <Image
-                src="https://images.unsplash.com/photo-1590650153855-d9e808231d41?w=600&h=400&fit=crop"
-                alt="Business professionals"
-                width={600}
-                height={400}
-                className="object-cover w-full h-full"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-              <div className="absolute bottom-3 left-3">
-                <p className="text-white font-bold text-sm">💼 Market Insights</p>
-                <p className="text-neutral-300 text-xs">Expert analysis</p>
-              </div>
-            </div>
-
-            {/* Crypto Trading Image */}
-            <div className="relative h-48 rounded-xl overflow-hidden border-2 border-[#6366F1]/30 shadow-xl">
-              <Image
-                src="https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&h=400&fit=crop"
-                alt="Cryptocurrency trading"
-                width={600}
-                height={400}
-                className="object-cover w-full h-full"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-              <div className="absolute bottom-3 left-3">
-                <p className="text-white font-bold text-sm">₿ Crypto Markets</p>
-                <p className="text-neutral-300 text-xs">Digital assets</p>
-              </div>
-            </div>
-          </motion.div>
+          {/* Sector Performance and Global Indices */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <SectorPerformance />
+            <GlobalIndices />
+          </div>
         </div>
 
         {/* Auto-refresh Indicator */}
@@ -383,13 +330,29 @@ export default function NewsPage() {
           animate={{ opacity: 1 }}
           className="text-center mb-8"
         >
-          <button
-            onClick={fetchNews}
-            className="px-6 py-2 bg-white/10 hover:bg-white/20 rounded-full text-sm font-semibold transition-all border border-white/20 hover:border-[#6366F1]/50"
-          >
-            <span className="mr-2">🔄</span>
-            Refresh Now
-          </button>
+          <div className="inline-flex items-center gap-4">
+            <button
+              onClick={fetchNews}
+              className="px-6 py-3 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] hover:from-[#8B5CF6] hover:to-[#6366F1] rounded-full text-sm font-bold transition-all border border-white/20 hover:shadow-lg hover:shadow-[#6366F1]/50"
+            >
+              <span className="mr-2">🔄</span>
+              Refresh News
+            </button>
+            <div className="px-4 py-2 bg-black/40 rounded-full text-sm">
+              <span className="text-neutral-400">Total Articles:</span>
+              <span className="font-black text-white ml-2">{filteredNews.length}</span>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* News Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-8"
+        >
+          <h2 className="text-4xl font-black text-white mb-2">Latest Market News</h2>
+          <p className="text-neutral-400">Breaking stories from top financial sources</p>
         </motion.div>
 
         {/* Loading State */}
