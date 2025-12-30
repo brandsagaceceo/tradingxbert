@@ -84,9 +84,9 @@ export default function EmailNotificationPopup() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 50 }}
             transition={{ type: "spring", duration: 0.5 }}
-            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[10000] w-[95%] max-w-lg max-h-[90vh] overflow-y-auto"
+            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[10000] w-[90%] max-w-lg max-h-[85vh] overflow-y-auto"
           >
-            <div className="bg-gradient-to-br from-[#1a1a2e] to-[#0f3460] rounded-2xl border-2 border-[#6366F1]/50 shadow-2xl shadow-[#6366F1]/20 p-4 md:p-8 relative overflow-hidden">
+            <div className="bg-gradient-to-br from-[#1a1a2e] to-[#0f3460] rounded-xl md:rounded-2xl border-2 border-[#6366F1]/50 shadow-2xl shadow-[#6366F1]/20 p-3 md:p-8 relative overflow-hidden">
               {/* Animated background effects */}
               <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <motion.div
@@ -125,7 +125,7 @@ export default function EmailNotificationPopup() {
                         scale: [1, 1.1, 1]
                       }}
                       transition={{ duration: 2, repeat: Infinity }}
-                      className="text-6xl mb-4 text-center"
+                      className="text-4xl md:text-6xl mb-3 md:mb-4 text-center"
                     >
                       📬
                     </motion.div>
@@ -136,10 +136,10 @@ export default function EmailNotificationPopup() {
                     </h2>
 
                     {/* Description */}
-                    <p className="text-neutral-300 text-center mb-2 text-lg">
+                    <p className="text-neutral-300 text-center mb-2 text-sm md:text-lg">
                       Join <span className="text-white font-black">10,000+ traders</span> getting instant alerts
                     </p>
-                    <p className="text-neutral-400 text-center mb-6 text-sm">
+                    <p className="text-neutral-400 text-center mb-4 md:mb-6 text-xs md:text-sm">
                       Don't miss the next Bitcoin surge or market crash. Get notified within seconds of major movements.
                     </p>
 
@@ -169,10 +169,10 @@ export default function EmailNotificationPopup() {
                     </div>
                     
                     {/* Social Proof */}
-                    <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 rounded-lg p-3 mb-6">
+                    <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 rounded-lg p-2 md:p-3 mb-4 md:mb-6">
                       <div className="flex items-center justify-center gap-2 text-green-400">
-                        <span className="text-xl">🔥</span>
-                        <span className="font-bold">427 traders signed up in the last 24 hours</span>
+                        <span className="text-lg md:text-xl">🔥</span>
+                        <span className="font-bold text-xs md:text-sm">427 traders signed up today</span>
                       </div>
                     </div>
 
@@ -198,7 +198,7 @@ export default function EmailNotificationPopup() {
                         whileTap={{ scale: 0.98 }}
                         onClick={handleSubscribe}
                         disabled={loading}
-                        className="w-full px-6 py-3 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] text-white font-black rounded-lg hover:shadow-lg hover:shadow-[#6366F1]/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full px-4 md:px-6 py-2.5 md:py-3 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] text-white font-black rounded-lg hover:shadow-lg hover:shadow-[#6366F1]/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base"
                       >
                         {loading ? (
                           <span className="flex items-center justify-center gap-2">
