@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useCallback } from "react";
+import LiveStockTicker from "@/components/LiveStockTicker";
 
 interface NewsArticle {
   title: string;
@@ -175,6 +176,11 @@ export default function NewsPage() {
           transition={{ duration: 12, repeat: Infinity }}
           className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-r from-[#EC4899] to-[#8B5CF6] rounded-full blur-3xl"
         />
+      </div>
+
+      {/* Live Stock Ticker - Full Width at Top */}
+      <div className="relative z-20">
+        <LiveStockTicker />
       </div>
 
       {/* New Articles Notification */}
