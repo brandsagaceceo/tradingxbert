@@ -5,8 +5,11 @@ import { useState, useEffect, useCallback } from "react";
 import LiveStockTicker from "@/components/LiveStockTicker";
 import FearGreedIndex from "@/components/FearGreedIndex";
 import MarketHeatmap from "@/components/MarketHeatmap";
-import TradingViewWidget from "@/components/TradingViewWidget";
+import ProfessionalChart from "@/components/ProfessionalChart";
 import TopMovers from "@/components/TopMovers";
+import TradingInsights from "@/components/TradingInsights";
+import EconomicCalendar from "@/components/EconomicCalendar";
+import PopularAssets from "@/components/PopularAssets";
 import SectorPerformance from "@/components/SectorPerformance";
 import GlobalIndices from "@/components/GlobalIndices";
 import TrendingNews from "@/components/TrendingNews";
@@ -557,57 +560,52 @@ export default function NewsPage() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  whileHover={{ scale: 1.02 }}
+                  className="cursor-pointer"
                   onClick={() => setSelectedChart({url: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200', title: 'Bitcoin Live Chart'})}
-                  className="cursor-zoom-in"
                 >
-                  <TradingViewWidget symbol="BTCUSD" title="Bitcoin" />
+                  <ProfessionalChart symbol="BTCUSD" title="Bitcoin" />
                 </motion.div>
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  whileHover={{ scale: 1.02 }}
+                  className="cursor-pointer"
                   onClick={() => setSelectedChart({url: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=1200', title: 'S&P 500 Live Chart'})}
-                  className="cursor-zoom-in"
                 >
-                  <TradingViewWidget symbol="SPX" title="S&P 500" />
+                  <ProfessionalChart symbol="SPX" title="S&P 500" />
                 </motion.div>
               </div>
 
               {/* Secondary Charts Row */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  whileHover={{ scale: 1.02 }}
+                  className="cursor-pointer"
                   onClick={() => setSelectedChart({url: 'https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=1200', title: 'Ethereum Live Chart'})}
-                  className="cursor-zoom-in"
                 >
-                  <TradingViewWidget symbol="ETH" title="Ethereum" />
+                  <ProfessionalChart symbol="ETH" title="Ethereum" />
                 </motion.div>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.1 }}
-                  whileHover={{ scale: 1.02 }}
+                  className="cursor-pointer"
                   onClick={() => setSelectedChart({url: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200', title: 'Apple Stock Chart'})}
-                  className="cursor-zoom-in"
                 >
-                  <TradingViewWidget symbol="AAPL" title="Apple" />
+                  <ProfessionalChart symbol="AAPL" title="Apple" />
                 </motion.div>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.2 }}
-                  whileHover={{ scale: 1.02 }}
+                  className="cursor-pointer"
                   onClick={() => setSelectedChart({url: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1200', title: 'NVIDIA Stock Chart'})}
-                  className="cursor-zoom-in"
                 >
-                  <TradingViewWidget symbol="NVDA" title="NVIDIA" />
+                  <ProfessionalChart symbol="NVDA" title="NVIDIA" />
                 </motion.div>
               </div>
 
@@ -631,11 +629,37 @@ export default function NewsPage() {
             </div>
           </div>
 
-          {/* Right Sidebar - Service Banners */}
-          <div className="lg:col-span-3">
-            <div className="sticky top-24">
+          {/* Right Sidebar - Multiple Widgets */}
+          <div className="lg:col-span-3 space-y-6">
+            {/* Trading Insights */}
+            <TradingInsights />
+            
+            {/* Economic Calendar */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <EconomicCalendar />
+            </motion.div>
+            
+            {/* Popular Assets */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <PopularAssets />
+            </motion.div>
+            
+            {/* Service Banners */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
               <ServiceBanners />
-            </div>
+            </motion.div>
           </div>
         </div>
 
