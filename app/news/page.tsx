@@ -11,8 +11,6 @@ import SectorPerformance from "@/components/SectorPerformance";
 import GlobalIndices from "@/components/GlobalIndices";
 import TrendingNews from "@/components/TrendingNews";
 import PriceAlerts from "@/components/PriceAlerts";
-import TrendingNews from "@/components/TrendingNews";
-import PriceAlerts from "@/components/PriceAlerts";
 import NewsShareButtons from "@/components/NewsShareButtons";
 import Image from "next/image";
 
