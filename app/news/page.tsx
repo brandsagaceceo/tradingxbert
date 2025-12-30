@@ -20,7 +20,6 @@ import BTCFactsSidebar from "@/components/BTCFactsSidebar";
 import Watchlist from "@/components/Watchlist";
 import MarketStats from "@/components/MarketStats";
 import ServiceBanners from "@/components/ServiceBanners";
-import ChartModal from "@/components/ChartModal";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -44,7 +43,6 @@ export default function NewsPage() {
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [currency, setCurrency] = useState<'USD' | 'CAD'>('USD');
-  const [selectedChart, setSelectedChart] = useState<{url: string; title: string} | null>(null);
   
   // USD to CAD exchange rate (approximate)
   const CAD_RATE = 1.35;
@@ -72,7 +70,7 @@ export default function NewsPage() {
           source: "Crypto Daily",
           category: "crypto",
           isNew: true,
-          image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=800&h=500&fit=crop"
+          image: "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=800&h=500&fit=crop&q=80"
         },
         {
           title: "Fed Holds Rates Steady as Inflation Nears 2% Target",
@@ -81,7 +79,7 @@ export default function NewsPage() {
           publishedAt: new Date(Date.now() - 3600000).toISOString(),
           source: "Financial Times",
           category: "forex",
-          image: "https://images.unsplash.com/photo-1560472355-536de3962603?w=800&h=500&fit=crop"
+          image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=500&fit=crop&q=80"
         },
         {
           title: "NVIDIA Stock Surges Above $870 on AI Chip Dominance",
@@ -90,7 +88,7 @@ export default function NewsPage() {
           publishedAt: new Date(Date.now() - 7200000).toISOString(),
           source: "Bloomberg",
           category: "stocks",
-          image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop"
+          image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop&q=80"
         },
         {
           title: "Gold Breaks $2,600 as Global Uncertainty Drives Safe-Haven Demand",
@@ -99,7 +97,7 @@ export default function NewsPage() {
           publishedAt: new Date(Date.now() - 10800000).toISOString(),
           source: "Reuters",
           category: "commodities",
-          image: "https://images.unsplash.com/photo-1610375461369-d613b564f4c4?w=800&h=500&fit=crop"
+          image: "https://images.unsplash.com/photo-1610375461246-83df859d849d?w=800&h=500&fit=crop&q=80"
         },
         {
           title: "S&P 500 Closes Above 5,800 for First Time Ever",
@@ -108,7 +106,7 @@ export default function NewsPage() {
           publishedAt: new Date(Date.now() - 14400000).toISOString(),
           source: "MarketWatch",
           category: "stocks",
-          image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=500&fit=crop"
+          image: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&h=500&fit=crop&q=80"
         },
         {
           title: "Crude Oil Jumps to $71 as OPEC+ Extends Production Cuts",
@@ -117,7 +115,7 @@ export default function NewsPage() {
           publishedAt: new Date(Date.now() - 18000000).toISOString(),
           source: "CNBC",
           category: "commodities",
-          image: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&h=500&fit=crop"
+          image: "https://images.unsplash.com/photo-1541844053589-346841d0b34c?w=800&h=500&fit=crop&q=80"
         },
         {
           title: "Ethereum Climbs Above $3,400 Following Major Network Upgrade",
@@ -126,7 +124,7 @@ export default function NewsPage() {
           publishedAt: new Date(Date.now() - 21600000).toISOString(),
           source: "CoinDesk",
           category: "crypto",
-          image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&h=500&fit=crop"
+          image: "https://images.unsplash.com/photo-1622630998477-20aa696ecb05?w=800&h=500&fit=crop&q=80"
         },
         {
           title: "Apple Stock Hits $194 on Strong iPhone 16 Sales",
@@ -135,7 +133,7 @@ export default function NewsPage() {
           publishedAt: new Date(Date.now() - 25200000).toISOString(),
           source: "WSJ",
           category: "stocks",
-          image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=500&fit=crop"
+          image: "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=800&h=500&fit=crop&q=80"
         },
         {
           title: "Tesla Stock Down 3.5% Despite Record EV Deliveries",
@@ -144,7 +142,7 @@ export default function NewsPage() {
           publishedAt: new Date(Date.now() - 28800000).toISOString(),
           source: "MarketWatch",
           category: "stocks",
-          image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=500&fit=crop"
+          image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=800&h=500&fit=crop&q=80"
         },
         {
           title: "XRP Soars 850% Year-Over-Year as SEC Case Concludes",
@@ -153,7 +151,7 @@ export default function NewsPage() {
           publishedAt: new Date(Date.now() - 32400000).toISOString(),
           source: "CoinTelegraph",
           category: "crypto",
-          image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=800&h=500&fit=crop"
+          image: "https://images.unsplash.com/photo-1639322537228-f710d846310a?w=800&h=500&fit=crop&q=80"
         },
         {
           title: "Microsoft Reaches $414 on Azure AI Revenue Surge",
@@ -162,7 +160,7 @@ export default function NewsPage() {
           publishedAt: new Date(Date.now() - 36000000).toISOString(),
           source: "Bloomberg",
           category: "stocks",
-          image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop"
+          image: "https://images.unsplash.com/photo-1633158829585-23ba8f7c8caf?w=800&h=500&fit=crop&q=80"
         }
       ];
       
@@ -469,8 +467,79 @@ export default function NewsPage() {
 
         {/* Market Overview Section with Sidebars */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
-          {/* Left Sidebar - BTC Facts (hidden on mobile) */}
-          <div className="hidden lg:block lg:col-span-3">
+          {/* Left Sidebar - Market Sentiment & BTC Facts */}
+          <div className="hidden lg:block lg:col-span-3 space-y-6">
+            {/* Market Sentiment Widget */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="bg-gradient-to-br from-[#1a1a2e] to-[#0f3460] rounded-2xl border-2 border-[#6366F1]/30 p-6 shadow-xl overflow-hidden relative"
+            >
+              <div className="relative z-10">
+                <h3 className="text-xl font-black text-white mb-4 flex items-center gap-2">
+                  <span className="text-2xl">🧠</span>
+                  Market Sentiment
+                </h3>
+                <div className="space-y-4">
+                  <div className="bg-white/5 rounded-xl p-4 border border-emerald-500/30">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm text-neutral-300">Overall Market</span>
+                      <span className="text-emerald-400 font-black text-lg">🟢 Bullish</span>
+                    </div>
+                    <div className="w-full bg-white/10 rounded-full h-2">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: "73%" }}
+                        transition={{ duration: 1, delay: 0.3 }}
+                        className="bg-gradient-to-r from-emerald-500 to-emerald-400 h-2 rounded-full"
+                      />
+                    </div>
+                    <div className="text-xs text-neutral-400 mt-1">73% Bullish</div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between bg-white/5 rounded-lg p-3">
+                      <div className="flex items-center gap-2">
+                        <span>₿</span>
+                        <span className="text-sm">Crypto</span>
+                      </div>
+                      <span className="text-emerald-400 text-sm font-bold">+85%</span>
+                    </div>
+                    <div className="flex items-center justify-between bg-white/5 rounded-lg p-3">
+                      <div className="flex items-center gap-2">
+                        <span>📈</span>
+                        <span className="text-sm">Stocks</span>
+                      </div>
+                      <span className="text-emerald-400 text-sm font-bold">+68%</span>
+                    </div>
+                    <div className="flex items-center justify-between bg-white/5 rounded-lg p-3">
+                      <div className="flex items-center gap-2">
+                        <span>💱</span>
+                        <span className="text-sm">Forex</span>
+                      </div>
+                      <span className="text-amber-400 text-sm font-bold">+52%</span>
+                    </div>
+                    <div className="flex items-center justify-between bg-white/5 rounded-lg p-3">
+                      <div className="flex items-center gap-2">
+                        <span>🛢️</span>
+                        <span className="text-sm">Commodities</span>
+                      </div>
+                      <span className="text-emerald-400 text-sm font-bold">+61%</span>
+                    </div>
+                  </div>
+                  
+                  <div className="pt-4 border-t border-white/10">
+                    <div className="text-xs text-neutral-400 mb-2">Trending Keywords</div>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="px-2 py-1 bg-emerald-500/20 border border-emerald-500/30 rounded-md text-xs text-emerald-400">AI Rally</span>
+                      <span className="px-2 py-1 bg-blue-500/20 border border-blue-500/30 rounded-md text-xs text-blue-400">ETF Inflow</span>
+                      <span className="px-2 py-1 bg-purple-500/20 border border-purple-500/30 rounded-md text-xs text-purple-400">Fed Policy</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+            
             <BTCFactsSidebar />
           </div>
 
@@ -555,7 +624,6 @@ export default function NewsPage() {
                   📈
                 </motion.span>
                 <span>Live Charts</span>
-                <span className="text-sm font-normal text-neutral-400">(Click to expand)</span>
               </motion.h2>
               
               {/* Primary Charts Row */}
@@ -564,8 +632,6 @@ export default function NewsPage() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  className="cursor-pointer"
-                  onClick={() => setSelectedChart({url: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200', title: 'Bitcoin Live Chart'})}
                 >
                   <ProfessionalChart symbol="BTCUSD" title="Bitcoin" />
                 </motion.div>
@@ -573,8 +639,6 @@ export default function NewsPage() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  className="cursor-pointer"
-                  onClick={() => setSelectedChart({url: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=1200', title: 'S&P 500 Live Chart'})}
                 >
                   <ProfessionalChart symbol="SPX" title="S&P 500" />
                 </motion.div>
@@ -586,8 +650,6 @@ export default function NewsPage() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  className="cursor-pointer"
-                  onClick={() => setSelectedChart({url: 'https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=1200', title: 'Ethereum Live Chart'})}
                 >
                   <ProfessionalChart symbol="ETH" title="Ethereum" />
                 </motion.div>
@@ -596,8 +658,6 @@ export default function NewsPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.1 }}
-                  className="cursor-pointer"
-                  onClick={() => setSelectedChart({url: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200', title: 'Apple Stock Chart'})}
                 >
                   <ProfessionalChart symbol="AAPL" title="Apple" />
                 </motion.div>
@@ -606,8 +666,6 @@ export default function NewsPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.2 }}
-                  className="cursor-pointer"
-                  onClick={() => setSelectedChart({url: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1200', title: 'NVIDIA Stock Chart'})}
                 >
                   <ProfessionalChart symbol="NVDA" title="NVIDIA" />
                 </motion.div>
@@ -824,13 +882,14 @@ export default function NewsPage() {
                     className="group bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-[#6366F1]/50 transition-all overflow-hidden"
                   >
                     {/* Professional Article Image */}
-                    <div className="relative h-56 w-full overflow-hidden">
+                    <div className="relative h-56 w-full overflow-hidden bg-neutral-900">
                       <Image
                         src={article.image}
                         alt={article.title}
                         width={800}
                         height={500}
                         className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
+                        unoptimized
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
                       
@@ -863,11 +922,11 @@ export default function NewsPage() {
                     </span>
                   </div>
                   
-                  <h2 className="text-xl font-black text-white mb-3 line-clamp-2 group-hover:text-[#6366F1] transition-colors">
+                  <h2 className="text-xl font-black text-white mb-3 line-clamp-2 group-hover:text-[#6366F1] transition-colors break-words">
                     {article.title}
                   </h2>
                   
-                  <p className="text-sm text-neutral-300 mb-4 line-clamp-3">
+                  <p className="text-sm text-neutral-300 mb-4 line-clamp-3 break-words">
                     {article.description}
                   </p>
                   
@@ -961,17 +1020,6 @@ export default function NewsPage() {
       
       {/* Email Notification Popup */}
       <EmailNotificationPopup />
-
-      {/* Chart Expansion Modal */}
-      {selectedChart && (
-        <ChartModal
-          isOpen={true}
-          onClose={() => setSelectedChart(null)}
-          imageUrl={selectedChart.url}
-          title={selectedChart.title}
-          description="Professional trading chart with live market data"
-        />
-      )}
     </main>
   );
 }

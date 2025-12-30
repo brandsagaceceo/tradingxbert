@@ -74,19 +74,19 @@ export default function EmailNotificationPopup() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[9999]"
+            className="fixed inset-0 bg-black/80 backdrop-blur-md z-[9999] flex items-center justify-center p-4"
             onClick={handleDismiss}
-          />
-
-          {/* Popup */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 50 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 50 }}
-            transition={{ type: "spring", duration: 0.5 }}
-            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[10000] w-[90%] max-w-lg max-h-[85vh] overflow-y-auto"
           >
-            <div className="bg-gradient-to-br from-[#1a1a2e] to-[#0f3460] rounded-xl md:rounded-2xl border-2 border-[#6366F1]/50 shadow-2xl shadow-[#6366F1]/20 p-3 md:p-8 relative overflow-hidden">
+            {/* Popup Container - Centered */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ type: "spring", duration: 0.5 }}
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-lg max-h-[90vh] overflow-y-auto relative"
+            >
+              <div className="bg-gradient-to-br from-[#1a1a2e] to-[#0f3460] rounded-2xl border-2 border-[#6366F1]/50 shadow-2xl shadow-[#6366F1]/30 p-6 md:p-8 relative overflow-hidden">
               {/* Animated background effects */}
               <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <motion.div
@@ -110,7 +110,7 @@ export default function EmailNotificationPopup() {
               {/* Close button */}
               <button
                 onClick={handleDismiss}
-                className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-all text-white hover:rotate-90 z-10"
+                className="absolute top-3 right-3 md:top-4 md:right-4 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-all text-white hover:rotate-90 z-10 text-xl"
               >
                 ✕
               </button>
@@ -122,45 +122,45 @@ export default function EmailNotificationPopup() {
                     <motion.div
                       animate={{ 
                         rotate: [0, 10, -10, 0],
-                        scale: [1, 1.1, 1]
+                        scale: [1, 1.05, 1]
                       }}
                       transition={{ duration: 2, repeat: Infinity }}
-                      className="text-4xl md:text-6xl mb-3 md:mb-4 text-center"
+                      className="text-5xl md:text-6xl mb-4 text-center"
                     >
                       📬
                     </motion.div>
 
                     {/* Title */}
-                    <h2 className="text-xl md:text-3xl font-black text-center mb-2 md:mb-3 bg-gradient-to-r from-[#6366F1] via-white to-[#8B5CF6] bg-clip-text text-transparent">
+                    <h2 className="text-2xl md:text-3xl font-black text-center mb-3 bg-gradient-to-r from-[#6366F1] via-white to-[#8B5CF6] bg-clip-text text-transparent">
                       Get Market Alerts Instantly!
                     </h2>
 
                     {/* Description */}
-                    <p className="text-neutral-300 text-center mb-2 text-sm md:text-lg">
+                    <p className="text-neutral-300 text-center mb-2 text-base md:text-lg">
                       Join <span className="text-white font-black">10,000+ traders</span> getting instant alerts
                     </p>
-                    <p className="text-neutral-400 text-center mb-4 md:mb-6 text-xs md:text-sm">
+                    <p className="text-neutral-400 text-center mb-5 md:mb-6 text-sm">
                       Don't miss the next Bitcoin surge or market crash. Get notified within seconds of major movements.
                     </p>
 
                     {/* Benefits */}
-                    <div className="space-y-2 md:space-y-3 mb-4 md:mb-6">
-                      <div className="flex items-start gap-2 md:gap-3 bg-white/5 rounded-lg p-2 md:p-3 border border-white/10">
-                        <span className="text-xl md:text-2xl">⚡</span>
+                    <div className="space-y-3 mb-5 md:mb-6">
+                      <div className="flex items-start gap-3 bg-white/5 rounded-xl p-3 border border-white/10">
+                        <span className="text-2xl flex-shrink-0">⚡</span>
                         <div>
                           <div className="text-sm md:text-base text-white font-bold">Lightning-Fast Alerts</div>
                           <div className="text-xs md:text-sm text-neutral-400">Get notified within 30 seconds of major price swings</div>
                         </div>
                       </div>
-                      <div className="flex items-start gap-2 md:gap-3 bg-white/5 rounded-lg p-2 md:p-3 border border-white/10">
-                        <span className="text-xl md:text-2xl">💰</span>
+                      <div className="flex items-start gap-3 bg-white/5 rounded-xl p-3 border border-white/10">
+                        <span className="text-2xl flex-shrink-0">💰</span>
                         <div>
                           <div className="text-sm md:text-base text-white font-bold">Never Miss Opportunities</div>
                           <div className="text-xs md:text-sm text-neutral-400">Catch breakouts before they run 10-20%</div>
                         </div>
                       </div>
-                      <div className="flex items-start gap-2 md:gap-3 bg-white/5 rounded-lg p-2 md:p-3 border border-white/10">
-                        <span className="text-xl md:text-2xl">🎯</span>
+                      <div className="flex items-start gap-3 bg-white/5 rounded-xl p-3 border border-white/10">
+                        <span className="text-2xl flex-shrink-0">🎯</span>
                         <div>
                           <div className="text-sm md:text-base text-white font-bold">Smart Trade Signals</div>
                           <div className="text-xs md:text-sm text-neutral-400">AI-powered insights delivered to your inbox</div>
@@ -169,10 +169,10 @@ export default function EmailNotificationPopup() {
                     </div>
                     
                     {/* Social Proof */}
-                    <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 rounded-lg p-2 md:p-3 mb-4 md:mb-6">
+                    <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 rounded-xl p-3 mb-5 md:mb-6">
                       <div className="flex items-center justify-center gap-2 text-green-400">
-                        <span className="text-lg md:text-xl">🔥</span>
-                        <span className="font-bold text-xs md:text-sm">427 traders signed up today</span>
+                        <span className="text-xl">🔥</span>
+                        <span className="font-bold text-sm">427 traders signed up today</span>
                       </div>
                     </div>
 
@@ -184,7 +184,7 @@ export default function EmailNotificationPopup() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         onKeyPress={(e) => e.key === "Enter" && handleSubscribe()}
-                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-neutral-400 focus:outline-none focus:border-[#6366F1] transition-all"
+                        className="w-full px-4 py-3 md:py-3.5 bg-white/10 border border-white/20 rounded-xl text-white placeholder-neutral-400 focus:outline-none focus:border-[#6366F1] focus:ring-2 focus:ring-[#6366F1]/50 transition-all text-base"
                         disabled={loading}
                       />
 
@@ -198,7 +198,7 @@ export default function EmailNotificationPopup() {
                         whileTap={{ scale: 0.98 }}
                         onClick={handleSubscribe}
                         disabled={loading}
-                        className="w-full px-4 md:px-6 py-2.5 md:py-3 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] text-white font-black rounded-lg hover:shadow-lg hover:shadow-[#6366F1]/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base"
+                        className="w-full px-6 py-3.5 md:py-4 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] text-white font-black rounded-xl hover:shadow-xl hover:shadow-[#6366F1]/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-base md:text-lg"
                       >
                         {loading ? (
                           <span className="flex items-center justify-center gap-2">
@@ -217,26 +217,26 @@ export default function EmailNotificationPopup() {
                       {/* Maybe later button */}
                       <button
                         onClick={handleDismiss}
-                        className="w-full text-sm text-neutral-400 hover:text-white transition-all"
+                        className="w-full text-sm text-neutral-400 hover:text-white transition-all py-2"
                       >
                         Maybe later
                       </button>
                     </div>
                   </>
                 ) : (
-                  <div className="text-center py-4">
+                  <div className="text-center py-6">
                     {/* Success animation */}
                     <motion.div
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
-                      className="text-6xl mb-4"
+                      className="text-6xl md:text-7xl mb-4"
                     >
                       ✅
                     </motion.div>
-                    <h3 className="text-2xl font-black text-white mb-2">
+                    <h3 className="text-2xl md:text-3xl font-black text-white mb-3">
                       You're All Set!
                     </h3>
-                    <p className="text-neutral-300">
+                    <p className="text-neutral-300 text-base">
                       You'll start receiving market alerts immediately. Check your inbox!
                     </p>
                   </div>
