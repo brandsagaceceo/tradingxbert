@@ -12,6 +12,18 @@ export default function TradingViewWidget({ symbol = "BTCUSD", title = "Bitcoin"
   
   const timeframes = ["5m", "15m", "1H", "4H", "1D", "1W"];
   
+  // Dynamic price data based on symbol
+  const priceData: Record<string, { price: string; change: string; changePercent: string }> = {
+    BTCUSD: { price: "$96,247.50", change: "+$3,890", changePercent: "+4.2%" },
+    SPX: { price: "5,881.63", change: "+46.71", changePercent: "+0.8%" },
+    AAPL: { price: "$250.17", change: "+2.01", changePercent: "+0.8%" },
+    TSLA: { price: "$463.02", change: "-5.63", changePercent: "-1.2%" },
+    NVDA: { price: "$140.15", change: "+2.89", changePercent: "+2.1%" },
+    ETH: { price: "$3,421.80", change: "+128.50", changePercent: "+3.9%" },
+  };
+  
+  const currentPrice = priceData[symbol] || priceData.BTCUSD;
+  
   return (
     <div className="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl rounded-3xl border border-white/10 p-6">
       <div className="flex items-center justify-between mb-4">
@@ -72,8 +84,10 @@ export default function TradingViewWidget({ symbol = "BTCUSD", title = "Bitcoin"
         
         {/* Price Overlay */}
         <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-sm px-4 py-2 rounded-lg border border-white/10">
-          <div className="text-2xl font-black text-white">$96,247.50</div>
-          <div className="text-sm text-green-400 font-bold">+4.2% (+$3,890)</div>
+          <div className="text-2xl font-black text-white">{currentPrice.price}</div>
+          <div className={`text-sm font-bold ${currentPrice.changePercent.startsWith('+') ? 'text-green-400' : 'text-red-400'}`}>
+            {currentPrice.changePercent} ({currentPrice.change})
+          </div>
         </div>
         
         {/* Volume */}

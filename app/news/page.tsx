@@ -251,22 +251,22 @@ export default function NewsPage() {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8 bg-gradient-to-r from-red-500/20 to-orange-500/20 border-2 border-red-500/50 rounded-2xl p-4 backdrop-blur-xl"
+          className="mb-8 bg-gradient-to-r from-red-500/20 to-orange-500/20 border-2 border-red-500/50 rounded-2xl p-3 md:p-4 backdrop-blur-xl"
         >
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 md:gap-4">
             <motion.div
               animate={{ scale: [1, 1.2, 1] }}
               transition={{ duration: 1, repeat: Infinity }}
-              className="px-4 py-2 bg-red-500 rounded-lg text-white font-black text-sm"
+              className="px-2 md:px-4 py-1 md:py-2 bg-red-500 rounded-lg text-white font-black text-xs md:text-sm whitespace-nowrap"
             >
               🚨 BREAKING
             </motion.div>
-            <div className="flex-1">
-              <p className="text-white font-bold">
+            <div className="flex-1 min-w-0">
+              <p className="text-white font-bold text-xs md:text-base truncate md:whitespace-normal">
                 Bitcoin Surges to $96K • S&P 500 Reaches 5,850 • Tech Stocks Rally
               </p>
             </div>
-            <button className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-bold transition-all">
+            <button className="hidden md:block px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-bold transition-all whitespace-nowrap">
               View All →
             </button>
           </div>
