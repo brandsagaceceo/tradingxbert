@@ -881,6 +881,9 @@ export default function NewsPage() {
             <p className="text-neutral-400">Try selecting a different category</p>
           </motion.div>
         )}
+            </div>
+          </div>
+        </div>
 
         {/* CTA */}
         <motion.div
