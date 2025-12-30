@@ -148,7 +148,7 @@ export default function Header() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.2 }}
-          className="lg:hidden bg-black/98 backdrop-blur-xl border-b border-[#6366F1]/20 fixed top-[65px] left-0 right-0 z-[90] shadow-2xl shadow-[#6366F1]/10 max-h-[calc(100vh-65px)] overflow-y-auto"
+          className="lg:hidden bg-black/98 backdrop-blur-xl border-b border-[#6366F1]/20 fixed top-[120px] left-0 right-0 z-[10000] shadow-2xl shadow-[#6366F1]/10 max-h-[calc(100vh-120px)] overflow-y-auto"
         >
           <nav className="flex flex-col p-4 pb-6 space-y-1">
             <Link 

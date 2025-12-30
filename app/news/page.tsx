@@ -9,6 +9,11 @@ import TradingViewWidget from "@/components/TradingViewWidget";
 import TopMovers from "@/components/TopMovers";
 import SectorPerformance from "@/components/SectorPerformance";
 import GlobalIndices from "@/components/GlobalIndices";
+import TrendingNews from "@/components/TrendingNews";
+import PriceAlerts from "@/components/PriceAlerts";
+import TrendingNews from "@/components/TrendingNews";
+import PriceAlerts from "@/components/PriceAlerts";
+import NewsShareButtons from "@/components/NewsShareButtons";
 import Image from "next/image";
 
 interface NewsArticle {
@@ -244,6 +249,31 @@ export default function NewsPage() {
       </AnimatePresence>
 
       <div className="container mx-auto px-4 py-12 relative z-10">
+        {/* Breaking News Banner */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8 bg-gradient-to-r from-red-500/20 to-orange-500/20 border-2 border-red-500/50 rounded-2xl p-4 backdrop-blur-xl"
+        >
+          <div className="flex items-center gap-4">
+            <motion.div
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 1, repeat: Infinity }}
+              className="px-4 py-2 bg-red-500 rounded-lg text-white font-black text-sm"
+            >
+              🚨 BREAKING
+            </motion.div>
+            <div className="flex-1">
+              <p className="text-white font-bold">
+                Bitcoin Rallies Past $96K • NVIDIA Hits All-Time High • Fed Holds Rates Steady
+              </p>
+            </div>
+            <button className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-bold transition-all">
+              View All →
+            </button>
+          </div>
+        </motion.div>
+
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -308,6 +338,12 @@ export default function NewsPage() {
 
           {/* Market Heatmap */}
           <MarketHeatmap />
+
+          {/* Trending News and Price Alerts Row */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <TrendingNews />
+            <PriceAlerts />
+          </div>
 
           {/* Top Movers and Fear & Greed */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -415,7 +451,7 @@ export default function NewsPage() {
                   </div>
                 </div>
 
-                <div className="px-2">
+                <div className="px-6 pb-6">
                   <div className="flex items-start justify-between mb-3">
                     <span className="px-3 py-1 bg-[#6366F1]/20 border border-[#6366F1]/50 rounded-full text-xs font-bold text-[#6366F1]">
                       {article.source}
@@ -425,7 +461,7 @@ export default function NewsPage() {
                     </span>
                   </div>
                   
-                  <h2 className="text-xl font-black text-white mb-3 line-clamp-2">
+                  <h2 className="text-xl font-black text-white mb-3 line-clamp-2 group-hover:text-[#6366F1] transition-colors">
                     {article.title}
                   </h2>
                   
@@ -433,8 +469,23 @@ export default function NewsPage() {
                     {article.description}
                   </p>
                   
-                  <div className="flex items-center text-[#6366F1] font-bold text-sm">
-                    Read more →
+                  {/* Share and Views Section */}
+                  <div className="flex items-center justify-between pt-4 border-t border-white/5">
+                    <NewsShareButtons title={article.title} url={article.url} />
+                    <div className="flex items-center gap-4 text-xs text-neutral-400">
+                      <span className="flex items-center gap-1">
+                        <motion.span
+                          animate={{ scale: [1, 1.2, 1] }}
+                          transition={{ duration: 2, repeat: Infinity }}
+                        >
+                          👁️
+                        </motion.span>
+                        {(Math.random() * 50 + 10).toFixed(1)}K
+                      </span>
+                      <span className="flex items-center gap-1">
+                        📤 {(Math.random() * 5 + 1).toFixed(1)}K
+                      </span>
+                    </div>
                   </div>
                 </div>
               </motion.a>
@@ -460,20 +511,46 @@ export default function NewsPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
-          className="mt-16 text-center bg-gradient-to-r from-[#6366F1]/20 to-[#8B5CF6]/20 p-12 rounded-3xl border border-[#6366F1]/50"
+          className="mt-16 grid md:grid-cols-2 gap-8"
         >
-          <h2 className="text-3xl font-black mb-4">Want AI Analysis on These News Events?</h2>
-          <p className="text-xl text-neutral-300 mb-6">
-            Upload charts and get instant AI-powered analysis on how news affects your trades
-          </p>
-          <motion.a
-            href="/"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="inline-block px-8 py-4 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] text-white font-black text-xl rounded-full shadow-lg shadow-[#6366F1]/50"
-          >
-            Analyze Chart Now 🚀
-          </motion.a>
+          {/* AI Analysis CTA */}
+          <div className="text-center bg-gradient-to-r from-[#6366F1]/20 to-[#8B5CF6]/20 p-8 rounded-3xl border border-[#6366F1]/50">
+            <div className="text-5xl mb-4">🤖</div>
+            <h2 className="text-2xl font-black mb-3">AI Chart Analysis</h2>
+            <p className="text-neutral-300 mb-6">
+              Upload charts and get instant AI-powered analysis on how news affects your trades
+            </p>
+            <motion.a
+              href="/"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-block px-6 py-3 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] text-white font-black rounded-full shadow-lg shadow-[#6366F1]/50"
+            >
+              Analyze Now 🚀
+            </motion.a>
+          </div>
+
+          {/* Newsletter Signup */}
+          <div className="bg-gradient-to-r from-[#EC4899]/20 to-[#8B5CF6]/20 p-8 rounded-3xl border border-[#EC4899]/50">
+            <div className="text-5xl mb-4">📧</div>
+            <h2 className="text-2xl font-black mb-3">Daily Market Digest</h2>
+            <p className="text-neutral-300 mb-6">
+              Get the top market stories delivered to your inbox every morning
+            </p>
+            <div className="flex gap-2">
+              <input
+                type="email"
+                placeholder="your@email.com"
+                className="flex-1 px-4 py-3 bg-black/40 border border-white/20 rounded-lg text-white focus:outline-none focus:border-[#EC4899]"
+              />
+              <button className="px-6 py-3 bg-gradient-to-r from-[#EC4899] to-[#8B5CF6] text-white font-black rounded-lg hover:scale-105 transition-transform">
+                Subscribe
+              </button>
+            </div>
+            <p className="text-xs text-neutral-400 mt-3">
+              ✓ Free forever • ✓ Unsubscribe anytime • ✓ No spam
+            </p>
+          </div>
         </motion.div>
       </div>
     </main>
