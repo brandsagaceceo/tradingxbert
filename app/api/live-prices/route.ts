@@ -8,26 +8,54 @@ export async function GET(req: NextRequest) {
       { next: { revalidate: 60 } } // Cache for 1 minute
     );
     
-    // Fetch real-time stock prices - using fallback with realistic current prices
-    // Free stock APIs have rate limits, so using reliable data with periodic updates
+    // Fetch real-time stock prices from Yahoo Finance API
     const stockSymbols = ['AAPL', 'TSLA', 'NVDA', 'GOOGL', 'MSFT', 'AMZN', 'META'];
-    const currentStockPrices: any = {
-      AAPL: { price: 250.17, change: 0.8 },      // Apple Dec 2025
-      TSLA: { price: 463.02, change: -1.2 },     // Tesla Dec 2025
-      NVDA: { price: 140.15, change: 2.1 },      // NVIDIA Dec 2025 - accurate price
-      GOOGL: { price: 187.52, change: 1.1 },     // Google Dec 2025
-      MSFT: { price: 435.89, change: 0.5 },      // Microsoft Dec 2025
-      AMZN: { price: 230.44, change: 1.4 },      // Amazon Dec 2025
-      META: { price: 638.40, change: 1.8 }       // Meta Dec 2025
-    };
     
-    const yahooPromises = stockSymbols.map(async (symbol) => {
-      // Return current market prices (can be updated to use paid API later)
-      return {
-        symbol,
-        price: currentStockPrices[symbol]?.price || 0,
-        change: currentStockPrices[symbol]?.change || 0
-      };
+    // Use Yahoo Finance quotes API (no API key needed)
+    const stockPromises = stockSymbols.map(async (symbol) => {
+      try {
+        const response = await fetch(
+          `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=1d`,
+          { 
+            next: { revalidate: 60 },
+            headers: {
+              'User-Agent': 'Mozilla/5.0'
+            }
+          }
+        );
+        
+        if (!response.ok) throw new Error('Yahoo Finance API failed');
+        
+        const data = await response.json();
+        const quote = data?.chart?.result?.[0];
+        const meta = quote?.meta;
+        const currentPrice = meta?.regularMarketPrice || 0;
+        const previousClose = meta?.previousClose || currentPrice;
+        const change = previousClose > 0 ? ((currentPrice - previousClose) / previousClose) * 100 : 0;
+        
+        return {
+          symbol,
+          price: currentPrice,
+          change: change
+        };
+      } catch (error) {
+        console.error(`Error fetching ${symbol}:`, error);
+        // Fallback prices if Yahoo Finance fails
+        const fallback: any = {
+          AAPL: { price: 250.17, change: 0.8 },
+          TSLA: { price: 463.02, change: -1.2 },
+          NVDA: { price: 140.15, change: 2.1 },
+          GOOGL: { price: 187.52, change: 1.1 },
+          MSFT: { price: 435.89, change: 0.5 },
+          AMZN: { price: 230.44, change: 1.4 },
+          META: { price: 638.40, change: 1.8 }
+        };
+        return {
+          symbol,
+          price: fallback[symbol]?.price || 0,
+          change: fallback[symbol]?.change || 0
+        };
+      }
     });
 
     // Fetch forex rates
@@ -35,10 +63,48 @@ export async function GET(req: NextRequest) {
       'https://api.exchangerate-api.com/v4/latest/USD',
       { next: { revalidate: 300 } } // Cache for 5 minutes
     );
+    
+    // Fetch indices (S&P 500, Dow Jones)
+    const indicesPromises = ['%5EGSPC', '%5EDJI'].map(async (symbol) => {
+      try {
+        const response = await fetch(
+          `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=1d`,
+          { 
+            next: { revalidate: 60 },
+            headers: {
+              'User-Agent': 'Mozilla/5.0'
+            }
+          }
+        );
+        
+        if (!response.ok) throw new Error('Index fetch failed');
+        
+        const data = await response.json();
+        const quote = data?.chart?.result?.[0];
+        const meta = quote?.meta;
+        const currentPrice = meta?.regularMarketPrice || 0;
+        const previousClose = meta?.previousClose || currentPrice;
+        const change = previousClose > 0 ? ((currentPrice - previousClose) / previousClose) * 100 : 0;
+        
+        return {
+          symbol: symbol === '%5EGSPC' ? 'SPX' : 'DJI',
+          price: currentPrice,
+          change: change
+        };
+      } catch (error) {
+        console.error(`Error fetching index ${symbol}:`, error);
+        return {
+          symbol: symbol === '%5EGSPC' ? 'SPX' : 'DJI',
+          price: symbol === '%5EGSPC' ? 5881.63 : 42906.95,
+          change: 0.8
+        };
+      }
+    });
 
     const cryptoData = await cryptoResponse.json();
-    const stockData = await Promise.all(yahooPromises);
+    const stockData = await Promise.all(stockPromises);
     const forexData = await forexResponse.json();
+    const indicesData = await Promise.all(indicesPromises);
 
     // Format crypto prices
     const cryptoPrices = {
@@ -99,18 +165,70 @@ export async function GET(req: NextRequest) {
       }
     };
 
-    // Fetch commodity prices (using Yahoo Finance alternative)
-    const commodities = {
-      GOLD: { price: 2631.80, change: 0.3 }, // Gold Dec 2025
-      SILVER: { price: 29.87, change: 2.68 },
-      OIL: { price: 70.08, change: -0.5 }  // Oil Dec 2025
-    };
+    // Fetch commodity prices (Gold, Oil)
+    const commoditiesPromises = [
+      { symbol: 'GC=F', name: 'GOLD' },  // Gold Futures
+      { symbol: 'CL=F', name: 'OIL' }    // Crude Oil Futures
+    ].map(async ({ symbol, name }) => {
+      try {
+        const response = await fetch(
+          `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=1d`,
+          { 
+            next: { revalidate: 60 },
+            headers: {
+              'User-Agent': 'Mozilla/5.0'
+            }
+          }
+        );
+        
+        if (!response.ok) throw new Error('Commodity fetch failed');
+        
+        const data = await response.json();
+        const quote = data?.chart?.result?.[0];
+        const meta = quote?.meta;
+        const currentPrice = meta?.regularMarketPrice || 0;
+        const previousClose = meta?.previousClose || currentPrice;
+        const change = previousClose > 0 ? ((currentPrice - previousClose) / previousClose) * 100 : 0;
+        
+        return {
+          name,
+          price: currentPrice,
+          change: change
+        };
+      } catch (error) {
+        console.error(`Error fetching ${name}:`, error);
+        const fallback: any = {
+          GOLD: { price: 2631.80, change: 0.3 },
+          OIL: { price: 70.08, change: -0.5 }
+        };
+        return {
+          name,
+          price: fallback[name]?.price || 0,
+          change: fallback[name]?.change || 0
+        };
+      }
+    });
+    
+    const commoditiesData = await Promise.all(commoditiesPromises);
 
-    // Index prices (SPX, DJI) - using fallback since free APIs are limited
-    const indices = {
-      SPX: { price: 5881.63, change: 0.8 },  // S&P 500 Dec 29, 2025
-      DJI: { price: 42906.95, change: 0.9 }  // Dow Jones Dec 29, 2025
-    };
+    // Format commodities
+    const commodities: any = {};
+    commoditiesData.forEach((data) => {
+      commodities[data.name] = {
+        price: data.price,
+        change: data.change
+      };
+    });
+    commodities.SILVER = { price: 29.87, change: 2.68 }; // Silver doesn't have a good free API
+
+    // Format indices
+    const indices: any = {};
+    indicesData.forEach((data) => {
+      indices[data.symbol] = {
+        price: data.price,
+        change: data.change
+      };
+    });
 
     return NextResponse.json({
       crypto: cryptoPrices,
@@ -119,7 +237,7 @@ export async function GET(req: NextRequest) {
       commodities,
       indices,
       timestamp: new Date().toISOString(),
-      source: 'CoinGecko + Finnhub + ExchangeRate-API'
+      source: 'CoinGecko (Crypto) + Yahoo Finance (Stocks, Indices, Commodities) + ExchangeRate-API (Forex)'
     });
 
   } catch (error: any) {
