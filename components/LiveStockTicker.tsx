@@ -133,34 +133,34 @@ export default function LiveStockTicker({ currency = 'USD' }: Props) {
             { 
               symbol: "SPX", 
               name: "S&P 500", 
-              price: data.indices?.SPX?.price || 5878.34, 
-              change: (data.indices?.SPX?.price || 5878.34) * (data.indices?.SPX?.change || 1.16) / 100,
-              changePercent: data.indices?.SPX?.change || 1.16, 
+              price: data.indices?.SPX?.price || 0, 
+              change: (data.indices?.SPX?.price || 0) * (data.indices?.SPX?.change || 0) / 100,
+              changePercent: data.indices?.SPX?.change || 0, 
               icon: "📈" 
             },
             { 
               symbol: "DJI", 
               name: "Dow Jones", 
-              price: data.indices?.DJI?.price || 42458.90, 
-              change: (data.indices?.DJI?.price || 42458.90) * (data.indices?.DJI?.change || 0.79) / 100,
-              changePercent: data.indices?.DJI?.change || 0.79, 
+              price: data.indices?.DJI?.price || 0, 
+              change: (data.indices?.DJI?.price || 0) * (data.indices?.DJI?.change || 0) / 100,
+              changePercent: data.indices?.DJI?.change || 0, 
               icon: "📊" 
             },
             // Commodities
             { 
               symbol: "GOLD", 
               name: "Gold", 
-              price: data.commodities?.GOLD?.price || 2627.80, 
-              change: (data.commodities?.GOLD?.price || 2627.80) * (data.commodities?.GOLD?.change || 0.71) / 100,
-              changePercent: data.commodities?.GOLD?.change || 0.71, 
+              price: data.commodities?.GOLD?.price || 0, 
+              change: (data.commodities?.GOLD?.price || 0) * (data.commodities?.GOLD?.change || 0) / 100,
+              changePercent: data.commodities?.GOLD?.change || 0, 
               icon: "🥇" 
             },
             { 
               symbol: "OIL", 
               name: "Crude Oil", 
-              price: data.commodities?.OIL?.price || 71.23, 
-              change: (data.commodities?.OIL?.price || 71.23) * (data.commodities?.OIL?.change || 3.11) / 100,
-              changePercent: data.commodities?.OIL?.change || 3.11, 
+              price: data.commodities?.OIL?.price || 0, 
+              change: (data.commodities?.OIL?.price || 0) * (data.commodities?.OIL?.change || 0) / 100,
+              changePercent: data.commodities?.OIL?.change || 0, 
               icon: "🛢️" 
             },
           ];
