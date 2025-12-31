@@ -19,29 +19,37 @@ export async function GET(req: NextRequest) {
           { 
             next: { revalidate: 60 },
             headers: {
-              'User-Agent': 'Mozilla/5.0'
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
             }
           }
         );
         
-        if (!response.ok) throw new Error('Yahoo Finance API failed');
+        if (!response.ok) {
+          console.error(`Yahoo Finance API error for ${symbol}: ${response.status}`);
+          throw new Error('Yahoo Finance API failed');
+        }
         
         const data = await response.json();
         const quote = data?.quoteResponse?.result?.[0];
         
-        if (!quote) throw new Error('No quote data');
+        if (!quote) {
+          console.error(`No quote data for ${symbol}`);
+          throw new Error('No quote data');
+        }
         
-        const currentPrice = quote.regularMarketPrice || 0;
+        const currentPrice = quote.regularMarketPrice || quote.postMarketPrice || 0;
         const previousClose = quote.regularMarketPreviousClose || currentPrice;
         const change = previousClose > 0 ? ((currentPrice - previousClose) / previousClose) * 100 : 0;
+        
+        console.log(`✅ ${symbol}: $${currentPrice} (${change.toFixed(2)}%)`);
         
         return {
           symbol,
           price: currentPrice,
           change: change
         };
-      } catch (error) {
-        console.error(`Error fetching ${symbol}:`, error);
+      } catch (error: any) {
+        console.error(`Error fetching ${symbol}:`, error.message);
         // Fallback prices if Yahoo Finance fails
         const fallback: any = {
           AAPL: { price: 250.17, change: 0.8 },
