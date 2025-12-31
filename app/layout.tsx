@@ -10,8 +10,14 @@ import SignInButton from "@/components/SignInButton";
 import RiskDisclaimer from "@/components/RiskDisclaimer";
 import Header from "@/components/Header";
 import WelcomeChatbot from "@/components/WelcomeChatbot";
+import Script from 'next/script';
 
-const inter = Inter({ subsets: ["latin"], display: "swap" });
+const inter = Inter({ 
+  subsets: ["latin"], 
+  display: "swap",
+  preload: true,
+  fallback: ['system-ui', 'arial']
+});
 
 export default function RootLayout({
   children,
@@ -37,8 +43,18 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
         <link rel="apple-touch-icon" href="/favicon-32.png" />
         <meta name="theme-color" content="#0A0A0A" />
-        <script
-          type="text/javascript"
+      </head>
+      <body 
+        className={inter.className + " min-h-screen bg-[#0A0A0A] text-neutral-200 antialiased pt-[120px]"}
+        style={{
+          paddingBottom: 'calc(var(--bottom-ui-offset, 0px) + env(safe-area-inset-bottom, 0px))'
+        }}
+        suppressHydrationWarning
+      >
+        {/* Microsoft Clarity Analytics */}
+        <Script
+          id="clarity-analytics"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               (function(c,l,a,r,i,t,y){
@@ -49,13 +65,6 @@ export default function RootLayout({
             `,
           }}
         />
-      </head>
-      <body 
-        className={inter.className + " min-h-screen bg-[#0A0A0A] text-neutral-200 antialiased pt-[120px]"}
-        style={{
-          paddingBottom: 'calc(var(--bottom-ui-offset, 0px) + env(safe-area-inset-bottom, 0px))'
-        }}
-      >
         <SessionProvider>
         <RiskDisclaimer />
         <Header />

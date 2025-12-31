@@ -340,6 +340,7 @@ Market: ${market} | Style: ${style}
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-700"
                 priority
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
               <div className="absolute bottom-6 left-6 right-6">
@@ -1046,6 +1047,8 @@ Market: ${market} | Style: ${style}
                 alt="Professional Trading Environment"
                 fill
                 className="object-cover"
+                loading="lazy"
+                sizes="(max-width: 768px) 100vw, 1600px"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
               <div className="absolute inset-0 flex items-center justify-center">

@@ -1,55 +1,78 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useMemo } from "react";
 
 export default function AnimatedHeroBanner() {
+  // Memoize star positions to prevent layout shift
+  const stars = useMemo(() => 
+    Array.from({ length: 200 }, (_, i) => ({
+      id: i,
+      width: Math.random() > 0.7 ? 2 : 1,
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      shadow: Math.random() > 0.8,
+      delay: Math.random() * 5,
+      duration: 2 + Math.random() * 3
+    })),
+  []);
+
+  const shootingStars = useMemo(() =>
+    Array.from({ length: 10 }, (_, i) => ({
+      id: i,
+      top: 10 + i * 8,
+      delay: i * 1.5,
+      duration: 2 + Math.random() * 2
+    })),
+  []);
+
   return (
-    <div className="relative w-full h-[500px] overflow-hidden bg-gradient-to-br from-[#0A0A0A] via-[#1a1a2e] to-[#0A0A0A]">
+    <div className="relative w-full h-[500px] overflow-hidden bg-gradient-to-br from-[#0A0A0A] via-[#1a1a2e] to-[#0A0A0A]" style={{ minHeight: '500px' }}>
       {/* Galaxy Background */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent" />
       
-      {/* Animated Stars - MORE */}
-      {[...Array(200)].map((_, i) => (
+      {/* Animated Stars - Memoized */}
+      {stars.map((star) => (
         <motion.div
-          key={`star-${i}`}
+          key={`star-${star.id}`}
           animate={{
             opacity: [0.2, 1, 0.2],
             scale: [0.5, 1.2, 0.5]
           }}
           transition={{
-            duration: 2 + Math.random() * 3,
+            duration: star.duration,
             repeat: Infinity,
-            delay: Math.random() * 5
+            delay: star.delay
           }}
-          className="absolute bg-white rounded-full"
+          className="absolute bg-white rounded-full will-change-transform"
           style={{
-            width: Math.random() > 0.7 ? '2px' : '1px',
-            height: Math.random() > 0.7 ? '2px' : '1px',
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            boxShadow: Math.random() > 0.8 ? '0 0 4px rgba(255,255,255,0.8)' : 'none'
+            width: `${star.width}px`,
+            height: `${star.width}px`,
+            left: `${star.left}%`,
+            top: `${star.top}%`,
+            boxShadow: star.shadow ? '0 0 4px rgba(255,255,255,0.8)' : 'none'
           }}
         />
       ))}
 
-      {/* Shooting Stars - MORE */}
-      {[...Array(10)].map((_, i) => (
+      {/* Shooting Stars - Memoized */}
+      {shootingStars.map((shoot) => (
         <motion.div
-          key={`shoot-${i}`}
+          key={`shoot-${shoot.id}`}
           animate={{
             x: ["-10%", "110%"],
             y: ["0%", "50%"],
             opacity: [0, 1, 0]
           }}
           transition={{
-            duration: 2 + Math.random() * 2,
+            duration: shoot.duration,
             repeat: Infinity,
-            delay: i * 1.5,
+            delay: shoot.delay,
             ease: "easeOut"
           }}
-          className="absolute w-1 h-1 bg-white rounded-full"
+          className="absolute w-1 h-1 bg-white rounded-full will-change-transform"
           style={{
-            top: `${10 + i * 8}%`,
+            top: `${shoot.top}%`,
             boxShadow: "0 0 20px 2px rgba(255, 215, 0, 0.8), -100px 0 20px 10px rgba(255, 215, 0, 0.3)"
           }}
         />
