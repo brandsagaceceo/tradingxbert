@@ -37,6 +37,11 @@ export async function POST(req: Request) {
       case 'checkout.session.completed': {
         const session = event.data.object as Stripe.Checkout.Session;
         
+        console.log('🎉 Checkout completed!');
+        console.log(`Customer: ${session.customer}`);
+        console.log(`Email: ${session.customer_email || session.customer_details?.email}`);
+        console.log(`Subscription: ${session.subscription}`);
+        
         // Get subscription details
         if (session.subscription && session.customer) {
           const stripe = getStripeClient();
@@ -44,9 +49,14 @@ export async function POST(req: Request) {
             session.subscription as string
           ) as any;
 
+          console.log(`Subscription ID: ${subscription.id}`);
+          console.log(`Subscription status: ${subscription.status}`);
+
           // Find user by email
           const customerEmail = session.customer_email || session.customer_details?.email;
           if (customerEmail) {
+            console.log(`Processing payment for: ${customerEmail}`);
+            
             // Find or create user
             let user = await prisma.user.findUnique({
               where: { email: customerEmail },
@@ -60,11 +70,15 @@ export async function POST(req: Request) {
                   name: session.customer_details?.name || customerEmail.split('@')[0],
                 },
               });
-              console.log(`✅ Created new user: ${user.email}`);
+              console.log(`✅ Created new user: ${user.email} (ID: ${user.id})`);
+            } else {
+              console.log(`✅ Found existing user: ${user.email} (ID: ${user.id})`);
             }
 
             if (user) {
               // Create or update subscription
+              const periodEnd = subscription.current_period_end ? new Date(subscription.current_period_end * 1000) : null;
+              
               await prisma.subscription.upsert({
                 where: { userId: user.id },
                 create: {
@@ -72,7 +86,7 @@ export async function POST(req: Request) {
                   stripeCustomerId: session.customer as string,
                   stripeSubscriptionId: subscription.id,
                   stripePriceId: subscription.items?.data?.[0]?.price?.id || null,
-                  stripeCurrentPeriodEnd: subscription.current_period_end ? new Date(subscription.current_period_end * 1000) : null,
+                  stripeCurrentPeriodEnd: periodEnd,
                   status: subscription.status,
                   plan: 'pro',
                 },
@@ -80,14 +94,21 @@ export async function POST(req: Request) {
                   stripeCustomerId: session.customer as string,
                   stripeSubscriptionId: subscription.id,
                   stripePriceId: subscription.items?.data?.[0]?.price?.id || null,
-                  stripeCurrentPeriodEnd: subscription.current_period_end ? new Date(subscription.current_period_end * 1000) : null,
+                  stripeCurrentPeriodEnd: periodEnd,
                   status: subscription.status,
                   plan: 'pro',
                 },
               });
               console.log(`✅ Subscription created/updated for user: ${user.email}`);
+              console.log(`   Status: ${subscription.status}`);
+              console.log(`   Plan: pro`);
+              console.log(`   Expires: ${periodEnd?.toISOString()}`);
             }
+          } else {
+            console.error('❌ No customer email found in checkout session');
           }
+        } else {
+          console.error('❌ No subscription or customer found in checkout session');
         }
         break;
       }
