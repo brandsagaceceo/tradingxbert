@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
 import { checkUserIsPro } from '@/lib/subscription';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 // Admin emails with automatic Pro access
 const ADMIN_EMAILS = [
@@ -10,7 +9,7 @@ const ADMIN_EMAILS = [
 
 export async function GET() {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession();
     
     if (!session?.user?.email) {
       console.log('❌ No session or email');
