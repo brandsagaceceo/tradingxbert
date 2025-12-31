@@ -5,7 +5,7 @@ export async function GET(req: NextRequest) {
     // Fetch real-time crypto prices from CoinGecko (free API)
     const cryptoResponse = await fetch(
       'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,cardano,ripple,dogecoin,chainlink&vs_currencies=usd&include_24hr_change=true',
-      { next: { revalidate: 60 } } // Cache for 1 minute
+      { next: { revalidate: 30 } } // Cache for 30 seconds for more frequent updates
     );
     
     // Fetch real-time stock prices from Yahoo Finance API
@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
         const response = await fetch(
           `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbol}`,
           { 
-            next: { revalidate: 60 },
+            next: { revalidate: 30 }, // 30 second cache
             headers: {
               'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
             }
