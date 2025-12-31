@@ -207,6 +207,70 @@ export default function ProfilePage() {
             animate={{ opacity: 1 }}
             className="space-y-8"
           >
+            {/* Pro Status Banner */}
+            {isPro ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="bg-gradient-to-r from-[#6366F1] via-[#8B5CF6] to-[#EC4899] rounded-3xl p-8 border-2 border-white/20 shadow-2xl"
+              >
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                  <div className="text-center md:text-left">
+                    <div className="flex items-center gap-3 justify-center md:justify-start mb-2">
+                      <motion.span
+                        animate={{ rotate: [0, 360] }}
+                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                        className="text-5xl"
+                      >
+                        ⚡
+                      </motion.span>
+                      <h2 className="text-4xl font-black text-white">PRO MEMBER ACTIVE</h2>
+                    </div>
+                    <p className="text-xl text-white/90 mb-4">
+                      You have full access to all premium features!
+                    </p>
+                    <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+                      {["Unlimited Analyses", "Advanced AI Models", "Priority Support", "All Courses", "Premium Indicators"].map((feature, i) => (
+                        <span key={i} className="px-3 py-1 bg-white/20 rounded-full text-sm font-bold text-white">
+                          ✓ {feature}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <motion.div
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    className="text-8xl"
+                  >
+                    🏆
+                  </motion.div>
+                </div>
+              </motion.div>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="bg-gradient-to-r from-orange-500/20 to-red-500/20 rounded-3xl p-8 border-2 border-orange-500/50"
+              >
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                  <div className="text-center md:text-left">
+                    <h2 className="text-3xl font-black text-white mb-2">Free Plan Active</h2>
+                    <p className="text-xl text-neutral-300 mb-4">
+                      Upgrade to Pro to unlock all premium features
+                    </p>
+                  </div>
+                  <Link href="/pricing">
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="px-8 py-4 bg-gradient-to-r from-[#6366F1] via-[#8B5CF6] to-[#EC4899] text-white font-black text-xl rounded-full shadow-lg"
+                    >
+                      Upgrade to Pro ⚡
+                    </motion.button>
+                  </Link>
+                </div>
+              </motion.div>
+            )}
+
             {/* Why Different Section */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}

@@ -90,23 +90,49 @@ export default function Header() {
         {/* Divider */}
         <div className="w-px h-6 bg-white/20 mx-1" />
         
-        {/* Profile */}
+        {/* Profile with Pro Badge */}
         <Link 
           href="/profile" 
-          className="flex items-center gap-1.5 px-3 md:px-4 py-2 text-xs md:text-sm text-neutral-300 hover:text-[#6366F1] transition-all duration-300 rounded-lg hover:bg-white/10 font-semibold hover:shadow-lg hover:shadow-[#6366F1]/20 hover:-translate-y-0.5"
+          className="flex items-center gap-1.5 px-3 md:px-4 py-2 text-xs md:text-sm text-neutral-300 hover:text-[#6366F1] transition-all duration-300 rounded-lg hover:bg-white/10 font-semibold hover:shadow-lg hover:shadow-[#6366F1]/20 hover:-translate-y-0.5 relative"
         >
           <span className="text-base">👤</span>
+          {session?.user && isPro && (
+            <motion.span
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              className="absolute -top-1 -right-1 bg-gradient-to-r from-[#6366F1] via-[#8B5CF6] to-[#EC4899] text-white text-[8px] font-black px-1.5 py-0.5 rounded-full shadow-lg"
+            >
+              PRO
+            </motion.span>
+          )}
         </Link>
         
-        {/* Upgrade to Pro / Pro Badge */}
-        {isPro ? (
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="px-3 md:px-5 py-2 bg-gradient-to-r from-[#6366F1] via-[#8B5CF6] to-[#EC4899] text-white font-black text-xs md:text-sm rounded-xl shadow-lg shadow-[#6366F1]/30 flex items-center gap-1.5"
-          >
-            <span className="text-base">⚡</span>
-            <span className="hidden sm:inline">PRO</span>
-          </motion.div>
+        {/* Upgrade to Pro / Pro Status */}
+        {session?.user ? (
+          isPro ? (
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              whileHover={{ scale: 1.05 }}
+              className="px-3 md:px-5 py-2 bg-gradient-to-r from-[#6366F1] via-[#8B5CF6] to-[#EC4899] text-white font-black text-xs md:text-sm rounded-xl shadow-lg shadow-[#6366F1]/30 flex items-center gap-1.5"
+            >
+              <span className="text-base">⚡</span>
+              <span className="hidden sm:inline">PRO ACTIVE</span>
+              <span className="inline sm:hidden">PRO</span>
+            </motion.div>
+          ) : (
+            <Link 
+              href="/pricing" 
+              className="relative group px-3 md:px-5 py-2 bg-gradient-to-r from-[#6366F1] via-[#8B5CF6] to-[#EC4899] text-white font-black text-xs md:text-sm rounded-xl overflow-hidden hover:scale-105 transition-all duration-300 shadow-lg shadow-[#6366F1]/30 hover:shadow-[#6366F1]/50"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] opacity-0 group-hover:opacity-100 transition-opacity" />
+              <span className="relative flex items-center gap-1.5">
+                <span className="text-base">⚡</span>
+                <span className="hidden sm:inline">Upgrade</span>
+                <span className="inline sm:hidden">Pro</span>
+              </span>
+            </Link>
+          )
         ) : (
           <Link 
             href="/pricing" 
@@ -203,19 +229,37 @@ export default function Header() {
             <Link 
               href="/profile"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-3 px-4 py-4 text-base text-white hover:text-[#6366F1] transition-all duration-300 rounded-xl hover:bg-white/10 font-bold active:scale-95 border border-transparent hover:border-[#6366F1]/30"
+              className="flex items-center justify-between px-4 py-4 text-base text-white hover:text-[#6366F1] transition-all duration-300 rounded-xl hover:bg-white/10 font-bold active:scale-95 border border-transparent hover:border-[#6366F1]/30"
             >
-              <span className="text-2xl">👤</span>
-              <span>Profile</span>
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">👤</span>
+                <span>Profile</span>
+              </div>
+              {session?.user && isPro && (
+                <motion.span
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  className="bg-gradient-to-r from-[#6366F1] via-[#8B5CF6] to-[#EC4899] text-white text-xs font-black px-3 py-1 rounded-full shadow-lg"
+                >
+                  ⚡ PRO
+                </motion.span>
+              )}
             </Link>
-            <Link 
-              href="/pricing"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-3 px-4 py-4 text-base text-white hover:text-[#6366F1] transition-all duration-300 rounded-xl hover:bg-white/10 font-bold active:scale-95 border border-transparent hover:border-[#6366F1]/30"
-            >
-              <span className="text-2xl">💎</span>
-              <span>Pricing</span>
-            </Link>
+            {session?.user && isPro ? (
+              <div className="flex items-center gap-3 px-4 py-4 text-base bg-gradient-to-r from-[#6366F1]/20 to-[#8B5CF6]/20 border-2 border-[#6366F1]/40 rounded-xl font-bold text-white">
+                <span className="text-2xl">⚡</span>
+                <span>PRO Member - All Features Unlocked!</span>
+              </div>
+            ) : (
+              <Link 
+                href="/pricing"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-3 px-4 py-4 text-base text-white hover:text-[#6366F1] transition-all duration-300 rounded-xl hover:bg-white/10 font-bold active:scale-95 border border-transparent hover:border-[#6366F1]/30"
+              >
+                <span className="text-2xl">💎</span>
+                <span>Upgrade to Pro</span>
+              </Link>
+            )}
             <Link 
               href="/invest"
               onClick={() => setMobileMenuOpen(false)}
