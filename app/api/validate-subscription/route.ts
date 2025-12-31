@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
 import { checkUserIsPro } from '@/lib/subscription';
 
+// Force dynamic route
+export const dynamic = 'force-dynamic';
+
 // Admin emails with automatic Pro access
 const ADMIN_EMAILS = [
   'brandsagaceo@gmail.com',
