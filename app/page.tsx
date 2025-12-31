@@ -13,6 +13,11 @@ import AnimatedHeroBanner from "@/components/AnimatedHeroBanner";
 import ChartChat from "@/components/ChartChat";
 import UniversityPromoPopup from "@/components/UniversityPromoPopup";
 import GuidanceTooltip from "@/components/GuidanceTooltip";
+import HowItWorksSection from "@/components/HowItWorksSection";
+import ExampleAnalysisSection from "@/components/ExampleAnalysisSection";
+import WhoItsForSection from "@/components/WhoItsForSection";
+import FAQSection from "@/components/FAQSection";
+import StickyCTA from "@/components/StickyCTA";
 import Image from "next/image";
 import { saveToJournal } from "@/lib/localStorage";
 import { canAnalyze, getRemainingAnalyses, incrementUsage, getFreeLimit, getUsageData } from "@/lib/usageLimit";
@@ -319,6 +324,9 @@ Market: ${market} | Style: ${style}
       </div>
       {/* Animated Hero Banner */}
       {!analysis && <AnimatedHeroBanner />}
+      
+      {/* How It Works Section - Early in the funnel */}
+      {!analysis && <HowItWorksSection />}
       
       {/* Professional Hero Image Section */}
       {!analysis && (
@@ -641,6 +649,7 @@ Market: ${market} | Style: ${style}
         {/* Upload Section - Primary */}
         {!analysis && (
           <motion.div 
+            id="upload-section"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.1 }}
@@ -777,8 +786,18 @@ Market: ${market} | Style: ${style}
                       className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
                     ></motion.div>
                   )}
-                  <span className="relative z-10">{loading ? "Analyzing..." : "🚀 Analyze Chart"}</span>
+                  <span className="relative z-10">{loading ? "Analyzing..." : "🚀 Analyze Chart (Free)"}</span>
                 </motion.button>
+                
+                {/* Free to try messaging */}
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                  className="text-center text-sm text-emerald-400 mt-3"
+                >
+                  ✨ Free to try — no credit card required
+                </motion.p>
               </motion.div>
             )}
           </motion.div>
@@ -1031,6 +1050,12 @@ Market: ${market} | Style: ${style}
         </div>
       )}
       
+      {/* Example Analysis Section - Show before/after comparison */}
+      {!analysis && <ExampleAnalysisSection />}
+      
+      {/* Who It's For Section - Build trust with honesty */}
+      {!analysis && <WhoItsForSection />}
+      
       {/* Testimonials Section */}
       {!analysis && (
         <div className="relative z-10">
@@ -1072,6 +1097,9 @@ Market: ${market} | Style: ${style}
         </div>
       )}
       
+      {/* FAQ Section - Answer common questions */}
+      {!analysis && <FAQSection />}
+      
       {/* Popups */}
       <UniversityPromoPopup
         isVisible={showUniversityPopup}
@@ -1084,6 +1112,9 @@ Market: ${market} | Style: ${style}
       
       {/* AI Trading Assistant */}
       <AITradingAssistant />
+      
+      {/* Sticky CTA for mobile users */}
+      <StickyCTA />
     </main>
   );
 }
