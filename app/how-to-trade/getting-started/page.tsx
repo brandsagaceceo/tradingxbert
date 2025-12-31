@@ -206,7 +206,7 @@ export default function GettingStarted() {
                 <li className="flex items-start gap-3">
                   <span className="text-2xl">🧠</span>
                   <div>
-                    <p className="font-bold text-white">Psychology > Strategy</p>
+                    <p className="font-bold text-white">Psychology {'>'} Strategy</p>
                     <p>The best strategy fails without emotional discipline. Fear and greed destroy accounts faster than bad trades.</p>
                   </div>
                 </li>
