@@ -47,9 +47,21 @@ export async function POST(req: Request) {
           // Find user by email
           const customerEmail = session.customer_email || session.customer_details?.email;
           if (customerEmail) {
-            const user = await prisma.user.findUnique({
+            // Find or create user
+            let user = await prisma.user.findUnique({
               where: { email: customerEmail },
             });
+
+            // If user doesn't exist, create them
+            if (!user) {
+              user = await prisma.user.create({
+                data: {
+                  email: customerEmail,
+                  name: session.customer_details?.name || customerEmail.split('@')[0],
+                },
+              });
+              console.log(`✅ Created new user: ${user.email}`);
+            }
 
             if (user) {
               // Create or update subscription
