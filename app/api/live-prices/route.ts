@@ -11,11 +11,11 @@ export async function GET(req: NextRequest) {
     // Fetch real-time stock prices from Yahoo Finance API
     const stockSymbols = ['AAPL', 'TSLA', 'NVDA', 'GOOGL', 'MSFT', 'AMZN', 'META'];
     
-    // Use Yahoo Finance quotes API (no API key needed)
+    // Use Yahoo Finance quote endpoint which includes previousClose
     const stockPromises = stockSymbols.map(async (symbol) => {
       try {
         const response = await fetch(
-          `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=1d`,
+          `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbol}`,
           { 
             next: { revalidate: 60 },
             headers: {
@@ -27,10 +27,12 @@ export async function GET(req: NextRequest) {
         if (!response.ok) throw new Error('Yahoo Finance API failed');
         
         const data = await response.json();
-        const quote = data?.chart?.result?.[0];
-        const meta = quote?.meta;
-        const currentPrice = meta?.regularMarketPrice || 0;
-        const previousClose = meta?.previousClose || currentPrice;
+        const quote = data?.quoteResponse?.result?.[0];
+        
+        if (!quote) throw new Error('No quote data');
+        
+        const currentPrice = quote.regularMarketPrice || 0;
+        const previousClose = quote.regularMarketPreviousClose || currentPrice;
         const change = previousClose > 0 ? ((currentPrice - previousClose) / previousClose) * 100 : 0;
         
         return {
@@ -65,10 +67,10 @@ export async function GET(req: NextRequest) {
     );
     
     // Fetch indices (S&P 500, Dow Jones)
-    const indicesPromises = ['%5EGSPC', '%5EDJI'].map(async (symbol) => {
+    const indicesPromises = ['^GSPC', '^DJI'].map(async (symbol) => {
       try {
         const response = await fetch(
-          `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=1d`,
+          `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbol}`,
           { 
             next: { revalidate: 60 },
             headers: {
@@ -80,22 +82,24 @@ export async function GET(req: NextRequest) {
         if (!response.ok) throw new Error('Index fetch failed');
         
         const data = await response.json();
-        const quote = data?.chart?.result?.[0];
-        const meta = quote?.meta;
-        const currentPrice = meta?.regularMarketPrice || 0;
-        const previousClose = meta?.previousClose || currentPrice;
+        const quote = data?.quoteResponse?.result?.[0];
+        
+        if (!quote) throw new Error('No index data');
+        
+        const currentPrice = quote.regularMarketPrice || 0;
+        const previousClose = quote.regularMarketPreviousClose || currentPrice;
         const change = previousClose > 0 ? ((currentPrice - previousClose) / previousClose) * 100 : 0;
         
         return {
-          symbol: symbol === '%5EGSPC' ? 'SPX' : 'DJI',
+          symbol: symbol === '^GSPC' ? 'SPX' : 'DJI',
           price: currentPrice,
           change: change
         };
       } catch (error) {
         console.error(`Error fetching index ${symbol}:`, error);
         return {
-          symbol: symbol === '%5EGSPC' ? 'SPX' : 'DJI',
-          price: symbol === '%5EGSPC' ? 5881.63 : 42906.95,
+          symbol: symbol === '^GSPC' ? 'SPX' : 'DJI',
+          price: symbol === '^GSPC' ? 5881.63 : 42906.95,
           change: 0.8
         };
       }
@@ -165,14 +169,14 @@ export async function GET(req: NextRequest) {
       }
     };
 
-    // Fetch commodity prices (Gold, Oil)
+    // Fetch commodity prices (Gold, Oil) using quote endpoint
     const commoditiesPromises = [
       { symbol: 'GC=F', name: 'GOLD' },  // Gold Futures
       { symbol: 'CL=F', name: 'OIL' }    // Crude Oil Futures
     ].map(async ({ symbol, name }) => {
       try {
         const response = await fetch(
-          `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=1d`,
+          `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbol}`,
           { 
             next: { revalidate: 60 },
             headers: {
@@ -184,10 +188,12 @@ export async function GET(req: NextRequest) {
         if (!response.ok) throw new Error('Commodity fetch failed');
         
         const data = await response.json();
-        const quote = data?.chart?.result?.[0];
-        const meta = quote?.meta;
-        const currentPrice = meta?.regularMarketPrice || 0;
-        const previousClose = meta?.previousClose || currentPrice;
+        const quote = data?.quoteResponse?.result?.[0];
+        
+        if (!quote) throw new Error('No commodity data');
+        
+        const currentPrice = quote.regularMarketPrice || 0;
+        const previousClose = quote.regularMarketPreviousClose || currentPrice;
         const change = previousClose > 0 ? ((currentPrice - previousClose) / previousClose) * 100 : 0;
         
         return {
