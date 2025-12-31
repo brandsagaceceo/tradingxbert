@@ -296,7 +296,7 @@ export default function NewsPage() {
         )}
       </AnimatePresence>
 
-      <div className="container mx-auto px-4 py-12 relative z-10">
+      <div className="w-full mx-auto px-4 py-12 relative z-10 max-w-[1800px]">
         {/* Breaking News Banner */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -474,10 +474,10 @@ export default function NewsPage() {
           ))}
         </motion.div>
 
-        {/* Market Overview Section with Sidebars */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
-          {/* Left Sidebar - Market Sentiment & BTC Facts */}
-          <div className="hidden lg:block lg:col-span-3 space-y-6">
+        {/* Market Overview Section with Full-Width Sidebars */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-12">
+          {/* Left Sidebar - Market Sentiment & BTC Facts - WIDER */}
+          <div className="lg:col-span-3 xl:col-span-3 space-y-6">
             {/* Market Sentiment Widget */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -552,8 +552,8 @@ export default function NewsPage() {
             <BTCFactsSidebar />
           </div>
 
-          {/* Main Content */}
-          <div className="lg:col-span-6">
+          {/* Main Content - NARROWER TO FILL MORE WITH SIDEBARS */}
+          <div className="lg:col-span-6 xl:col-span-5">
             <div id="overview" className="scroll-mt-32 space-y-6">
               <motion.h2 
                 initial={{ opacity: 0, x: -20 }}
@@ -693,10 +693,130 @@ export default function NewsPage() {
             </div>
           </div>
 
-          {/* Right Sidebar - Multiple Widgets */}
-          <div className="lg:col-span-3 space-y-6">
+          {/* Right Sidebar - Multiple Widgets - WIDER WITH MORE CONTENT */}
+          <div className="lg:col-span-3 xl:col-span-4 space-y-6">
             {/* Trading Insights */}
             <TradingInsights />
+            
+            {/* Ad Banner */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-gradient-to-br from-emerald-500/20 to-green-600/10 border-2 border-emerald-500/30 rounded-2xl p-6 overflow-hidden relative"
+            >
+              <div className="relative z-10">
+                <div className="text-3xl mb-3">🚀</div>
+                <h3 className="text-xl font-black text-white mb-2">Trade Smarter</h3>
+                <p className="text-sm text-neutral-300 mb-4">
+                  Get Pro access for advanced charts, AI signals, and unlimited analysis
+                </p>
+                <Link href="/pricing">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="w-full bg-gradient-to-r from-emerald-500 to-green-600 text-white font-black py-3 rounded-xl shadow-lg"
+                  >
+                    Upgrade Now
+                  </motion.button>
+                </Link>
+              </div>
+            </motion.div>
+            
+            {/* Quick Links Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-6"
+            >
+              <h3 className="text-xl font-black text-white mb-4 flex items-center gap-2">
+                <span>⚡</span>
+                Quick Actions
+              </h3>
+              <div className="space-y-2">
+                <Link href="/">
+                  <motion.div
+                    whileHover={{ scale: 1.02, x: 5 }}
+                    className="flex items-center gap-3 p-3 bg-white/5 hover:bg-white/10 rounded-xl transition-all cursor-pointer border border-white/10"
+                  >
+                    <span className="text-2xl">📊</span>
+                    <div>
+                      <p className="text-white font-bold text-sm">Analyze Chart</p>
+                      <p className="text-xs text-neutral-400">AI-powered insights</p>
+                    </div>
+                  </motion.div>
+                </Link>
+                <Link href="/university">
+                  <motion.div
+                    whileHover={{ scale: 1.02, x: 5 }}
+                    className="flex items-center gap-3 p-3 bg-white/5 hover:bg-white/10 rounded-xl transition-all cursor-pointer border border-white/10"
+                  >
+                    <span className="text-2xl">🎓</span>
+                    <div>
+                      <p className="text-white font-bold text-sm">Learn Trading</p>
+                      <p className="text-xs text-neutral-400">Free courses</p>
+                    </div>
+                  </motion.div>
+                </Link>
+                <Link href="/journal">
+                  <motion.div
+                    whileHover={{ scale: 1.02, x: 5 }}
+                    className="flex items-center gap-3 p-3 bg-white/5 hover:bg-white/10 rounded-xl transition-all cursor-pointer border border-white/10"
+                  >
+                    <span className="text-2xl">📓</span>
+                    <div>
+                      <p className="text-white font-bold text-sm">Trading Journal</p>
+                      <p className="text-xs text-neutral-400">Track performance</p>
+                    </div>
+                  </motion.div>
+                </Link>
+              </div>
+            </motion.div>
+            
+            {/* Watchlist */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <Watchlist />
+            </motion.div>
+            
+            {/* Market Hours Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-6"
+            >
+              <h3 className="text-xl font-black text-white mb-4 flex items-center gap-2">
+                <span>🌍</span>
+                Market Hours
+              </h3>
+              <div className="space-y-3">
+                {[
+                  { market: 'US Stocks', status: 'Open', color: 'emerald', time: '9:30 AM - 4:00 PM EST' },
+                  { market: 'London', status: 'Closed', color: 'red', time: '3:00 AM - 11:30 AM EST' },
+                  { market: 'Tokyo', status: 'Closed', color: 'red', time: '7:00 PM - 1:00 AM EST' },
+                  { market: 'Crypto', status: 'Open 24/7', color: 'emerald', time: 'Always Trading' }
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/10">
+                    <div>
+                      <p className="text-white font-bold text-sm">{item.market}</p>
+                      <p className="text-xs text-neutral-400">{item.time}</p>
+                    </div>
+                    <div className={`px-3 py-1 rounded-full text-xs font-bold ${
+                      item.color === 'emerald' 
+                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                        : 'bg-red-500/20 text-red-400 border border-red-500/30'
+                    }`}>
+                      {item.status}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
             
             {/* Watchlist */}
             <motion.div
