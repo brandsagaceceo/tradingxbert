@@ -51,10 +51,17 @@ export default function StickyCTA() {
             <motion.button
               onClick={scrollToUpload}
               whileTap={{ scale: 0.95 }}
-              className="w-full bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] hover:from-[#5558E3] hover:to-[#7C4FE8] text-white font-bold py-3 px-6 rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
+              whileHover={{ scale: 1.02, boxShadow: "0 0 30px rgba(99, 102, 241, 0.6)" }}
+              className="w-full bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] hover:from-[#5558E3] hover:to-[#7C4FE8] text-white font-bold py-3 px-6 rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center gap-2 relative overflow-hidden group"
             >
-              <span className="text-lg">📤</span>
-              <span>Upload a Chart (Free)</span>
+              {/* Shimmer effect */}
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                animate={{ x: [-200, 400] }}
+                transition={{ duration: 2, repeat: Infinity, repeatDelay: 1, ease: "linear" }}
+              />
+              <span className="text-lg relative z-10">📤</span>
+              <span className="relative z-10">Upload a Chart (Free)</span>
             </motion.button>
             
             <p className="text-xs text-neutral-400 text-center mt-2">

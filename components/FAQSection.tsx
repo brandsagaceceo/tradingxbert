@@ -79,8 +79,8 @@ export default function FAQSection() {
               transition={{ delay: index * 0.1 }}
               className="relative group"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-[#6366F1]/20 to-[#8B5CF6]/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
-              <div className="relative bg-neutral-900/80 border border-neutral-700/50 rounded-2xl overflow-hidden backdrop-blur-sm">
+              <div className="absolute inset-0 bg-gradient-to-br from-[#6366F1]/30 to-[#8B5CF6]/30 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
+              <div className="relative bg-neutral-900/80 border border-neutral-700/50 rounded-2xl overflow-hidden backdrop-blur-sm transition-all duration-300 group-hover:border-[#6366F1]/50 group-hover:shadow-xl group-hover:shadow-[#6366F1]/10">
                 <button
                   onClick={() => toggleItem(index)}
                   className="w-full text-left p-6 flex justify-between items-center gap-4 hover:bg-neutral-800/50 transition-colors"

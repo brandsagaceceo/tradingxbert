@@ -54,9 +54,10 @@ export default function WhoItsForSection() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
+          whileHover={{ scale: 1.02, y: -5 }}
           className="relative group"
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-green-600/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />
+          <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/30 to-green-600/30 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />
           <div className="relative bg-gradient-to-br from-emerald-500 to-green-600 p-[2px] rounded-3xl">
             <div className="bg-[#0A0A0A] rounded-3xl p-8 h-full">
               <div className="flex items-center gap-3 mb-6">
@@ -88,9 +89,10 @@ export default function WhoItsForSection() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
+          whileHover={{ scale: 1.02, y: -5 }}
           className="relative group"
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-red-500/20 to-orange-600/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />
+          <div className="absolute inset-0 bg-gradient-to-br from-red-500/30 to-orange-600/30 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />
           <div className="relative bg-gradient-to-br from-red-500 to-orange-600 p-[2px] rounded-3xl">
             <div className="bg-[#0A0A0A] rounded-3xl p-8 h-full">
               <div className="flex items-center gap-3 mb-6">

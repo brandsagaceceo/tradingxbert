@@ -39,6 +39,7 @@ export default function ExampleAnalysisSection() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
+          whileHover={{ y: -8 }}
           className="relative group"
         >
           <div className="absolute inset-0 bg-gradient-to-br from-neutral-500/20 to-neutral-700/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />

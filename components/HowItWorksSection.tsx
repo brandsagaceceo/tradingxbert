@@ -61,14 +61,14 @@ export default function HowItWorksSection() {
             viewport={{ once: true }}
             transition={{ delay: index * 0.2, duration: 0.6 }}
             whileHover={{ scale: 1.05, y: -10 }}
-            className="relative group"
+            className="relative group cursor-pointer"
           >
             {/* Glow effect */}
-            <div className={`absolute inset-0 bg-gradient-to-br ${step.gradient} opacity-0 group-hover:opacity-20 blur-2xl transition-opacity duration-500 rounded-3xl`} />
+            <div className={`absolute inset-0 bg-gradient-to-br ${step.gradient} opacity-0 group-hover:opacity-30 blur-3xl transition-opacity duration-500 rounded-3xl`} />
             
             {/* Card */}
-            <div className={`relative bg-gradient-to-br ${step.gradient} p-[2px] rounded-3xl`}>
-              <div className="bg-[#0A0A0A] rounded-3xl p-8 h-full">
+            <div className={`relative bg-gradient-to-br ${step.gradient} p-[2px] rounded-3xl transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-${step.gradient.split(' ')[0].replace('from-', '')}/20`}>
+              <div className="bg-[#0A0A0A] rounded-3xl p-8 h-full group-hover:bg-[#0F0F0F] transition-colors duration-300">
                 {/* Step number */}
                 <div className={`inline-block bg-gradient-to-br ${step.gradient} text-white text-sm font-black px-3 py-1 rounded-full mb-4`}>
                   Step {index + 1}
@@ -78,6 +78,7 @@ export default function HowItWorksSection() {
                 <motion.div
                   animate={{ rotate: [0, 10, -10, 0], scale: [1, 1.1, 1] }}
                   transition={{ duration: 3, repeat: Infinity, delay: index * 0.5 }}
+                  whileHover={{ scale: 1.2, rotate: 15 }}
                   className="text-6xl mb-6"
                 >
                   {step.icon}
@@ -104,7 +105,7 @@ export default function HowItWorksSection() {
         transition={{ delay: 0.6 }}
         className="text-center mt-12"
       >
-        <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 rounded-full px-6 py-3">
+        <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 rounded-full px-6 py-3 hover:bg-emerald-500/20 hover:border-emerald-500/50 transition-all duration-300 cursor-default">
           <span className="text-emerald-400 font-bold">✨ Free to try</span>
           <span className="text-neutral-400">—</span>
           <span className="text-neutral-300">No credit card required</span>
