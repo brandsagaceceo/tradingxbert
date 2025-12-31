@@ -96,6 +96,15 @@ export default function Header() {
           <span className="hidden lg:inline">News</span>
         </Link>
         
+        {/* Token */}
+        <Link 
+          href="/invest" 
+          className="flex items-center gap-1.5 px-3 md:px-4 py-2 text-xs md:text-sm text-white hover:text-emerald-400 transition-all duration-300 rounded-lg hover:bg-white/10 border border-transparent hover:border-emerald-400/50 font-semibold hover:shadow-lg hover:shadow-emerald-400/20 hover:-translate-y-0.5"
+        >
+          <span className="text-base">🚀</span>
+          <span className="hidden lg:inline">Token</span>
+        </Link>
+        
         {/* Divider */}
         <div className="w-px h-6 bg-white/20 mx-1" />
         
@@ -234,6 +243,14 @@ export default function Header() {
               <span className="text-2xl">📰</span>
               <span>News</span>
             </Link>
+            <Link 
+              href="/invest"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center gap-3 px-4 py-4 text-base text-white hover:text-emerald-400 transition-all duration-300 rounded-xl hover:bg-white/10 font-bold active:scale-95 border border-transparent hover:border-emerald-400/30"
+            >
+              <span className="text-2xl">🚀</span>
+              <span>$TXB Token</span>
+            </Link>
             <div className="border-t border-white/20 my-2"></div>
             <Link 
               href="/profile"
@@ -269,14 +286,6 @@ export default function Header() {
                 <span>Upgrade to Pro</span>
               </Link>
             )}
-            <Link 
-              href="/invest"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-3 px-4 py-4 text-base text-white hover:text-emerald-400 transition-all duration-300 rounded-xl hover:bg-white/10 font-bold active:scale-95 border border-transparent hover:border-emerald-400/30"
-            >
-              <span className="text-2xl">🚀</span>
-              <span>$TXB Token</span>
-            </Link>
             <div className="border-t border-white/20 my-2"></div>
             {isPro ? (
               <div className="flex items-center gap-3 px-4 py-4 text-base bg-gradient-to-r from-[#6366F1] via-[#8B5CF6] to-[#EC4899] text-white font-black rounded-xl shadow-lg shadow-[#6366F1]/30">
