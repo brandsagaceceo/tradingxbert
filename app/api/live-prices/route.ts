@@ -50,15 +50,15 @@ export async function GET(req: NextRequest) {
         };
       } catch (error: any) {
         console.error(`Error fetching ${symbol}:`, error.message);
-        // Fallback prices if Yahoo Finance fails
+        // Fallback prices for December 2025
         const fallback: any = {
-          AAPL: { price: 250.17, change: 0.8 },
-          TSLA: { price: 463.02, change: -1.2 },
-          NVDA: { price: 140.15, change: 2.1 },
-          GOOGL: { price: 187.52, change: 1.1 },
-          MSFT: { price: 435.89, change: 0.5 },
-          AMZN: { price: 230.44, change: 1.4 },
-          META: { price: 638.40, change: 1.8 }
+          AAPL: { price: 194.50, change: 0.8 },
+          TSLA: { price: 358.75, change: -1.2 },
+          NVDA: { price: 870.20, change: 2.1 },
+          GOOGL: { price: 175.30, change: 1.1 },
+          MSFT: { price: 414.60, change: 0.5 },
+          AMZN: { price: 210.80, change: 1.4 },
+          META: { price: 595.40, change: 1.8 }
         };
         return {
           symbol,
@@ -105,9 +105,10 @@ export async function GET(req: NextRequest) {
         };
       } catch (error) {
         console.error(`Error fetching index ${symbol}:`, error);
+        // Fallback for December 2025
         return {
           symbol: symbol === '^GSPC' ? 'SPX' : 'DJI',
-          price: symbol === '^GSPC' ? 5881.63 : 42906.95,
+          price: symbol === '^GSPC' ? 5881.00 : 42906.00,
           change: 0.8
         };
       }
@@ -211,9 +212,10 @@ export async function GET(req: NextRequest) {
         };
       } catch (error) {
         console.error(`Error fetching ${name}:`, error);
+        // Fallback for December 2025
         const fallback: any = {
-          GOLD: { price: 2631.80, change: 0.3 },
-          OIL: { price: 70.08, change: -0.5 }
+          GOLD: { price: 2631.00, change: 0.3 },
+          OIL: { price: 71.50, change: -0.5 }
         };
         return {
           name,
@@ -233,7 +235,7 @@ export async function GET(req: NextRequest) {
         change: data.change
       };
     });
-    commodities.SILVER = { price: 29.87, change: 2.68 }; // Silver doesn't have a good free API
+    commodities.SILVER = { price: 30.25, change: 2.68 }; // Silver doesn't have a good free API
 
     // Format indices
     const indices: any = {};
