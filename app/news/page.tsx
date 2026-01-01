@@ -44,9 +44,55 @@ export default function NewsPage() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [currency, setCurrency] = useState<'USD' | 'CAD'>('USD');
   const { prices: livePrices, loading: pricesLoading } = useLivePrices(60000);
+  const [marketHours, setMarketHours] = useState({
+    usStocks: { isOpen: false, status: 'Closed' },
+    london: { isOpen: false, status: 'Closed' },
+    tokyo: { isOpen: false, status: 'Closed' }
+  });
   
   // USD to CAD exchange rate (approximate)
   const CAD_RATE = 1.35;
+  
+  // Check if markets are open based on current time
+  const checkMarketHours = useCallback(() => {
+    const now = new Date();
+    const estTime = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+    const estHours = estTime.getHours();
+    const estMinutes = estTime.getMinutes();
+    const estDay = estTime.getDay(); // 0 = Sunday, 6 = Saturday
+    
+    // US Stocks: Monday-Friday, 9:30 AM - 4:00 PM EST
+    const usOpen = estDay >= 1 && estDay <= 5 && 
+                   ((estHours === 9 && estMinutes >= 30) || 
+                    (estHours > 9 && estHours < 16));
+    
+    // London: Monday-Friday, 3:00 AM - 11:30 AM EST (8:00 AM - 4:30 PM GMT)
+    const londonOpen = estDay >= 1 && estDay <= 5 &&
+                       ((estHours === 3) || 
+                        (estHours > 3 && estHours < 11) ||
+                        (estHours === 11 && estMinutes < 30));
+    
+    // Tokyo: Monday-Friday, 7:00 PM - 1:00 AM EST (9:00 AM - 3:00 PM JST)
+    // Handle overnight session
+    const tokyoOpen = (estDay >= 1 && estDay <= 5 && estHours >= 19) ||
+                      (estDay >= 2 && estDay <= 6 && estHours < 1) ||
+                      (estDay === 1 && estHours < 1); // Sunday night into Monday
+    
+    setMarketHours({
+      usStocks: { 
+        isOpen: usOpen, 
+        status: usOpen ? 'Open' : 'Closed' 
+      },
+      london: { 
+        isOpen: londonOpen, 
+        status: londonOpen ? 'Open' : 'Closed' 
+      },
+      tokyo: { 
+        isOpen: tokyoOpen, 
+        status: tokyoOpen ? 'Open' : 'Closed' 
+      }
+    });
+  }, []);
   
   // Format numbers with spaces instead of commas
   const formatNumber = (num: number): string => {
@@ -197,6 +243,13 @@ export default function NewsPage() {
 
     return () => clearInterval(interval);
   }, [fetchNews]);
+
+  // Check market hours on mount and every minute
+  useEffect(() => {
+    checkMarketHours();
+    const interval = setInterval(checkMarketHours, 60000); // Update every minute
+    return () => clearInterval(interval);
+  }, [checkMarketHours]);
 
   // Manual refresh handler
   const handleRefresh = async () => {
@@ -796,10 +849,30 @@ export default function NewsPage() {
               </h3>
               <div className="space-y-3">
                 {[
-                  { market: 'US Stocks', status: 'Open', color: 'emerald', time: '9:30 AM - 4:00 PM EST' },
-                  { market: 'London', status: 'Closed', color: 'red', time: '3:00 AM - 11:30 AM EST' },
-                  { market: 'Tokyo', status: 'Closed', color: 'red', time: '7:00 PM - 1:00 AM EST' },
-                  { market: 'Crypto', status: 'Open 24/7', color: 'emerald', time: 'Always Trading' }
+                  { 
+                    market: 'US Stocks', 
+                    status: marketHours.usStocks.status, 
+                    color: marketHours.usStocks.isOpen ? 'emerald' : 'red', 
+                    time: '9:30 AM - 4:00 PM EST' 
+                  },
+                  { 
+                    market: 'London', 
+                    status: marketHours.london.status, 
+                    color: marketHours.london.isOpen ? 'emerald' : 'red', 
+                    time: '3:00 AM - 11:30 AM EST' 
+                  },
+                  { 
+                    market: 'Tokyo', 
+                    status: marketHours.tokyo.status, 
+                    color: marketHours.tokyo.isOpen ? 'emerald' : 'red', 
+                    time: '7:00 PM - 1:00 AM EST' 
+                  },
+                  { 
+                    market: 'Crypto', 
+                    status: 'Always Open', 
+                    color: 'emerald', 
+                    time: 'Always Trading' 
+                  }
                 ].map((item, i) => (
                   <div key={i} className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/10">
                     <div>

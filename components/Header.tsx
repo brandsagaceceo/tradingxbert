@@ -80,11 +80,11 @@ export default function Header() {
         
         {/* Blog */}
         <Link 
-          href="/blog/trade-analysis" 
+          href="/blog" 
           className="flex items-center gap-1.5 px-3 md:px-4 py-2 text-xs md:text-sm text-white hover:text-[#6366F1] transition-all duration-300 rounded-lg hover:bg-white/10 border border-transparent hover:border-[#6366F1]/50 font-semibold hover:shadow-lg hover:shadow-[#6366F1]/20 hover:-translate-y-0.5"
         >
-          <span className="text-base">📝</span>
-          <span className="hidden lg:inline">Blog</span>
+          <span className="text-base">📚</span>
+          <span className="hidden lg:inline">Education</span>
         </Link>
         
         {/* News */}
@@ -212,12 +212,12 @@ export default function Header() {
               <span>Learn</span>
             </Link>
             <Link 
-              href="/blog/trade-analysis"
+              href="/blog"
               onClick={() => setMobileMenuOpen(false)}
               className="flex items-center gap-3 px-4 py-4 text-base text-white hover:text-[#6366F1] transition-all duration-300 rounded-xl hover:bg-white/10 font-bold active:scale-95 border border-transparent hover:border-[#6366F1]/30"
             >
-              <span className="text-2xl">📝</span>
-              <span>Blog</span>
+              <span className="text-2xl">📚</span>
+              <span>Education</span>
             </Link>
             <Link 
               href="/about"

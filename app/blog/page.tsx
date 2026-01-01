@@ -8,7 +8,7 @@ const blogPosts = [
   {
     id: 1,
     title: "The Ultimate Guide to Chart Patterns Every Trader Must Master in 2025",
-    description: "Master these proven technical analysis patterns to predict market movements with 85% accuracy. Deep dive into head & shoulders, triangles, flags, and more.",
+    description: "Master proven technical analysis patterns used by professional traders. Learn to identify head & shoulders, triangles, flags, wedges, and more with real-world examples.",
     slug: "chart-patterns-guide",
     image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=400&fit=crop",
     readTime: "25 min read",
@@ -17,19 +17,19 @@ const blogPosts = [
   },
   {
     id: 2,
-    title: "How AI is Revolutionizing Trading in 2025: The Complete Guide",
-    description: "Discover how artificial intelligence and machine learning are transforming trading strategies. Learn to leverage AI tools for 10x better trading decisions.",
+    title: "How AI is Revolutionizing Trading: Tools and Strategies for 2025",
+    description: "Explore how artificial intelligence is transforming market analysis. Learn which AI tools actually work, how to integrate them into your workflow, and avoid common pitfalls.",
     slug: "ai-trading-revolution",
     image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=400&fit=crop",
     readTime: "18 min read",
-    category: "AI Trading",
+    category: "AI & Technology",
     date: "Dec 6, 2025"
   },
   {
     id: 3,
-    title: "Risk Management Mastery: How Professional Traders Protect Capital",
-    description: "The definitive guide to risk management that separates profitable traders from the rest. Position sizing, stop losses, and portfolio protection strategies.",
-    slug: "risk-management-mastery",
+    title: "Risk Management 101: The Foundation of Profitable Trading",
+    description: "Learn the position sizing, stop loss strategies, and portfolio protection techniques that separate professional traders from amateurs. Essential reading for all traders.",
+    slug: "risk-management-guide",
     image: "https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=800&h=400&fit=crop",
     readTime: "20 min read",
     category: "Risk Management",
@@ -37,19 +37,19 @@ const blogPosts = [
   },
   {
     id: 4,
-    title: "Scalping Strategies for 2025: Make Money in Minutes",
-    description: "Advanced scalping techniques used by professional day traders. Learn the setups, indicators, and psychology needed for consistent scalping profits.",
-    slug: "scalping-strategies",
+    title: "Understanding Market Structure: Support, Resistance & Key Levels",
+    description: "Deep dive into market structure analysis. Learn how to identify genuine support and resistance zones, spot trend changes, and understand where big money is positioned.",
+    slug: "market-structure-guide",
     image: "https://images.unsplash.com/photo-1642543492481-44e81e3914a7?w=800&h=400&fit=crop",
     readTime: "22 min read",
-    category: "Day Trading",
+    category: "Technical Analysis",
     date: "Dec 4, 2025"
   },
   {
     id: 5,
-    title: "Cryptocurrency Trading in 2025: Navigate the Bull Market",
-    description: "Everything you need to know about trading crypto in 2025. Market cycles, top altcoins, DeFi opportunities, and risk management for volatile markets.",
-    slug: "crypto-trading-2025",
+    title: "Cryptocurrency Trading Guide: Navigate Digital Asset Markets",
+    description: "Comprehensive guide to trading crypto in 2025. Market cycles, top strategies, managing volatility, and understanding the unique characteristics of digital asset markets.",
+    slug: "crypto-trading-guide",
     image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=800&h=400&fit=crop",
     readTime: "24 min read",
     category: "Cryptocurrency",
@@ -57,13 +57,43 @@ const blogPosts = [
   },
   {
     id: 6,
-    title: "Trading Psychology: Master Your Mind, Master the Markets",
-    description: "The mental game of trading revealed. Overcome fear, greed, and emotional trading. Build the psychological foundation for consistent profitability.",
-    slug: "trading-psychology",
+    title: "Trading Psychology: Overcome Fear, Greed & Emotional Decision Making",
+    description: "Master the mental game of trading. Learn proven techniques to control emotions, maintain discipline, and develop the psychological edge needed for consistent profitability.",
+    slug: "trading-psychology-guide",
     image: "https://images.unsplash.com/photo-1590650153855-d9e808231d41?w=800&h=400&fit=crop",
     readTime: "19 min read",
     category: "Psychology",
     date: "Dec 2, 2025"
+  },
+  {
+    id: 7,
+    title: "Technical Indicators That Actually Work: A Practical Guide",
+    description: "Cut through the noise. Learn which technical indicators professional traders rely on, how to combine them effectively, and avoid common indicator mistakes.",
+    slug: "technical-indicators-guide",
+    image: "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?w=800&h=400&fit=crop",
+    readTime: "21 min read",
+    category: "Technical Analysis",
+    date: "Dec 1, 2025"
+  },
+  {
+    id: 8,
+    title: "Forex Trading Fundamentals: Currency Markets Explained",
+    description: "Everything you need to know about forex trading. Understand currency pairs, pip values, leverage, and develop strategies specifically for the forex market.",
+    slug: "forex-trading-fundamentals",
+    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&h=400&fit=crop",
+    readTime: "23 min read",
+    category: "Forex",
+    date: "Nov 30, 2025"
+  },
+  {
+    id: 9,
+    title: "Building Your Trading Plan: A Step-by-Step Blueprint",
+    description: "Create a comprehensive trading plan tailored to your goals. Learn what to include, how to backtest strategies, and maintain consistency in your trading approach.",
+    slug: "trading-plan-blueprint",
+    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=400&fit=crop",
+    readTime: "26 min read",
+    category: "Strategy",
+    date: "Nov 29, 2025"
   }
 ];
 
@@ -120,26 +150,52 @@ export default function BlogPage() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-[#6366F1] to-[#8B5CF6] bg-clip-text text-transparent"
           >
-            Trading Education Hub
+            📚 Trading Education Hub
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="text-xl text-neutral-300 mb-4"
+            className="text-xl text-neutral-300 mb-4 max-w-3xl mx-auto"
           >
-            Expert trading guides, market analysis, and professional strategies to elevate your trading game
+            Master trading with expert guides, professional strategies, and in-depth market analysis. Educational content designed to help you become a better trader.
           </motion.p>
-          <motion.p 
+          <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="text-sm text-[#6366F1] font-semibold"
+            className="flex flex-wrap items-center justify-center gap-4 text-sm"
           >
-            📚 {blogPosts.length} Professional Guides • 💡 Expert Analysis • 🎯 Trading Education
-          </motion.p>
+            <span className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10">
+              <span className="text-[#6366F1]">📖</span>
+              <span className="text-neutral-300">{blogPosts.length} Guides</span>
+            </span>
+            <span className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10">
+              <span className="text-[#8B5CF6]">🎯</span>
+              <span className="text-neutral-300">Expert Analysis</span>
+            </span>
+            <span className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10">
+              <span className="text-[#EC4899]">💡</span>
+              <span className="text-neutral-300">Free Education</span>
+            </span>
+          </motion.div>
         </div>
       </motion.div>
+
+      {/* Info Banner */}
+      <div className="max-w-7xl mx-auto px-4 mb-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="bg-gradient-to-r from-emerald-500/10 to-green-600/10 border border-emerald-500/30 rounded-2xl p-6 text-center"
+        >
+          <p className="text-neutral-300">
+            <span className="text-emerald-400 font-bold">💡 Educational Content Only:</span> These articles are designed to teach trading concepts and strategies. 
+            <span className="text-white font-semibold"> Not financial advice. Not trade recommendations.</span>
+          </p>
+        </motion.div>
+      </div>
 
       {/* Blog Grid */}
       <motion.div
