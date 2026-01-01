@@ -132,11 +132,10 @@ export default function Header() {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               whileHover={{ scale: 1.05 }}
-              className="px-3 md:px-5 py-2 bg-gradient-to-r from-[#6366F1] via-[#8B5CF6] to-[#EC4899] text-white font-black text-xs md:text-sm rounded-xl shadow-lg shadow-[#6366F1]/30 flex items-center gap-1.5"
+              className="px-3 py-2 bg-gradient-to-r from-[#6366F1] via-[#8B5CF6] to-[#EC4899] text-white font-bold text-xs rounded-full shadow-lg shadow-[#6366F1]/30 flex items-center gap-1"
             >
-              <span className="text-base">⚡</span>
-              <span className="hidden sm:inline">PRO ACTIVE</span>
-              <span className="inline sm:hidden">PRO</span>
+              <span className="text-sm">⚡</span>
+              <span>PRO</span>
             </motion.div>
           ) : (
             <Link 
