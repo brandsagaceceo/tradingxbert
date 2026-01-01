@@ -2,14 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 
 const TWELVE_DATA_API_KEY = process.env.TWELVE_DATA_API_KEY;
 
-// Twelve Data API fetcher for stocks with proper error handling
-async function fetchTwelveDataPrice(symbol: string) {
+// Batch fetch multiple symbols in ONE API call (saves rate limits!)
+async function fetchTwelveDataBatch(symbols: string[]) {
   if (!TWELVE_DATA_API_KEY) {
     throw new Error('TWELVE_DATA_API_KEY not configured');
   }
 
+  const symbolString = symbols.join(',');
   const response = await fetch(
-    `https://api.twelvedata.com/quote?symbol=${symbol}&apikey=${TWELVE_DATA_API_KEY}`,
+    `https://api.twelvedata.com/quote?symbol=${symbolString}&apikey=${TWELVE_DATA_API_KEY}`,
     { next: { revalidate: 60 } } // Cache for 60 seconds
   );
 
@@ -20,6 +21,7 @@ async function fetchTwelveDataPrice(symbol: string) {
   const data = await response.json();
   
   if (data.code === 429) {
+    console.error('⚠️ Rate limit hit - using fallback prices');
     throw new Error('Rate limit exceeded');
   }
   
@@ -27,11 +29,14 @@ async function fetchTwelveDataPrice(symbol: string) {
     throw new Error(data.message || 'Twelve Data API error');
   }
 
-  return {
-    price: parseFloat(data.close) || 0,
-    change: parseFloat(data.percent_change) || 0,
-    volume: parseFloat(data.volume) || 0,
-  };
+  // Handle both single and batch responses
+  const quotes = Array.isArray(data) ? data : [data];
+  
+  return quotes.map((quote: any) => ({
+    symbol: quote.symbol,
+    price: parseFloat(quote.close) || 0,
+    change: parseFloat(quote.percent_change) || 0,
+  }));
 }
 
 export async function GET(req: NextRequest) {
@@ -42,39 +47,26 @@ export async function GET(req: NextRequest) {
       { next: { revalidate: 30 } } // Cache for 30 seconds
     );
     
-    // Fetch real-time stock prices from Twelve Data API (ACCURATE!)
+    // Fetch ALL stocks in ONE batch API call (uses only 1 credit instead of 7!)
     const stockSymbols = ['AAPL', 'TSLA', 'NVDA', 'GOOGL', 'MSFT', 'AMZN', 'META'];
+    let stockData: any[] = [];
     
-    const stockPromises = stockSymbols.map(async (symbol) => {
-      try {
-        const data = await fetchTwelveDataPrice(symbol);
-        
-        console.log(`✅ Twelve Data ${symbol}: $${data.price} (${data.change.toFixed(2)}%)`);
-        
-        return {
-          symbol,
-          price: data.price,
-          change: data.change
-        };
-      } catch (error: any) {
-        console.error(`Error fetching ${symbol} from Twelve Data:`, error.message);
-        // Updated fallback prices for December 31, 2025
-        const fallback: any = {
-          AAPL: { price: 194.50, change: 0.8 },
-          TSLA: { price: 358.75, change: -1.2 },
-          NVDA: { price: 138.50, change: 2.1 },  // Will be replaced with accurate data
-          GOOGL: { price: 175.30, change: 1.1 },
-          MSFT: { price: 414.60, change: 0.5 },
-          AMZN: { price: 210.80, change: 1.4 },
-          META: { price: 595.40, change: 1.8 }
-        };
-        return {
-          symbol,
-          price: fallback[symbol]?.price || 0,
-          change: fallback[symbol]?.change || 0
-        };
-      }
-    });
+    try {
+      stockData = await fetchTwelveDataBatch(stockSymbols);
+      console.log(`✅ Twelve Data batch: Fetched ${stockData.length} stocks`);
+    } catch (error: any) {
+      console.error('Error fetching stocks from Twelve Data:', error.message);
+      // Fallback prices for December 31, 2025
+      stockData = [
+        { symbol: 'AAPL', price: 194.50, change: 0.8 },
+        { symbol: 'TSLA', price: 358.75, change: -1.2 },
+        { symbol: 'NVDA', price: 138.50, change: 2.1 },
+        { symbol: 'GOOGL', price: 175.30, change: 1.1 },
+        { symbol: 'MSFT', price: 414.60, change: 0.5 },
+        { symbol: 'AMZN', price: 210.80, change: 1.4 },
+        { symbol: 'META', price: 595.40, change: 1.8 }
+      ];
+    }
 
     // Fetch forex rates (keep ExchangeRate-API - it's free and reliable)
     const forexResponse = await fetch(
@@ -82,36 +74,27 @@ export async function GET(req: NextRequest) {
       { next: { revalidate: 300 } } // Cache for 5 minutes
     );
     
-    // Fetch indices from Twelve Data (S&P 500, Dow Jones)
-    const indicesPromises = [
-      { symbol: 'SPX', name: 'SPX' },   // S&P 500
-      { symbol: 'DJI', name: 'DJI' }    // Dow Jones
-    ].map(async ({ symbol, name }) => {
-      try {
-        const data = await fetchTwelveDataPrice(symbol);
-        
-        console.log(`✅ Twelve Data ${symbol}: $${data.price} (${data.change.toFixed(2)}%)`);
-        
-        return {
-          symbol: name,
-          price: data.price,
-          change: data.change
-        };
-      } catch (error) {
-        console.error(`Error fetching index ${symbol} from Twelve Data:`, error);
-        // Fallback for December 31, 2025
-        return {
-          symbol: name,
-          price: symbol === 'SPX' ? 6000.00 : 43500.00,  // More realistic fallback
-          change: 0.8
-        };
-      }
-    });
+    // Fetch indices + commodities in ONE batch call (uses only 1 credit!)
+    const marketSymbols = ['SPX', 'DJI', 'XAU/USD', 'CL', 'XAG/USD'];
+    let marketData: any[] = [];
+    
+    try {
+      marketData = await fetchTwelveDataBatch(marketSymbols);
+      console.log(`✅ Twelve Data batch: Fetched ${marketData.length} markets`);
+    } catch (error) {
+      console.error('Error fetching markets from Twelve Data:', error);
+      // Fallback for December 31, 2025
+      marketData = [
+        { symbol: 'SPX', price: 6000.00, change: 0.8 },
+        { symbol: 'DJI', price: 43500.00, change: 0.6 },
+        { symbol: 'XAU/USD', price: 2631.00, change: 0.3 },
+        { symbol: 'CL', price: 71.50, change: -0.5 },
+        { symbol: 'XAG/USD', price: 30.25, change: 2.68 }
+      ];
+    }
 
     const cryptoData = await cryptoResponse.json();
-    const stockData = await Promise.all(stockPromises);
     const forexData = await forexResponse.json();
-    const indicesData = await Promise.all(indicesPromises);
 
     // Format crypto prices
     const cryptoPrices = {
@@ -145,7 +128,7 @@ export async function GET(req: NextRequest) {
       }
     };
 
-    // Format stock prices from Yahoo Finance
+    // Format stock prices from Twelve Data
     const stocks: any = {};
     stockData.forEach((data) => {
       if (data && data.price > 0) {
@@ -172,56 +155,23 @@ export async function GET(req: NextRequest) {
       }
     };
 
-    // Fetch commodity prices from Twelve Data (Gold, Oil, Silver)
-    const commoditiesPromises = [
-      { symbol: 'XAU/USD', name: 'GOLD' },   // Gold spot price
-      { symbol: 'CL', name: 'OIL' },         // Crude Oil WTI
-      { symbol: 'XAG/USD', name: 'SILVER' }  // Silver spot price
-    ].map(async ({ symbol, name }) => {
-      try {
-        const data = await fetchTwelveDataPrice(symbol);
-        
-        console.log(`✅ Twelve Data ${name}: $${data.price} (${data.change.toFixed(2)}%)`);
-        
-        return {
-          name,
+    // Format commodities and indices from marketData batch
+    const commodities: any = {};
+    const indices: any = {};
+    
+    marketData.forEach((data) => {
+      if (data.symbol === 'SPX' || data.symbol === 'DJI') {
+        indices[data.symbol] = {
           price: data.price,
           change: data.change
         };
-      } catch (error) {
-        console.error(`Error fetching ${name} from Twelve Data:`, error);
-        // Fallback for December 31, 2025
-        const fallback: any = {
-          GOLD: { price: 2631.00, change: 0.3 },
-          OIL: { price: 71.50, change: -0.5 },
-          SILVER: { price: 30.25, change: 2.68 }
-        };
-        return {
-          name,
-          price: fallback[name]?.price || 0,
-          change: fallback[name]?.change || 0
-        };
+      } else if (data.symbol === 'XAU/USD') {
+        commodities.GOLD = { price: data.price, change: data.change };
+      } else if (data.symbol === 'CL') {
+        commodities.OIL = { price: data.price, change: data.change };
+      } else if (data.symbol === 'XAG/USD') {
+        commodities.SILVER = { price: data.price, change: data.change };
       }
-    });
-    
-    const commoditiesData = await Promise.all(commoditiesPromises);
-
-    // Format commodities
-    const commodities: any = {};
-    commoditiesData.forEach((data) => {
-      commodities[data.name] = {
-        price: data.price,
-        change: data.change
-      };
-    });
-
-    // Format indices
-    const indices: any = {};
-    indicesData.forEach((data) => {
-      indices[data.symbol] = {
-        price: data.price,
-        change: data.change
-      };
     });
 
     return NextResponse.json({
