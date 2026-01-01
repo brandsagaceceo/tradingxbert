@@ -163,8 +163,8 @@ export async function GET(req: NextRequest) {
       commodities,
       indices,
       timestamp: new Date().toISOString(),
-      source: 'Twelve Data API (Stocks, Indices, Commodities) + CoinGecko (Crypto) + ExchangeRate-API (Forex)',
-      apiStatus: TWELVE_DATA_API_KEY ? 'Using Twelve Data' : 'Using fallback data'
+      source: 'CoinGecko (Crypto) + Accurate Fallback Prices (Dec 31, 2025)',
+      note: 'Using accurate fallback prices. Upgrade to Twelve Data Grow plan ($29/month) for real-time data.'
     });
 
   } catch (error: any) {
@@ -173,8 +173,8 @@ export async function GET(req: NextRequest) {
     // Return fallback data if APIs fail
     return NextResponse.json({
       error: "Using fallback data",
-      message: CoinGecko (Crypto) + Accurate Fallback Prices (Dec 31, 2025)',
-      note: 'Using accurate fallback prices. Upgrade to Twelve Data Grow plan ($29/month) for real-time data.
+      message: error.message,
+      timestamp: new Date().toISOString()
     }, { status: 500 });
   }
 }
