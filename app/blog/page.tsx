@@ -150,7 +150,7 @@ export default function BlogPage() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-[#6366F1] to-[#8B5CF6] bg-clip-text text-transparent"
           >
-            📚 Trading Education Hub
+            � Trading Blog & Insights
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0 }}
@@ -158,7 +158,7 @@ export default function BlogPage() {
             transition={{ duration: 0.5, delay: 0.4 }}
             className="text-xl text-neutral-300 mb-4 max-w-3xl mx-auto"
           >
-            Master trading with expert guides, professional strategies, and in-depth market analysis. Educational content designed to help you become a better trader.
+            Expert trading insights, professional analysis, and educational guides. Learn strategies and concepts to improve your trading skills.
           </motion.p>
           <motion.div 
             initial={{ opacity: 0 }}
