@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { useLivePrices, formatPrice } from "@/hooks/useLivePrices";
 
 export default function PriceAlerts() {
   const [email, setEmail] = useState("");
@@ -8,13 +9,24 @@ export default function PriceAlerts() {
   const [alertPrice, setAlertPrice] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const { prices } = useLivePrices(60000);
 
-  const assets = [
-    { symbol: "BTC", name: "Bitcoin", currentPrice: "$96,247" },
-    { symbol: "ETH", name: "Ethereum", currentPrice: "$3,421" },
-    { symbol: "NVDA", name: "NVIDIA", currentPrice: "$140.15" },
-    { symbol: "SPX", name: "S&P 500", currentPrice: "5,881" }
-  ];
+  const getAssets = () => {
+    if (!prices) return [
+      { symbol: "BTC", name: "Bitcoin", currentPrice: "Loading..." },
+      { symbol: "ETH", name: "Ethereum", currentPrice: "Loading..." },
+      { symbol: "NVDA", name: "NVIDIA", currentPrice: "Loading..." },
+      { symbol: "SPX", name: "S&P 500", currentPrice: "Loading..." }
+    ];
+    return [
+      { symbol: "BTC", name: "Bitcoin", currentPrice: `$${formatPrice(prices.crypto.BTC.price, 0)}` },
+      { symbol: "ETH", name: "Ethereum", currentPrice: `$${formatPrice(prices.crypto.ETH.price, 0)}` },
+      { symbol: "NVDA", name: "NVIDIA", currentPrice: `$${formatPrice(prices.stocks.NVDA.price, 2)}` },
+      { symbol: "SPX", name: "S&P 500", currentPrice: formatPrice(prices.indices.SPX.price, 0) }
+    ];
+  };
+
+  const assets = getAssets();
 
   const handleSetAlert = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,7 +68,7 @@ export default function PriceAlerts() {
             onChange={(e) => setAsset(e.target.value)}
             className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#6366F1]"
           >
-            {assets.map((a) => (
+            {getAssets().map((a) => (
               <option key={a.symbol} value={a.symbol}>
                 {a.name} ({a.symbol}) - Current: {a.currentPrice}
               </option>

@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { useLivePrices, formatPrice, formatChange } from "@/hooks/useLivePrices";
 
 interface TradingViewWidgetProps {
   symbol?: string;
@@ -9,20 +10,57 @@ interface TradingViewWidgetProps {
 
 export default function TradingViewWidget({ symbol = "BTCUSD", title = "Bitcoin" }: TradingViewWidgetProps) {
   const [timeframe, setTimeframe] = useState("1D");
+  const { prices, loading } = useLivePrices(60000);
   
   const timeframes = ["5m", "15m", "1H", "4H", "1D", "1W"];
   
-  // Dynamic price data based on symbol
-  const priceData: Record<string, { price: string; change: string; changePercent: string }> = {
-    BTCUSD: { price: "$88,000.00", change: "+$2,100", changePercent: "+2.4%" },
-    SPX: { price: "5,881.63", change: "+46.71", changePercent: "+0.8%" },
-    AAPL: { price: "$250.17", change: "+2.01", changePercent: "+0.8%" },
-    TSLA: { price: "$463.02", change: "-5.63", changePercent: "-1.2%" },
-    NVDA: { price: "$140.15", change: "+2.89", changePercent: "+2.1%" },
-    ETH: { price: "$3,421.80", change: "+128.50", changePercent: "+3.9%" },
+  // Get live price based on symbol
+  const getLivePrice = () => {
+    if (!prices) return { price: "Loading...", change: "+0.00", changePercent: "+0.00%" };
+    
+    switch(symbol) {
+      case 'BTCUSD':
+        return { 
+          price: `$${formatPrice(prices.crypto.BTC.price, 0)}`, 
+          change: prices.crypto.BTC.change >= 0 ? `+${formatPrice(prices.crypto.BTC.change, 2)}` : formatPrice(prices.crypto.BTC.change, 2),
+          changePercent: formatChange(prices.crypto.BTC.change)
+        };
+      case 'SPX':
+        return { 
+          price: formatPrice(prices.indices.SPX.price, 0), 
+          change: prices.indices.SPX.change >= 0 ? `+${formatPrice(prices.indices.SPX.change, 2)}` : formatPrice(prices.indices.SPX.change, 2),
+          changePercent: formatChange(prices.indices.SPX.change)
+        };
+      case 'AAPL':
+        return { 
+          price: `$${formatPrice(prices.stocks.AAPL.price, 2)}`, 
+          change: prices.stocks.AAPL.change >= 0 ? `+${formatPrice(prices.stocks.AAPL.change, 2)}` : formatPrice(prices.stocks.AAPL.change, 2),
+          changePercent: formatChange(prices.stocks.AAPL.change)
+        };
+      case 'TSLA':
+        return { 
+          price: `$${formatPrice(prices.stocks.TSLA.price, 2)}`, 
+          change: prices.stocks.TSLA.change >= 0 ? `+${formatPrice(prices.stocks.TSLA.change, 2)}` : formatPrice(prices.stocks.TSLA.change, 2),
+          changePercent: formatChange(prices.stocks.TSLA.change)
+        };
+      case 'NVDA':
+        return { 
+          price: `$${formatPrice(prices.stocks.NVDA.price, 2)}`, 
+          change: prices.stocks.NVDA.change >= 0 ? `+${formatPrice(prices.stocks.NVDA.change, 2)}` : formatPrice(prices.stocks.NVDA.change, 2),
+          changePercent: formatChange(prices.stocks.NVDA.change)
+        };
+      case 'ETH':
+        return { 
+          price: `$${formatPrice(prices.crypto.ETH.price, 0)}`, 
+          change: prices.crypto.ETH.change >= 0 ? `+${formatPrice(prices.crypto.ETH.change, 2)}` : formatPrice(prices.crypto.ETH.change, 2),
+          changePercent: formatChange(prices.crypto.ETH.change)
+        };
+      default:
+        return { price: "Loading...", change: "+0.00", changePercent: "+0.00%" };
+    }
   };
   
-  const currentPrice = priceData[symbol] || priceData.BTCUSD;
+  const currentPrice = getLivePrice();
   
   return (
     <div className="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl rounded-3xl border border-white/10 p-6">
@@ -58,9 +96,14 @@ export default function TradingViewWidget({ symbol = "BTCUSD", title = "Bitcoin"
         
         {/* Price Labels */}
         <div className="absolute left-2 top-0 bottom-0 flex flex-col justify-around text-xs text-neutral-500">
-          {['$98,000', '$96,500', '$95,000', '$93,500', '$92,000'].map((price, i) => (
-            <div key={i}>{price}</div>
-          ))}
+          {prices && symbol === 'BTCUSD' ? 
+            [prices.crypto.BTC.price * 1.02, prices.crypto.BTC.price * 1.01, prices.crypto.BTC.price, prices.crypto.BTC.price * 0.99, prices.crypto.BTC.price * 0.98].map((price, i) => (
+              <div key={i}>${formatPrice(price, 0)}</div>
+            )) : 
+            ['$98,000', '$96,500', '$95,000', '$93,500', '$92,000'].map((price, i) => (
+              <div key={i}>{price}</div>
+            ))
+          }
         </div>
         
         {/* Realistic Candlestick Chart */}
@@ -131,12 +174,45 @@ export default function TradingViewWidget({ symbol = "BTCUSD", title = "Bitcoin"
       
       {/* Chart Stats */}
       <div className="grid grid-cols-4 gap-3 mt-4">
-        {[
-          { label: "24h High", value: "$97,420", color: "text-green-400" },
-          { label: "24h Low", value: "$93,185", color: "text-red-400" },
-          { label: "Volume", value: "$45.2B", color: "text-blue-400" },
-          { label: "Market Cap", value: "$1.89T", color: "text-purple-400" }
-        ].map((stat, i) => (
+        {(() => {
+          if (!prices) return [
+            { label: "24h High", value: "Loading...", color: "text-green-400" },
+            { label: "24h Low", value: "Loading...", color: "text-red-400" },
+            { label: "Volume", value: "Loading...", color: "text-blue-400" },
+            { label: "Market Cap", value: "Loading...", color: "text-purple-400" }
+          ];
+          
+          let high, low, volume, marketCap;
+          
+          if (symbol === 'BTCUSD') {
+            high = `$${formatPrice(prices.crypto.BTC.price * 1.03, 0)}`;
+            low = `$${formatPrice(prices.crypto.BTC.price * 0.97, 0)}`;
+            volume = "$45.2B";
+            marketCap = `$${((prices.crypto.BTC.price * 19.6) / 1000).toFixed(2)}T`;
+          } else if (symbol === 'ETH') {
+            high = `$${formatPrice(prices.crypto.ETH.price * 1.03, 0)}`;
+            low = `$${formatPrice(prices.crypto.ETH.price * 0.97, 0)}`;
+            volume = "$18.2B";
+            marketCap = `$${((prices.crypto.ETH.price * 120.5) / 1000).toFixed(2)}T`;
+          } else if (symbol === 'SPX') {
+            high = formatPrice(prices.indices.SPX.price * 1.01, 0);
+            low = formatPrice(prices.indices.SPX.price * 0.99, 0);
+            volume = "$125B";
+            marketCap = "$46.2T";
+          } else {
+            high = "$97,420";
+            low = "$93,185";
+            volume = "$45.2B";
+            marketCap = "$1.89T";
+          }
+          
+          return [
+            { label: "24h High", value: high, color: "text-green-400" },
+            { label: "24h Low", value: low, color: "text-red-400" },
+            { label: "Volume", value: volume, color: "text-blue-400" },
+            { label: "Market Cap", value: marketCap, color: "text-purple-400" }
+          ];
+        })().map((stat, i) => (
           <div key={i} className="bg-black/30 rounded-lg p-3">
             <div className="text-xs text-neutral-400 mb-1">{stat.label}</div>
             <div className={`font-black ${stat.color}`}>{stat.value}</div>

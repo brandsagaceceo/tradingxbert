@@ -1,13 +1,31 @@
 "use client";
 import { motion } from "framer-motion";
+import { useLivePrices, formatPrice, formatChange } from "@/hooks/useLivePrices";
 
 export default function MarketStats() {
-  const stats = [
-    { label: "24h Volume", value: "$542.3B", change: "+12.4%", positive: true },
-    { label: "Market Cap", value: "$3.42T", change: "+3.8%", positive: true },
-    { label: "BTC Dominance", value: "55.2%", change: "-0.3%", positive: false },
-    { label: "Active Traders", value: "8.7M", change: "+15.2%", positive: true }
-  ];
+  const { prices, loading } = useLivePrices(60000);
+  
+  const getStats = () => {
+    if (!prices) return [
+      { label: "24h Volume", value: "Loading...", change: "+0.0%", positive: true },
+      { label: "Market Cap", value: "Loading...", change: "+0.0%", positive: true },
+      { label: "BTC Dominance", value: "55.2%", change: "-0.3%", positive: false },
+      { label: "Active Traders", value: "8.7M", change: "+15.2%", positive: true }
+    ];
+    
+    // Calculate approximate market cap from BTC price
+    const btcMarketCap = (prices.crypto.BTC.price * 19.6) / 1000; // in trillions
+    const totalMarketCap = btcMarketCap / 0.552; // BTC dominance ~55.2%
+    
+    return [
+      { label: "24h Volume", value: "$542.3B", change: "+12.4%", positive: true },
+      { label: "Market Cap", value: `$${totalMarketCap.toFixed(2)}T`, change: formatChange(prices.crypto.BTC.change), positive: prices.crypto.BTC.change >= 0 },
+      { label: "BTC Dominance", value: "55.2%", change: "-0.3%", positive: false },
+      { label: "Active Traders", value: "8.7M", change: "+15.2%", positive: true }
+    ];
+  };
+  
+  const stats = getStats();
 
   return (
     <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-6">

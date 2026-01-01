@@ -13,12 +13,13 @@ export default function TrendingNews() {
   const { prices, loading } = useLivePrices(60000);
   
   const btcPrice = prices ? formatPrice(prices.crypto.BTC.price, 0) : '88K';
+  const goldPrice = prices ? formatPrice(prices.commodities.GOLD.price, 0) : '2,600';
   
   const trending: TrendingArticle[] = [
     { title: `Bitcoin Rallies to $${btcPrice}`, views: "45.2K", trend: "🔥", category: "Crypto" },
     { title: "NVIDIA Hits New ATH", views: "38.5K", trend: "🔥", category: "Stocks" },
     { title: "Fed Holds Rates Steady", views: "32.1K", trend: "📈", category: "Forex" },
-    { title: "Gold Breaks $2,600", views: "28.7K", trend: "⚡", category: "Commodities" },
+    { title: `Gold Breaks $${goldPrice}`, views: "28.7K", trend: "⚡", category: "Commodities" },
     { title: "S&P 500 Record High", views: "25.3K", trend: "📈", category: "Stocks" }
   ];
 

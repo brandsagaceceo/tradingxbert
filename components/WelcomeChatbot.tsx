@@ -17,57 +17,57 @@ export default function WelcomeChatbot({ delay = 3000 }: WelcomeChatbotProps) {
   const getPageMessage = () => {
     if (pathname === "/") {
       return {
-        title: "👋 Welcome to TradingXbert!",
-        message: "Ready to analyze your trading charts? Upload any chart screenshot and get instant AI-powered insights. Need help getting started?",
-        cta: "Learn How It Works"
+        title: "👋 Hi! I'm here if you need any help",
+        message: "Ready to analyze your trading charts? Upload any chart screenshot and get instant AI-powered insights, or explore our trading university to sharpen your skills!",
+        cta: "Thanks!"
       };
     } else if (pathname === "/news") {
       return {
-        title: "📰 Market News & Analysis",
-        message: "Stay updated with real-time crypto and stock prices, Fear & Greed Index, and breaking market news. Filter by category to find what matters to you!",
-        cta: "Explore News"
+        title: "📰 Hey! I'm here if you need help",
+        message: "Stay updated with real-time crypto and stock prices, Fear & Greed Index, and breaking market news. Everything you need to stay informed!",
+        cta: "Perfect!"
       };
     } else if (pathname === "/how-to-trade") {
       return {
-        title: "📚 Trading Education Hub",
+        title: "📚 I'm here to help!",
         message: "Learn everything from chart patterns to risk management. Browse our comprehensive guides to become a better trader!",
-        cta: "Start Learning"
+        cta: "Got It!"
       };
     } else if (pathname?.startsWith("/how-to-trade/")) {
       return {
-        title: "🎓 Learning Path",
+        title: "🎓 I'm here if you need anything",
         message: "Take your time with each lesson. Complete all sections to earn points and track your progress!",
         cta: "Continue"
       };
     } else if (pathname === "/profile") {
       return {
-        title: "👤 Your Trading Profile",
+        title: "👤 I'm here if you need help",
         message: "Track your analysis history, course progress, and trading stats all in one place. Sign in to unlock all features!",
         cta: "Got It"
       };
     } else if (pathname === "/pricing") {
       return {
-        title: "💎 Upgrade to Pro",
+        title: "💎 Hey! I'm here to help",
         message: "Get unlimited chart analyses, access to all timeframes, and priority support. Start with our free plan to try it out!",
-        cta: "Compare Plans"
+        cta: "Thanks!"
       };
     } else if (pathname === "/journal") {
       return {
-        title: "📔 Trading Journal",
+        title: "📔 I'm here if you need help",
         message: "Review your past analyses and track your trading decisions. Learn from both winners and losers!",
-        cta: "View Journal"
+        cta: "Perfect!"
       };
     } else if (pathname === "/blog") {
       return {
-        title: "📖 Trading Education Blog",
+        title: "📖 Hey! I'm here if you need anything",
         message: "Discover in-depth guides on technical analysis, risk management, and trading psychology. All designed to improve your trading!",
-        cta: "Read Articles"
+        cta: "Got It!"
       };
     }
     
     return {
-      title: "💬 Need Help?",
-      message: "I'm here to help you navigate TradingXbert! Click the chat button anytime to get assistance.",
+      title: "💬 Hi! I'm here if you need help",
+      message: "I'm here to assist you with anything you need. Explore our AI tools, trading courses, and market analysis!",
       cta: "Thanks!"
     };
   };

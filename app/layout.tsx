@@ -137,7 +137,7 @@ export default function RootLayout({
         </div>
 
         {children}
-        <WelcomeChatbot delay={3000} />
+        <WelcomeChatbot delay={500} />
         </SessionProvider>
       </body>
     </html>

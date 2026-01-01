@@ -29,7 +29,7 @@ const blogPosts = [
     id: 3,
     title: "Risk Management 101: The Foundation of Profitable Trading",
     description: "Learn the position sizing, stop loss strategies, and portfolio protection techniques that separate professional traders from amateurs. Essential reading for all traders.",
-    slug: "risk-management-guide",
+    slug: "risk-management-mastery",
     image: "https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=800&h=400&fit=crop",
     readTime: "20 min read",
     category: "Risk Management",
@@ -39,7 +39,7 @@ const blogPosts = [
     id: 4,
     title: "Understanding Market Structure: Support, Resistance & Key Levels",
     description: "Deep dive into market structure analysis. Learn how to identify genuine support and resistance zones, spot trend changes, and understand where big money is positioned.",
-    slug: "market-structure-guide",
+    slug: "scalping-strategies",
     image: "https://images.unsplash.com/photo-1642543492481-44e81e3914a7?w=800&h=400&fit=crop",
     readTime: "22 min read",
     category: "Technical Analysis",
@@ -49,7 +49,7 @@ const blogPosts = [
     id: 5,
     title: "Cryptocurrency Trading Guide: Navigate Digital Asset Markets",
     description: "Comprehensive guide to trading crypto in 2025. Market cycles, top strategies, managing volatility, and understanding the unique characteristics of digital asset markets.",
-    slug: "crypto-trading-guide",
+    slug: "crypto-trading-2025",
     image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=800&h=400&fit=crop",
     readTime: "24 min read",
     category: "Cryptocurrency",
@@ -59,41 +59,11 @@ const blogPosts = [
     id: 6,
     title: "Trading Psychology: Overcome Fear, Greed & Emotional Decision Making",
     description: "Master the mental game of trading. Learn proven techniques to control emotions, maintain discipline, and develop the psychological edge needed for consistent profitability.",
-    slug: "trading-psychology-guide",
+    slug: "trading-psychology",
     image: "https://images.unsplash.com/photo-1590650153855-d9e808231d41?w=800&h=400&fit=crop",
     readTime: "19 min read",
     category: "Psychology",
     date: "Dec 2, 2025"
-  },
-  {
-    id: 7,
-    title: "Technical Indicators That Actually Work: A Practical Guide",
-    description: "Cut through the noise. Learn which technical indicators professional traders rely on, how to combine them effectively, and avoid common indicator mistakes.",
-    slug: "technical-indicators-guide",
-    image: "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?w=800&h=400&fit=crop",
-    readTime: "21 min read",
-    category: "Technical Analysis",
-    date: "Dec 1, 2025"
-  },
-  {
-    id: 8,
-    title: "Forex Trading Fundamentals: Currency Markets Explained",
-    description: "Everything you need to know about forex trading. Understand currency pairs, pip values, leverage, and develop strategies specifically for the forex market.",
-    slug: "forex-trading-fundamentals",
-    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&h=400&fit=crop",
-    readTime: "23 min read",
-    category: "Forex",
-    date: "Nov 30, 2025"
-  },
-  {
-    id: 9,
-    title: "Building Your Trading Plan: A Step-by-Step Blueprint",
-    description: "Create a comprehensive trading plan tailored to your goals. Learn what to include, how to backtest strategies, and maintain consistency in your trading approach.",
-    slug: "trading-plan-blueprint",
-    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=400&fit=crop",
-    readTime: "26 min read",
-    category: "Strategy",
-    date: "Nov 29, 2025"
   }
 ];
 

@@ -485,8 +485,12 @@ export default function NewsPage() {
             className="bg-gradient-to-br from-purple-500/20 to-purple-600/10 border border-purple-500/30 hover:border-purple-500/60 rounded-xl p-4 transition-all cursor-pointer text-left"
           >
             <div className="text-xs text-purple-400 font-semibold mb-1">Ethereum</div>
-            <div className="text-xl md:text-2xl font-black text-white">{formatPrice(3421)}</div>
-            <div className="text-sm text-green-400">+3.76% 🚀</div>
+            <div className="text-xl md:text-2xl font-black text-white">
+              {livePrices ? formatLivePrice(livePrices.crypto.ETH.price, 0) : 'Loading...'}
+            </div>
+            <div className="text-sm text-green-400">
+              {livePrices ? formatChange(livePrices.crypto.ETH.change) : '+0.00%'} 🚀
+            </div>
           </motion.button>
           <motion.button
             whileHover={{ scale: 1.05, y: -2 }}
@@ -495,8 +499,12 @@ export default function NewsPage() {
             className="bg-gradient-to-br from-amber-500/20 to-amber-600/10 border border-amber-500/30 hover:border-amber-500/60 rounded-xl p-4 transition-all cursor-pointer text-left"
           >
             <div className="text-xs text-amber-400 font-semibold mb-1">Gold</div>
-            <div className="text-xl md:text-2xl font-black text-white">{formatPrice(2631)}</div>
-            <div className="text-sm text-green-400">+0.13% 💰</div>
+            <div className="text-xl md:text-2xl font-black text-white">
+              {livePrices ? formatLivePrice(livePrices.commodities.GOLD.price, 0) : 'Loading...'}
+            </div>
+            <div className="text-sm text-green-400">
+              {livePrices ? formatChange(livePrices.commodities.GOLD.change) : '+0.00%'} 💰
+            </div>
           </motion.button>
         </motion.div>
 
@@ -733,6 +741,97 @@ export default function NewsPage() {
                 </motion.div>
               </div>
 
+              {/* Economic Indicators Panel */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-blue-500/30 rounded-2xl p-6 mt-6"
+              >
+                <h3 className="text-2xl font-black text-white mb-4 flex items-center gap-2">
+                  <span>📊</span>
+                  Key Economic Indicators
+                </h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+                    <div className="text-xs text-neutral-400 mb-1">US GDP Growth</div>
+                    <div className="text-2xl font-black text-white">2.8%</div>
+                    <div className="text-xs text-green-400">+0.3% QoQ</div>
+                  </div>
+                  <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+                    <div className="text-xs text-neutral-400 mb-1">Inflation Rate</div>
+                    <div className="text-2xl font-black text-white">2.4%</div>
+                    <div className="text-xs text-green-400">-0.2% MoM</div>
+                  </div>
+                  <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+                    <div className="text-xs text-neutral-400 mb-1">Unemployment</div>
+                    <div className="text-2xl font-black text-white">3.8%</div>
+                    <div className="text-xs text-red-400">+0.1% MoM</div>
+                  </div>
+                  <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+                    <div className="text-xs text-neutral-400 mb-1">Fed Funds Rate</div>
+                    <div className="text-2xl font-black text-white">4.75%</div>
+                    <div className="text-xs text-neutral-400">Unchanged</div>
+                  </div>
+                </div>
+                <div className="mt-4 p-3 bg-amber-500/10 border border-amber-500/30 rounded-lg">
+                  <div className="flex items-start gap-2">
+                    <span className="text-lg">💡</span>
+                    <div>
+                      <div className="text-sm font-bold text-amber-400 mb-1">Market Impact</div>
+                      <div className="text-xs text-neutral-300">
+                        Cooling inflation supports risk assets while stable employment keeps consumer spending strong. 
+                        Fed likely to maintain current rates through Q1 2026.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Additional Charts Row */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                >
+                  <ProfessionalChart symbol="TSLA" title="Tesla" />
+                </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 }}
+                >
+                  <div className="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl rounded-2xl border border-white/10 p-6 h-full">
+                    <h3 className="text-xl font-black text-white mb-4">📰 Top Stories</h3>
+                    <div className="space-y-3">
+                      {[
+                        { icon: "🔥", title: "Bitcoin ETF sees $2B inflow in single day", time: "2h ago", color: "orange" },
+                        { icon: "📈", title: "S&P 500 breaks above 6,000 milestone", time: "4h ago", color: "green" },
+                        { icon: "💼", title: "Tech earnings beat expectations", time: "6h ago", color: "blue" },
+                        { icon: "🌍", title: "Global markets rally on trade optimism", time: "8h ago", color: "purple" }
+                      ].map((story, i) => (
+                        <motion.div
+                          key={i}
+                          initial={{ opacity: 0, x: -20 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: i * 0.1 }}
+                          className="flex items-start gap-3 p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-all cursor-pointer border border-white/5"
+                        >
+                          <span className="text-2xl">{story.icon}</span>
+                          <div className="flex-1">
+                            <p className="text-sm font-bold text-white line-clamp-2">{story.title}</p>
+                            <p className="text-xs text-neutral-400 mt-1">{story.time}</p>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+
               {/* Trending News */}
               <div className="mt-6">
                 <motion.div
@@ -748,6 +847,101 @@ export default function NewsPage() {
 
           {/* Right Sidebar - Multiple Widgets - WIDER WITH MORE CONTENT */}
           <div className="lg:col-span-3 xl:col-span-4 space-y-6">
+            {/* Market Outlook Card with Image */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-gradient-to-br from-purple-500/10 to-blue-500/10 border border-purple-500/30 rounded-2xl overflow-hidden"
+            >
+              <div className="relative h-48 w-full">
+                <Image
+                  src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=400&fit=crop&q=80"
+                  alt="Market Analysis"
+                  fill
+                  className="object-cover"
+                  unoptimized
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
+                <div className="absolute bottom-4 left-4 right-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="px-2 py-1 bg-purple-500/80 backdrop-blur-sm rounded text-xs font-bold">Analysis</span>
+                  </div>
+                  <h3 className="text-xl font-black text-white">2026 Market Outlook</h3>
+                </div>
+              </div>
+              <div className="p-4">
+                <p className="text-sm text-neutral-300 mb-3">
+                  Strong fundamentals support continued growth: inflation cooling, employment stable, and corporate earnings robust. 
+                  Tech sector leads with AI adoption driving valuations.
+                </p>
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-2">
+                    <div className="text-emerald-400 font-bold">Stocks</div>
+                    <div className="text-white">Bullish 📈</div>
+                  </div>
+                  <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-2">
+                    <div className="text-blue-400 font-bold">Crypto</div>
+                    <div className="text-white">Very Bullish 🚀</div>
+                  </div>
+                  <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-2">
+                    <div className="text-amber-400 font-bold">Bonds</div>
+                    <div className="text-white">Neutral ➡️</div>
+                  </div>
+                  <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-2">
+                    <div className="text-purple-400 font-bold">Commodities</div>
+                    <div className="text-white">Bullish 📊</div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Expert Commentary */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-6"
+            >
+              <h3 className="text-xl font-black text-white mb-4 flex items-center gap-2">
+                <span>💬</span>
+                Expert Commentary
+              </h3>
+              <div className="space-y-4">
+                <div className="bg-white/5 rounded-lg p-4 border-l-4 border-[#6366F1]">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-8 h-8 bg-gradient-to-br from-[#6366F1] to-[#8B5CF6] rounded-full flex items-center justify-center text-sm font-bold">
+                      JM
+                    </div>
+                    <div>
+                      <div className="text-sm font-bold text-white">John Martinez</div>
+                      <div className="text-xs text-neutral-400">Senior Market Analyst</div>
+                    </div>
+                  </div>
+                  <p className="text-sm text-neutral-300 italic">
+                    "The Bitcoin ETF approval has fundamentally changed crypto markets. We're seeing institutional adoption 
+                    accelerate faster than anticipated."
+                  </p>
+                </div>
+                
+                <div className="bg-white/5 rounded-lg p-4 border-l-4 border-emerald-500">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-8 h-8 bg-gradient-to-br from-emerald-500 to-green-600 rounded-full flex items-center justify-center text-sm font-bold">
+                      SC
+                    </div>
+                    <div>
+                      <div className="text-sm font-bold text-white">Sarah Chen</div>
+                      <div className="text-xs text-neutral-400">Chief Economist</div>
+                    </div>
+                  </div>
+                  <p className="text-sm text-neutral-300 italic">
+                    "Fed's patient approach has created ideal conditions for risk assets. Expect rates to hold steady 
+                    through Q1 2026 barring major economic shocks."
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+
             {/* Trading Insights */}
             <TradingInsights />
             
@@ -885,6 +1079,45 @@ export default function NewsPage() {
                         : 'bg-red-500/20 text-red-400 border border-red-500/30'
                     }`}>
                       {item.status}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Economic News Briefing */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-gradient-to-br from-amber-500/10 to-orange-500/10 border border-amber-500/30 rounded-2xl p-6"
+            >
+              <h3 className="text-xl font-black text-white mb-4 flex items-center gap-2">
+                <span>📋</span>
+                This Week's Events
+              </h3>
+              <div className="space-y-3">
+                {[
+                  { day: 'Monday', event: 'ISM Manufacturing PMI', impact: 'High', time: '10:00 AM' },
+                  { day: 'Tuesday', event: 'Job Openings Report', impact: 'Medium', time: '10:00 AM' },
+                  { day: 'Wednesday', event: 'ADP Employment', impact: 'High', time: '8:15 AM' },
+                  { day: 'Thursday', event: 'Jobless Claims', impact: 'Medium', time: '8:30 AM' },
+                  { day: 'Friday', event: 'Nonfarm Payrolls', impact: 'Very High', time: '8:30 AM' }
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/10">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-xs font-bold text-amber-400">{item.day}</span>
+                        <span className="text-xs text-neutral-500">{item.time}</span>
+                      </div>
+                      <p className="text-sm text-white font-bold">{item.event}</p>
+                    </div>
+                    <div className={`px-2 py-1 rounded text-xs font-bold ${
+                      item.impact === 'Very High' ? 'bg-red-500/20 text-red-400' :
+                      item.impact === 'High' ? 'bg-orange-500/20 text-orange-400' :
+                      'bg-yellow-500/20 text-yellow-400'
+                    }`}>
+                      {item.impact}
                     </div>
                   </div>
                 ))}
