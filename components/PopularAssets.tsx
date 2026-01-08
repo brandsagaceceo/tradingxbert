@@ -10,11 +10,11 @@ export default function PopularAssets() {
   const getAssets = () => {
     if (!prices) return [];
     return [
-      { symbol: "BTC", name: "Bitcoin", price: prices.crypto.BTC.price, change: prices.crypto.BTC.change, volume: "$42.8B" },
-      { symbol: "ETH", name: "Ethereum", price: prices.crypto.ETH.price, change: prices.crypto.ETH.change, volume: "$18B" },
-      { symbol: "AAPL", name: "Apple", price: prices.stocks.AAPL.price, change: prices.stocks.AAPL.change, volume: "$8.2B" },
-      { symbol: "NVDA", name: "NVIDIA", price: prices.stocks.NVDA.price, change: prices.stocks.NVDA.change, volume: "$12.5B" },
-      { symbol: "TSLA", name: "Tesla", price: prices.stocks.TSLA.price, change: prices.stocks.TSLA.change, volume: "$15.3B" },
+      { symbol: "BTC", name: "Bitcoin", price: prices.crypto.BTC.price, change: prices.crypto.BTC.change, volume: "$52.8B" },
+      { symbol: "ETH", name: "Ethereum", price: prices.crypto.ETH.price, change: prices.crypto.ETH.change, volume: "$22.4B" },
+      { symbol: "SOL", name: "Solana", price: prices.crypto.SOL.price, change: prices.crypto.SOL.change, volume: "$4.1B" },
+      { symbol: "NVDA", name: "NVIDIA", price: prices.stocks.NVDA.price, change: prices.stocks.NVDA.change, volume: "$14.8B" },
+      { symbol: "TSLA", name: "Tesla", price: prices.stocks.TSLA.price, change: prices.stocks.TSLA.change, volume: "$18.2B" },
       { symbol: "GOOGL", name: "Google", price: prices.stocks.GOOGL.price, change: prices.stocks.GOOGL.change, volume: "$4.8B" },
     ];
   };

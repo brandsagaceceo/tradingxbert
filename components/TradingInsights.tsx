@@ -8,7 +8,7 @@ export default function TradingInsights() {
   const [insights, setInsights] = useState([
     {
       title: "Bitcoin Breaking Resistance",
-      description: "BTC testing $97K level with strong volume",
+      description: "BTC testing $100K level with strong volume",
       time: "2 min ago",
       sentiment: "bullish",
       icon: "🚀"

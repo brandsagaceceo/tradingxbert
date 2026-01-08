@@ -88,7 +88,7 @@ export default function ExampleAnalysisSection() {
                     </div>
                     <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
                       <div className="text-blue-400 font-bold mb-2">📍 Key Levels Identified</div>
-                      <p className="text-sm text-neutral-300">Support: $42,150 • Resistance: $44,800</p>
+                      <p className="text-sm text-neutral-300">Support: $44,800 • Resistance: $47,500</p>
                     </div>
                     <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-4">
                       <div className="text-purple-400 font-bold mb-2">🎯 Risk Management</div>

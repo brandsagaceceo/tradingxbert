@@ -11,14 +11,14 @@ interface GlobalIndex {
 
 export default function GlobalIndices() {
   const [indices, setIndices] = useState<GlobalIndex[]>([
-    { name: "S&P 500", value: "5,847.50", change: 1.18, flag: "🇺🇸" },
-    { name: "Dow Jones", value: "42,892.30", change: 0.75, flag: "🇺🇸" },
-    { name: "NASDAQ", value: "19,234.80", change: 2.04, flag: "🇺🇸" },
-    { name: "FTSE 100", value: "8,234.50", change: 0.68, flag: "🇬🇧" },
-    { name: "DAX", value: "17,823.40", change: 1.13, flag: "🇩🇪" },
-    { name: "Nikkei", value: "38,456.20", change: -0.34, flag: "🇯🇵" },
-    { name: "Shanghai", value: "3,245.60", change: 0.75, flag: "🇨🇳" },
-    { name: "Hang Seng", value: "18,892.30", change: -0.36, flag: "🇭🇰" }
+    { name: "S&P 500", value: "5,985.42", change: 1.04, flag: "🇺🇸" },
+    { name: "Dow Jones", value: "43,218.76", change: 0.89, flag: "🇺🇸" },
+    { name: "NASDAQ", value: "19,582.35", change: 2.28, flag: "🇺🇸" },
+    { name: "FTSE 100", value: "8,312.40", change: 0.94, flag: "🇬🇧" },
+    { name: "DAX", value: "18,045.80", change: 1.35, flag: "🇩🇪" },
+    { name: "Nikkei", value: "38,892.60", change: 0.12, flag: "🇯🇵" },
+    { name: "Shanghai", value: "3,278.20", change: 1.02, flag: "🇨🇳" },
+    { name: "Hang Seng", value: "19,124.50", change: 0.28, flag: "🇭🇰" }
   ]);
 
   useEffect(() => {

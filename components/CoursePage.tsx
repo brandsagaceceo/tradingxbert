@@ -10,6 +10,7 @@ interface Lesson {
   duration: string;
   content: string;
   points: number;
+  image?: string;
 }
 
 interface CoursePageProps {
@@ -232,6 +233,17 @@ export default function CoursePage({ courseId, title, icon, description, level, 
                     </motion.div>
                   )}
                 </div>
+
+                {/* Lesson Image */}
+                {currentLessonData.image && (
+                  <div className="mb-8 rounded-2xl overflow-hidden">
+                    <img 
+                      src={currentLessonData.image} 
+                      alt={currentLessonData.title}
+                      className="w-full h-auto object-cover"
+                    />
+                  </div>
+                )}
 
                 <div className="prose prose-invert max-w-none mb-8">
                   <div className="text-neutral-200 leading-relaxed whitespace-pre-line text-lg">

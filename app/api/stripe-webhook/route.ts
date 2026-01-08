@@ -110,7 +110,11 @@ export async function POST(req: Request) {
         } else {
           console.error('❌ No subscription or customer found in checkout session');
         }
-        break;
+        // Always return 200 for webhook
+        return new Response(JSON.stringify({ received: true, event: 'checkout.session.completed' }), { 
+          status: 200,
+          headers: { 'Content-Type': 'application/json' }
+        });
       }
 
       case 'customer.subscription.updated':
@@ -134,7 +138,11 @@ export async function POST(req: Request) {
           });
           console.log(`✅ Subscription updated: ${subscription.id}`);
         }
-        break;
+        // Always return 200 for webhook
+        return new Response(JSON.stringify({ received: true, event: event.type }), { 
+          status: 200,
+          headers: { 'Content-Type': 'application/json' }
+        });
       }
 
       case 'customer.subscription.deleted': {
@@ -155,16 +163,27 @@ export async function POST(req: Request) {
           });
           console.log(`✅ Subscription canceled: ${subscription.id}`);
         }
-        break;
+        // Always return 200 for webhook
+        return new Response(JSON.stringify({ received: true, event: 'subscription.deleted' }), { 
+          status: 200,
+          headers: { 'Content-Type': 'application/json' }
+        });
       }
 
       default:
         console.log(`Unhandled event type: ${event.type}`);
+        // Always return 200 even for unhandled events
+        return new Response(JSON.stringify({ received: true, event: event.type }), { 
+          status: 200,
+          headers: { 'Content-Type': 'application/json' }
+        });
     }
   } catch (error) {
     console.error('Error processing webhook:', error);
-    return new Response(JSON.stringify({ error: 'Webhook processing failed' }), { status: 500 });
+    // Return 200 anyway to acknowledge receipt (prevents Stripe from retrying)
+    return new Response(JSON.stringify({ received: true, error: 'Processing error' }), { 
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
-
-  return new Response(JSON.stringify({ received: true }), { status: 200 });
 }

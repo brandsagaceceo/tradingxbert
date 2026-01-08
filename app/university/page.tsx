@@ -61,7 +61,7 @@ export default function UniversityPage() {
       level: "Intermediate",
       color: "from-emerald-500 to-teal-500",
       slug: "spot-good-trades",
-      lessonsCount: 8,
+      lessonsCount: 5,
       description: "Learn to identify high-probability trading setups"
     },
     {
@@ -73,7 +73,7 @@ export default function UniversityPage() {
       level: "Essential",
       color: "from-orange-500 to-red-500",
       slug: "risk-management",
-      lessonsCount: 10,
+      lessonsCount: 5,
       description: "Protect your capital and trade with confidence"
     },
     {
@@ -85,7 +85,7 @@ export default function UniversityPage() {
       level: "Advanced",
       color: "from-purple-500 to-pink-500",
       slug: "advanced-analysis",
-      lessonsCount: 12,
+      lessonsCount: 6,
       description: "Master technical analysis like a professional trader"
     },
     {
@@ -97,7 +97,7 @@ export default function UniversityPage() {
       level: "Essential",
       color: "from-indigo-500 to-purple-500",
       slug: "psychology",
-      lessonsCount: 9,
+      lessonsCount: 5,
       description: "Control emotions and develop a winning mindset"
     },
     {
@@ -109,7 +109,7 @@ export default function UniversityPage() {
       level: "Advanced",
       color: "from-yellow-500 to-orange-500",
       slug: "ai-trading",
-      lessonsCount: 10,
+      lessonsCount: 4,
       description: "Leverage AI technology for better trading decisions"
     },
     {
@@ -121,7 +121,7 @@ export default function UniversityPage() {
       level: "Advanced",
       color: "from-cyan-500 to-blue-500",
       slug: "smart-money",
-      lessonsCount: 11,
+      lessonsCount: 5,
       description: "Trade like institutions and follow smart money"
     },
     {
@@ -133,7 +133,7 @@ export default function UniversityPage() {
       level: "Intermediate",
       color: "from-amber-500 to-yellow-500",
       slug: "crypto-trading",
-      lessonsCount: 13,
+      lessonsCount: 5,
       description: "Master cryptocurrency markets and DeFi trading"
     },
     {
@@ -145,7 +145,7 @@ export default function UniversityPage() {
       level: "Advanced",
       color: "from-rose-500 to-pink-500",
       slug: "scalping",
-      lessonsCount: 15,
+      lessonsCount: 4,
       description: "Quick trades, fast profits - master intraday trading"
     },
     {
@@ -153,12 +153,12 @@ export default function UniversityPage() {
       title: "Swing Trading Mastery",
       icon: "🌊",
       value: "$177",
-      duration: "4 hours",
+      duration: "3.5 hours",
       level: "Intermediate",
       color: "from-teal-500 to-emerald-500",
       slug: "swing-trading",
-      lessonsCount: 10,
-      description: "Catch major market swings and maximize profits"
+      lessonsCount: 8,
+      description: "Complete swing trading course with real examples"
     }
   ];
 

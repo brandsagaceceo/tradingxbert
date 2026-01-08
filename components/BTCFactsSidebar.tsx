@@ -21,10 +21,10 @@ export default function BTCFactsSidebar() {
   const facts: BTCFact[] = [
     { icon: "₿", label: "Bitcoin Price", value: `$${formatPrice(btcPrice)}`, change: formatChange(btcChange), isPositive: btcChange >= 0 },
     { icon: "📊", label: "Market Cap", value: `$${(marketCap / 1000).toFixed(2)}T`, change: formatChange(btcChange * 1.2), isPositive: btcChange >= 0 },
-    { icon: "💎", label: "24h Volume", value: "$48.2B" },
+    { icon: "💎", label: "24h Volume", value: "$52.8B" },
     { icon: "⚡", label: "Hash Rate", value: "528 EH/s" },
     { icon: "🔥", label: "Circulating Supply", value: "19.6M BTC" },
-    { icon: "📈", label: "All-Time High", value: "$108,135" },
+    { icon: "📈", label: "All-Time High", value: "$108,353" },
     { icon: "⏰", label: "Next Halving", value: "2028" },
     { icon: "🌍", label: "Active Addresses", value: "1.2M/day" },
   ];

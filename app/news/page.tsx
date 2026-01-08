@@ -4,20 +4,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useCallback } from "react";
 import LiveStockTicker from "@/components/LiveStockTicker";
 import FearGreedIndex from "@/components/FearGreedIndex";
-import MarketHeatmap from "@/components/MarketHeatmap";
 import ProfessionalChart from "@/components/ProfessionalChart";
 import TopMovers from "@/components/TopMovers";
 import TradingInsights from "@/components/TradingInsights";
-import EconomicCalendar from "@/components/EconomicCalendar";
 import PopularAssets from "@/components/PopularAssets";
-import SectorPerformance from "@/components/SectorPerformance";
-import GlobalIndices from "@/components/GlobalIndices";
-import TrendingNews from "@/components/TrendingNews";
 import NewsShareButtons from "@/components/NewsShareButtons";
 import EmailNotificationPopup from "@/components/EmailNotificationPopup";
-import BTCFactsSidebar from "@/components/BTCFactsSidebar";
 import Watchlist from "@/components/Watchlist";
-import MarketStats from "@/components/MarketStats";
 import ServiceBanners from "@/components/ServiceBanners";
 import { useLivePrices, formatPrice as formatLivePrice, formatChange } from "@/hooks/useLivePrices";
 import Image from "next/image";
@@ -535,87 +528,11 @@ export default function NewsPage() {
           ))}
         </motion.div>
 
-        {/* Market Overview Section with Full-Width Sidebars */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-12">
-          {/* Left Sidebar - Market Sentiment & BTC Facts - WIDER */}
-          <div className="lg:col-span-3 xl:col-span-3 space-y-6">
-            {/* Market Sentiment Widget */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="bg-gradient-to-br from-[#1a1a2e] to-[#0f3460] rounded-2xl border-2 border-[#6366F1]/30 p-6 shadow-xl overflow-hidden relative"
-            >
-              <div className="relative z-10">
-                <h3 className="text-xl font-black text-white mb-4 flex items-center gap-2">
-                  <span className="text-2xl">🧠</span>
-                  Market Sentiment
-                </h3>
-                <div className="space-y-4">
-                  <div className="bg-white/5 rounded-xl p-4 border border-emerald-500/30">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-neutral-300">Overall Market</span>
-                      <span className="text-emerald-400 font-black text-lg">🟢 Bullish</span>
-                    </div>
-                    <div className="w-full bg-white/10 rounded-full h-2">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: "73%" }}
-                        transition={{ duration: 1, delay: 0.3 }}
-                        className="bg-gradient-to-r from-emerald-500 to-emerald-400 h-2 rounded-full"
-                      />
-                    </div>
-                    <div className="text-xs text-neutral-400 mt-1">73% Bullish</div>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between bg-white/5 rounded-lg p-3">
-                      <div className="flex items-center gap-2">
-                        <span>₿</span>
-                        <span className="text-sm">Crypto</span>
-                      </div>
-                      <span className="text-emerald-400 text-sm font-bold">+85%</span>
-                    </div>
-                    <div className="flex items-center justify-between bg-white/5 rounded-lg p-3">
-                      <div className="flex items-center gap-2">
-                        <span>📈</span>
-                        <span className="text-sm">Stocks</span>
-                      </div>
-                      <span className="text-emerald-400 text-sm font-bold">+68%</span>
-                    </div>
-                    <div className="flex items-center justify-between bg-white/5 rounded-lg p-3">
-                      <div className="flex items-center gap-2">
-                        <span>💱</span>
-                        <span className="text-sm">Forex</span>
-                      </div>
-                      <span className="text-amber-400 text-sm font-bold">+52%</span>
-                    </div>
-                    <div className="flex items-center justify-between bg-white/5 rounded-lg p-3">
-                      <div className="flex items-center gap-2">
-                        <span>🛢️</span>
-                        <span className="text-sm">Commodities</span>
-                      </div>
-                      <span className="text-emerald-400 text-sm font-bold">+61%</span>
-                    </div>
-                  </div>
-                  
-                  <div className="pt-4 border-t border-white/10">
-                    <div className="text-xs text-neutral-400 mb-2">Trending Keywords</div>
-                    <div className="flex flex-wrap gap-2">
-                      <span className="px-2 py-1 bg-emerald-500/20 border border-emerald-500/30 rounded-md text-xs text-emerald-400">AI Rally</span>
-                      <span className="px-2 py-1 bg-blue-500/20 border border-blue-500/30 rounded-md text-xs text-blue-400">ETF Inflow</span>
-                      <span className="px-2 py-1 bg-purple-500/20 border border-purple-500/30 rounded-md text-xs text-purple-400">Fed Policy</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-            
-            <BTCFactsSidebar />
-          </div>
-
-          {/* Main Content - NARROWER TO FILL MORE WITH SIDEBARS */}
-          <div className="lg:col-span-6 xl:col-span-5">
-            <div id="overview" className="scroll-mt-32 space-y-6">
+        {/* Market Overview Section */}
+        <div id="overview" className="scroll-mt-32 mb-12">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Main Content - Market Data */}
+            <div className="lg:col-span-2 space-y-6">
               <motion.h2 
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -630,15 +547,6 @@ export default function NewsPage() {
                 </motion.span>
                 <span>Market Overview</span>
               </motion.h2>
-              
-              {/* Market Heatmap - Featured */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-              >
-                <MarketHeatmap />
-              </motion.div>
 
               {/* Top Movers and Fear & Greed */}
               <div className="grid grid-cols-1 gap-6">
@@ -657,30 +565,36 @@ export default function NewsPage() {
                   <FearGreedIndex />
                 </motion.div>
               </div>
-
-              {/* Sector Performance and Global Indices */}
-              <div className="grid grid-cols-1 gap-6">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.2 }}
-                >
-                  <SectorPerformance />
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.3 }}
-                >
-                  <GlobalIndices />
-                </motion.div>
-              </div>
             </div>
 
-            {/* Professional Charts Section */}
-            <div id="charts" className="scroll-mt-32 space-y-6 mt-12">
+            {/* Right Sidebar */}
+            <div className="lg:col-span-1 space-y-6">
+              {/* Watchlist */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                <Watchlist />
+              </motion.div>
+              
+              {/* Popular Assets */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                <PopularAssets />
+              </motion.div>
+            </div>
+          </div>
+        </div>
+
+        {/* Charts and Sidebar Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-12">
+          {/* Professional Charts Section */}
+          <div className="lg:col-span-8">
+            <div id="charts" className="scroll-mt-32 space-y-6">
               <motion.h2 
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -741,52 +655,7 @@ export default function NewsPage() {
                 </motion.div>
               </div>
 
-              {/* Economic Indicators Panel */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-blue-500/30 rounded-2xl p-6 mt-6"
-              >
-                <h3 className="text-2xl font-black text-white mb-4 flex items-center gap-2">
-                  <span>📊</span>
-                  Key Economic Indicators
-                </h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-white/5 rounded-xl p-4 border border-white/10">
-                    <div className="text-xs text-neutral-400 mb-1">US GDP Growth</div>
-                    <div className="text-2xl font-black text-white">2.8%</div>
-                    <div className="text-xs text-green-400">+0.3% QoQ</div>
-                  </div>
-                  <div className="bg-white/5 rounded-xl p-4 border border-white/10">
-                    <div className="text-xs text-neutral-400 mb-1">Inflation Rate</div>
-                    <div className="text-2xl font-black text-white">2.4%</div>
-                    <div className="text-xs text-green-400">-0.2% MoM</div>
-                  </div>
-                  <div className="bg-white/5 rounded-xl p-4 border border-white/10">
-                    <div className="text-xs text-neutral-400 mb-1">Unemployment</div>
-                    <div className="text-2xl font-black text-white">3.8%</div>
-                    <div className="text-xs text-red-400">+0.1% MoM</div>
-                  </div>
-                  <div className="bg-white/5 rounded-xl p-4 border border-white/10">
-                    <div className="text-xs text-neutral-400 mb-1">Fed Funds Rate</div>
-                    <div className="text-2xl font-black text-white">4.75%</div>
-                    <div className="text-xs text-neutral-400">Unchanged</div>
-                  </div>
-                </div>
-                <div className="mt-4 p-3 bg-amber-500/10 border border-amber-500/30 rounded-lg">
-                  <div className="flex items-start gap-2">
-                    <span className="text-lg">💡</span>
-                    <div>
-                      <div className="text-sm font-bold text-amber-400 mb-1">Market Impact</div>
-                      <div className="text-xs text-neutral-300">
-                        Cooling inflation supports risk assets while stable employment keeps consumer spending strong. 
-                        Fed likely to maintain current rates through Q1 2026.
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
+
 
               {/* Additional Charts Row */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
@@ -797,56 +666,13 @@ export default function NewsPage() {
                 >
                   <ProfessionalChart symbol="TSLA" title="Tesla" />
                 </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.1 }}
-                >
-                  <div className="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl rounded-2xl border border-white/10 p-6 h-full">
-                    <h3 className="text-xl font-black text-white mb-4">📰 Top Stories</h3>
-                    <div className="space-y-3">
-                      {[
-                        { icon: "🔥", title: "Bitcoin ETF sees $2B inflow in single day", time: "2h ago", color: "orange" },
-                        { icon: "📈", title: "S&P 500 breaks above 6,000 milestone", time: "4h ago", color: "green" },
-                        { icon: "💼", title: "Tech earnings beat expectations", time: "6h ago", color: "blue" },
-                        { icon: "🌍", title: "Global markets rally on trade optimism", time: "8h ago", color: "purple" }
-                      ].map((story, i) => (
-                        <motion.div
-                          key={i}
-                          initial={{ opacity: 0, x: -20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ delay: i * 0.1 }}
-                          className="flex items-start gap-3 p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-all cursor-pointer border border-white/5"
-                        >
-                          <span className="text-2xl">{story.icon}</span>
-                          <div className="flex-1">
-                            <p className="text-sm font-bold text-white line-clamp-2">{story.title}</p>
-                            <p className="text-xs text-neutral-400 mt-1">{story.time}</p>
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
 
-              {/* Trending News */}
-              <div className="mt-6">
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                >
-                  <TrendingNews />
-                </motion.div>
               </div>
             </div>
           </div>
 
-          {/* Right Sidebar - Multiple Widgets - WIDER WITH MORE CONTENT */}
-          <div className="lg:col-span-3 xl:col-span-4 space-y-6">
+          {/* Right Sidebar */}
+          <div className="lg:col-span-4 space-y-6">
             {/* Market Outlook Card with Image */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -1022,143 +848,6 @@ export default function NewsPage() {
             </motion.div>
             
             {/* Watchlist */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <Watchlist />
-            </motion.div>
-            
-            {/* Market Hours Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-6"
-            >
-              <h3 className="text-xl font-black text-white mb-4 flex items-center gap-2">
-                <span>🌍</span>
-                Market Hours
-              </h3>
-              <div className="space-y-3">
-                {[
-                  { 
-                    market: 'US Stocks', 
-                    status: marketHours.usStocks.status, 
-                    color: marketHours.usStocks.isOpen ? 'emerald' : 'red', 
-                    time: '9:30 AM - 4:00 PM EST' 
-                  },
-                  { 
-                    market: 'London', 
-                    status: marketHours.london.status, 
-                    color: marketHours.london.isOpen ? 'emerald' : 'red', 
-                    time: '3:00 AM - 11:30 AM EST' 
-                  },
-                  { 
-                    market: 'Tokyo', 
-                    status: marketHours.tokyo.status, 
-                    color: marketHours.tokyo.isOpen ? 'emerald' : 'red', 
-                    time: '7:00 PM - 1:00 AM EST' 
-                  },
-                  { 
-                    market: 'Crypto', 
-                    status: 'Always Open', 
-                    color: 'emerald', 
-                    time: 'Always Trading' 
-                  }
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/10">
-                    <div>
-                      <p className="text-white font-bold text-sm">{item.market}</p>
-                      <p className="text-xs text-neutral-400">{item.time}</p>
-                    </div>
-                    <div className={`px-3 py-1 rounded-full text-xs font-bold ${
-                      item.color === 'emerald' 
-                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                        : 'bg-red-500/20 text-red-400 border border-red-500/30'
-                    }`}>
-                      {item.status}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Economic News Briefing */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="bg-gradient-to-br from-amber-500/10 to-orange-500/10 border border-amber-500/30 rounded-2xl p-6"
-            >
-              <h3 className="text-xl font-black text-white mb-4 flex items-center gap-2">
-                <span>📋</span>
-                This Week's Events
-              </h3>
-              <div className="space-y-3">
-                {[
-                  { day: 'Monday', event: 'ISM Manufacturing PMI', impact: 'High', time: '10:00 AM' },
-                  { day: 'Tuesday', event: 'Job Openings Report', impact: 'Medium', time: '10:00 AM' },
-                  { day: 'Wednesday', event: 'ADP Employment', impact: 'High', time: '8:15 AM' },
-                  { day: 'Thursday', event: 'Jobless Claims', impact: 'Medium', time: '8:30 AM' },
-                  { day: 'Friday', event: 'Nonfarm Payrolls', impact: 'Very High', time: '8:30 AM' }
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/10">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-bold text-amber-400">{item.day}</span>
-                        <span className="text-xs text-neutral-500">{item.time}</span>
-                      </div>
-                      <p className="text-sm text-white font-bold">{item.event}</p>
-                    </div>
-                    <div className={`px-2 py-1 rounded text-xs font-bold ${
-                      item.impact === 'Very High' ? 'bg-red-500/20 text-red-400' :
-                      item.impact === 'High' ? 'bg-orange-500/20 text-orange-400' :
-                      'bg-yellow-500/20 text-yellow-400'
-                    }`}>
-                      {item.impact}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-            
-            {/* Watchlist */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <Watchlist />
-            </motion.div>
-            
-            {/* Economic Calendar */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <EconomicCalendar />
-            </motion.div>
-            
-            {/* Market Stats */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <MarketStats />
-            </motion.div>
-            
-            {/* Popular Assets */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <PopularAssets />
-            </motion.div>
             
             {/* Service Banners */}
             <motion.div

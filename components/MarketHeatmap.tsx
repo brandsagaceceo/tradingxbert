@@ -11,11 +11,11 @@ interface Asset {
 
 export default function MarketHeatmap() {
   const [assets, setAssets] = useState<Asset[]>([
-    { symbol: "BTC", name: "Bitcoin", change: 4.43, volume: "$45B" },
-    { symbol: "ETH", name: "Ethereum", change: 3.76, volume: "$18B" },
-    { symbol: "AAPL", name: "Apple", change: 1.47, volume: "$8.2B" },
-    { symbol: "NVDA", name: "NVIDIA", change: 6.42, volume: "$12.5B" },
-    { symbol: "TSLA", name: "Tesla", change: -2.24, volume: "$15.3B" },
+    { symbol: "BTC", name: "Bitcoin", change: 5.12, volume: "$52.8B" },
+    { symbol: "ETH", name: "Ethereum", change: 4.28, volume: "$22.4B" },
+    { symbol: "SOL", name: "Solana", change: 6.85, volume: "$4.1B" },
+    { symbol: "NVDA", name: "NVIDIA", change: 7.24, volume: "$14.8B" },
+    { symbol: "TSLA", name: "Tesla", change: -1.86, volume: "$18.2B" },
     { symbol: "GOOGL", name: "Google", change: 1.53, volume: "$4.8B" },
     { symbol: "MSFT", name: "Microsoft", change: 1.64, volume: "$6.1B" },
     { symbol: "SOL", name: "Solana", change: 8.48, volume: "$3.2B" },

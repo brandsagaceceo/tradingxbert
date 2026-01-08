@@ -100,7 +100,7 @@ export default function TradingViewWidget({ symbol = "BTCUSD", title = "Bitcoin"
             [prices.crypto.BTC.price * 1.02, prices.crypto.BTC.price * 1.01, prices.crypto.BTC.price, prices.crypto.BTC.price * 0.99, prices.crypto.BTC.price * 0.98].map((price, i) => (
               <div key={i}>${formatPrice(price, 0)}</div>
             )) : 
-            ['$98,000', '$96,500', '$95,000', '$93,500', '$92,000'].map((price, i) => (
+            ['$102,000', '$100,500', '$99,000', '$97,500', '$96,000'].map((price, i) => (
               <div key={i}>{price}</div>
             ))
           }
@@ -197,12 +197,12 @@ export default function TradingViewWidget({ symbol = "BTCUSD", title = "Bitcoin"
           } else if (symbol === 'SPX') {
             high = formatPrice(prices.indices.SPX.price * 1.01, 0);
             low = formatPrice(prices.indices.SPX.price * 0.99, 0);
-            volume = "$125B";
-            marketCap = "$46.2T";
+            volume = "$142B";
+            marketCap = "$47.8T";
           } else {
-            high = "$97,420";
-            low = "$93,185";
-            volume = "$45.2B";
+            high = "$101,850";
+            low = "$96,520";
+            volume = "$52.8B";
             marketCap = "$1.89T";
           }
           

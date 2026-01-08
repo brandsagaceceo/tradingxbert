@@ -57,29 +57,46 @@ export async function sendTradingAlert(alert: AlertEmail) {
 </body>
 </html>`;
 
-  console.log(`✉️ Email alert would be sent to ${alert.to}:`, {
+  console.log(`✉️ Sending email alert to ${alert.to}:`, {
     signal: alert.signal,
     pair: alert.pair,
     confidence: alert.confidence
   });
   
-  // In production, implement with your email service (SendGrid, AWS SES, Resend)
-  // Example:
-  // await fetch('https://api.resend.com/emails', {
-  //   method: 'POST',
-  //   headers: {
-  //     'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
-  //     'Content-Type': 'application/json'
-  //   },
-  //   body: JSON.stringify({
-  //     from: 'alerts@tradingxbert.com',
-  //     to: alert.to,
-  //     subject: `${signalEmoji} ${alert.signal} Alert: ${alert.pair} (${alert.confidence}%)`,
-  //     html: htmlTemplate
-  //   })
-  // });
-  
-  return true;
+  // Send email with Resend API
+  try {
+    if (!process.env.RESEND_API_KEY) {
+      console.warn('⚠️ RESEND_API_KEY not configured - email not sent');
+      return false;
+    }
+
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        from: 'TradingXbert <alerts@tradingxbert.com>',
+        to: alert.to,
+        subject: `${signalEmoji} ${alert.signal} Alert: ${alert.pair} (${alert.confidence}%)`,
+        html: htmlTemplate
+      })
+    });
+
+    if (!response.ok) {
+      const error = await response.text();
+      console.error('❌ Email send failed:', error);
+      return false;
+    }
+
+    const data = await response.json();
+    console.log('✅ Email sent successfully:', data.id);
+    return true;
+  } catch (error) {
+    console.error('❌ Error sending email:', error);
+    return false;
+  }
 }
 
 export async function sendBulkAlerts(subscribers: string[], alert: Omit<AlertEmail, 'to'>) {

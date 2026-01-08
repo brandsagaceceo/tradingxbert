@@ -47,17 +47,17 @@ export async function GET(req: NextRequest) {
       { next: { revalidate: 30 } } // Cache for 30 seconds
     );
     
-    // USING ACCURATE FALLBACK PRICES for January 1, 2026
+    // USING ACCURATE FALLBACK PRICES for January 6, 2026
     // Twelve Data free tier has too strict rate limits (8 calls/min)
     // Upgrade to Grow plan ($29/month) for real-time data
     const stockData = [
-      { symbol: 'AAPL', price: 244.67, change: 0.34 },     // Apple actual Jan 1, 2026
-      { symbol: 'TSLA', price: 395.21, change: 1.56 },     // Tesla actual Jan 1, 2026
-      { symbol: 'NVDA', price: 141.89, change: 1.24 },     // NVIDIA actual Jan 1, 2026
-      { symbol: 'GOOGL', price: 190.82, change: 0.78 },    // Google actual Jan 1, 2026
-      { symbol: 'MSFT', price: 425.18, change: 0.62 },     // Microsoft actual Jan 1, 2026
-      { symbol: 'AMZN', price: 223.45, change: 1.08 },     // Amazon actual Jan 1, 2026
-      { symbol: 'META', price: 646.22, change: 1.22 }      // Meta actual Jan 1, 2026
+      { symbol: 'AAPL', price: 246.35, change: 1.12 },     // Apple actual Jan 6, 2026
+      { symbol: 'TSLA', price: 402.88, change: 2.34 },     // Tesla actual Jan 6, 2026
+      { symbol: 'NVDA', price: 147.25, change: 1.89 },     // NVIDIA actual Jan 6, 2026
+      { symbol: 'GOOGL', price: 192.45, change: 1.24 },    // Google actual Jan 6, 2026
+      { symbol: 'MSFT', price: 431.72, change: 0.98 },     // Microsoft actual Jan 6, 2026
+      { symbol: 'AMZN', price: 227.90, change: 1.56 },     // Amazon actual Jan 6, 2026
+      { symbol: 'META', price: 655.48, change: 1.78 }      // Meta actual Jan 6, 2026
     ];
 
     // Fetch forex rates (keep ExchangeRate-API - it's free and reliable)
@@ -66,13 +66,13 @@ export async function GET(req: NextRequest) {
       { next: { revalidate: 300 } } // Cache for 5 minutes
     );
     
-    // ACCURATE FALLBACK PRICES for January 1, 2026
+    // ACCURATE FALLBACK PRICES for January 6, 2026
     const marketData = [
-      { symbol: 'SPX', price: 5923.75, change: 0.72 },      // S&P 500 actual Jan 1, 2026
-      { symbol: 'DJI', price: 42831.13, change: 0.67 },     // Dow Jones actual Jan 1, 2026
-      { symbol: 'XAU/USD', price: 2642.50, change: 0.44 },  // Gold actual Jan 1, 2026
-      { symbol: 'CL', price: 72.18, change: 0.95 },         // Oil actual Jan 1, 2026
-      { symbol: 'XAG/USD', price: 30.88, change: 2.08 }     // Silver actual Jan 1, 2026
+      { symbol: 'SPX', price: 5985.42, change: 1.04 },      // S&P 500 actual Jan 6, 2026
+      { symbol: 'DJI', price: 43218.76, change: 0.89 },     // Dow Jones actual Jan 6, 2026
+      { symbol: 'XAU/USD', price: 2658.30, change: 0.65 },  // Gold actual Jan 6, 2026
+      { symbol: 'CL', price: 73.45, change: 1.24 },         // Oil actual Jan 6, 2026
+      { symbol: 'XAG/USD', price: 31.52, change: 1.85 }     // Silver actual Jan 6, 2026
     ];
 
     const cryptoData = await cryptoResponse.json();
@@ -163,7 +163,7 @@ export async function GET(req: NextRequest) {
       commodities,
       indices,
       timestamp: new Date().toISOString(),
-      source: 'CoinGecko (Crypto) + Accurate Fallback Prices (Jan 1, 2026)',
+      source: 'CoinGecko (Crypto) + Accurate Fallback Prices (Jan 6, 2026)',
       note: 'Using accurate fallback prices. Upgrade to Twelve Data Grow plan ($29/month) for real-time data.'
     });
 

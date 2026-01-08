@@ -21,13 +21,13 @@ export default function TopMovers() {
     if (!prices) return { gainers: [], losers: [] };
     
     const allAssets = [
-      { symbol: "BTC", name: "Bitcoin", price: prices.crypto.BTC.price, change: prices.crypto.BTC.change, volume: "$42.8B", marketCap: "$1.73T" },
-      { symbol: "ETH", name: "Ethereum", price: prices.crypto.ETH.price, change: prices.crypto.ETH.change, volume: "$18B", marketCap: "$412B" },
-      { symbol: "SOL", name: "Solana", price: prices.crypto.SOL.price, change: prices.crypto.SOL.change, volume: "$3.2B", marketCap: "$67B" },
-      { symbol: "XRP", name: "Ripple", price: prices.crypto.XRP.price, change: prices.crypto.XRP.change, volume: "$2.8B", marketCap: "$141B" },
-      { symbol: "NVDA", name: "NVIDIA", price: prices.stocks.NVDA.price, change: prices.stocks.NVDA.change, volume: "$12.5B", marketCap: "$345B" },
+      { symbol: "BTC", name: "Bitcoin", price: prices.crypto.BTC.price, change: prices.crypto.BTC.change, volume: "$52.8B", marketCap: "$1.98T" },
+      { symbol: "ETH", name: "Ethereum", price: prices.crypto.ETH.price, change: prices.crypto.ETH.change, volume: "$22.4B", marketCap: "$438B" },
+      { symbol: "SOL", name: "Solana", price: prices.crypto.SOL.price, change: prices.crypto.SOL.change, volume: "$4.1B", marketCap: "$78B" },
+      { symbol: "XRP", name: "Ripple", price: prices.crypto.XRP.price, change: prices.crypto.XRP.change, volume: "$3.5B", marketCap: "$152B" },
+      { symbol: "NVDA", name: "NVIDIA", price: prices.stocks.NVDA.price, change: prices.stocks.NVDA.change, volume: "$14.8B", marketCap: "$362B" },
       { symbol: "AAPL", name: "Apple", price: prices.stocks.AAPL.price, change: prices.stocks.AAPL.change, volume: "$8.2B", marketCap: "$3.85T" },
-      { symbol: "TSLA", name: "Tesla", price: prices.stocks.TSLA.price, change: prices.stocks.TSLA.change, volume: "$15.3B", marketCap: "$1.14T" },
+      { symbol: "TSLA", name: "Tesla", price: prices.stocks.TSLA.price, change: prices.stocks.TSLA.change, volume: "$18.2B", marketCap: "$1.28T" },
       { symbol: "MSFT", name: "Microsoft", price: prices.stocks.MSFT.price, change: prices.stocks.MSFT.change, volume: "$7.1B", marketCap: "$3.1T" },
     ];
     
