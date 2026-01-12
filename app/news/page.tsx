@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useCallback } from "react";
 import LiveStockTicker from "@/components/LiveStockTicker";
 import FearGreedIndex from "@/components/FearGreedIndex";
-import ProfessionalChart from "@/components/ProfessionalChart";
+import ModernLineChart from "@/components/ModernLineChart";
 import TopMovers from "@/components/TopMovers";
 import TradingInsights from "@/components/TradingInsights";
 import PopularAssets from "@/components/PopularAssets";
@@ -607,78 +607,13 @@ export default function NewsPage() {
                 >
                   📈
                 </motion.span>
-                <span>Live Charts</span>
+                <span>Live Market Charts</span>
               </motion.h2>
               
-              {/* Primary Charts Row */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                >
-                  <ProfessionalChart symbol="BTCUSD" title="Bitcoin" />
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                >
-                  <ProfessionalChart symbol="SPX" title="S&P 500" />
-                </motion.div>
-              </div>
-
-              {/* Secondary Charts Row */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                >
-                  <ProfessionalChart symbol="ETH" title="Ethereum" />
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.1 }}
-                >
-                  <ProfessionalChart symbol="AAPL" title="Apple" />
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.2 }}
-                >
-                  <ProfessionalChart symbol="NVDA" title="NVIDIA" />
-                </motion.div>
-              </div>
-
-
-
-              {/* Additional Charts Row */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                >
-                  <ProfessionalChart symbol="TSLA" title="Tesla" />
-                </motion.div>
-
-              </div>
-            </div>
-          </div>
-
-          {/* Right Sidebar */}
-          <div className="lg:col-span-4 space-y-6">
-            {/* Market Outlook Card with Image */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="bg-gradient-to-br from-purple-500/10 to-blue-500/10 border border-purple-500/30 rounded-2xl overflow-hidden"
+              {/* Professional Charts */}
+              <div className="space-y-6">
+                <ModernLineChart symbol="BTCUSD" title="Bitcoin" />
+                <ModernLineChart symbol="SPX" title="S&P 500" />
             >
               <div className="relative h-48 w-full">
                 <Image

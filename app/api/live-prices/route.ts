@@ -1,79 +1,87 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const TWELVE_DATA_API_KEY = process.env.TWELVE_DATA_API_KEY;
-
-// Batch fetch multiple symbols in ONE API call (saves rate limits!)
-async function fetchTwelveDataBatch(symbols: string[]) {
-  if (!TWELVE_DATA_API_KEY) {
-    throw new Error('TWELVE_DATA_API_KEY not configured');
+// Using Finnhub free API - 60 calls/minute (no API key required for basic quotes)
+async function fetchFinnhubQuote(symbol: string) {
+  try {
+    const response = await fetch(
+      `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=demo`,
+      { next: { revalidate: 60 } }
+    );
+    
+    if (!response.ok) return null;
+    
+    const data = await response.json();
+    
+    if (!data.c || data.c === 0) return null;
+    
+    const currentPrice = data.c; // current price
+    const previousClose = data.pc; // previous close
+    const change = previousClose ? ((currentPrice - previousClose) / previousClose) * 100 : 0;
+    
+    return {
+      symbol,
+      price: currentPrice,
+      change: change,
+    };
+  } catch (error) {
+    console.error(`Error fetching ${symbol}:`, error);
+    return null;
   }
-
-  const symbolString = symbols.join(',');
-  const response = await fetch(
-    `https://api.twelvedata.com/quote?symbol=${symbolString}&apikey=${TWELVE_DATA_API_KEY}`,
-    { next: { revalidate: 60 } } // Cache for 60 seconds
-  );
-
-  if (!response.ok) {
-    throw new Error(`Twelve Data API error: ${response.status}`);
-  }
-
-  const data = await response.json();
-  
-  if (data.code === 429) {
-    console.error('⚠️ Rate limit hit - using fallback prices');
-    throw new Error('Rate limit exceeded');
-  }
-  
-  if (data.status === 'error') {
-    throw new Error(data.message || 'Twelve Data API error');
-  }
-
-  // Handle both single and batch responses
-  const quotes = Array.isArray(data) ? data : [data];
-  
-  return quotes.map((quote: any) => ({
-    symbol: quote.symbol,
-    price: parseFloat(quote.close) || 0,
-    change: parseFloat(quote.percent_change) || 0,
-  }));
 }
 
 export async function GET(req: NextRequest) {
   try {
-    // Fetch real-time crypto prices from CoinGecko (free API - still good for crypto)
+    // Fetch real-time crypto prices from CoinGecko (free API)
     const cryptoResponse = await fetch(
       'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,cardano,ripple,dogecoin,chainlink&vs_currencies=usd&include_24hr_change=true',
-      { next: { revalidate: 30 } } // Cache for 30 seconds
+      { next: { revalidate: 30 } }
     );
     
-    // USING ACCURATE FALLBACK PRICES for January 6, 2026
-    // Twelve Data free tier has too strict rate limits (8 calls/min)
-    // Upgrade to Grow plan ($29/month) for real-time data
-    const stockData = [
-      { symbol: 'AAPL', price: 246.35, change: 1.12 },     // Apple actual Jan 6, 2026
-      { symbol: 'TSLA', price: 402.88, change: 2.34 },     // Tesla actual Jan 6, 2026
-      { symbol: 'NVDA', price: 147.25, change: 1.89 },     // NVIDIA actual Jan 6, 2026
-      { symbol: 'GOOGL', price: 192.45, change: 1.24 },    // Google actual Jan 6, 2026
-      { symbol: 'MSFT', price: 431.72, change: 0.98 },     // Microsoft actual Jan 6, 2026
-      { symbol: 'AMZN', price: 227.90, change: 1.56 },     // Amazon actual Jan 6, 2026
-      { symbol: 'META', price: 655.48, change: 1.78 }      // Meta actual Jan 6, 2026
+    // Fetch real-time stock prices from Finnhub (free API - 60 calls/min)
+    const stockSymbols = ['AAPL', 'TSLA', 'NVDA', 'GOOGL', 'MSFT', 'AMZN', 'META'];
+    const stockPromises = stockSymbols.map(symbol => fetchFinnhubQuote(symbol));
+    const stockResults = await Promise.all(stockPromises);
+    
+    // Fetch indices and commodities from Yahoo Finance (free, no key needed)
+    const yahooSymbols = [
+      { symbol: '^GSPC', key: 'SPX' },      // S&P 500
+      { symbol: '^DJI', key: 'DJI' },       // Dow Jones
+      { symbol: 'GC=F', key: 'GOLD' },      // Gold Futures
+      { symbol: 'CL=F', key: 'OIL' },       // Crude Oil Futures
     ];
+    
+    const yahooPromises = yahooSymbols.map(async ({ symbol, key }) => {
+      try {
+        const response = await fetch(
+          `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=1d`,
+          { next: { revalidate: 60 } }
+        );
+        const data = await response.json();
+        const result = data.chart?.result?.[0];
+        const meta = result?.meta;
+        const quote = result?.indicators?.quote?.[0];
+        
+        if (meta && quote) {
+          const currentPrice = meta.regularMarketPrice;
+          const previousClose = meta.chartPreviousClose;
+          const change = previousClose ? ((currentPrice - previousClose) / previousClose) * 100 : 0;
+          
+          return { key, price: currentPrice, change };
+        }
+        return null;
+      } catch (error) {
+        console.error(`Error fetching ${symbol}:`, error);
+        return null;
+      }
+    });
+    
+    const yahooResults = await Promise.all(yahooPromises);
 
     // Fetch forex rates (keep ExchangeRate-API - it's free and reliable)
     const forexResponse = await fetch(
       'https://api.exchangerate-api.com/v4/latest/USD',
-      { next: { revalidate: 300 } } // Cache for 5 minutes
+      { next: { revalidate: 300 } }
     );
-    
-    // ACCURATE FALLBACK PRICES for January 6, 2026
-    const marketData = [
-      { symbol: 'SPX', price: 5985.42, change: 1.04 },      // S&P 500 actual Jan 6, 2026
-      { symbol: 'DJI', price: 43218.76, change: 0.89 },     // Dow Jones actual Jan 6, 2026
-      { symbol: 'XAU/USD', price: 2658.30, change: 0.65 },  // Gold actual Jan 6, 2026
-      { symbol: 'CL', price: 73.45, change: 1.24 },         // Oil actual Jan 6, 2026
-      { symbol: 'XAG/USD', price: 31.52, change: 1.85 }     // Silver actual Jan 6, 2026
-    ];
 
     const cryptoData = await cryptoResponse.json();
     const forexData = await forexResponse.json();
@@ -110,9 +118,9 @@ export async function GET(req: NextRequest) {
       }
     };
 
-    // Format stock prices from Twelve Data
+    // Format stock prices from Finnhub
     const stocks: any = {};
-    stockData.forEach((data) => {
+    stockResults.forEach((data) => {
       if (data && data.price > 0) {
         stocks[data.symbol] = {
           price: data.price,
@@ -125,7 +133,7 @@ export async function GET(req: NextRequest) {
     const forex = {
       'EUR/USD': {
         price: 1 / (forexData.rates?.EUR || 1),
-        change: 0, // Exchange rate API doesn't provide change
+        change: 0,
       },
       'GBP/USD': {
         price: 1 / (forexData.rates?.GBP || 1),
@@ -137,22 +145,22 @@ export async function GET(req: NextRequest) {
       }
     };
 
-    // Format commodities and indices from marketData batch
+    // Format commodities and indices from Yahoo Finance
     const commodities: any = {};
     const indices: any = {};
     
-    marketData.forEach((data) => {
-      if (data.symbol === 'SPX' || data.symbol === 'DJI') {
-        indices[data.symbol] = {
+    yahooResults.forEach((data) => {
+      if (!data) return;
+      
+      if (data.key === 'SPX' || data.key === 'DJI') {
+        indices[data.key] = {
           price: data.price,
           change: data.change
         };
-      } else if (data.symbol === 'XAU/USD') {
+      } else if (data.key === 'GOLD') {
         commodities.GOLD = { price: data.price, change: data.change };
-      } else if (data.symbol === 'CL') {
+      } else if (data.key === 'OIL') {
         commodities.OIL = { price: data.price, change: data.change };
-      } else if (data.symbol === 'XAG/USD') {
-        commodities.SILVER = { price: data.price, change: data.change };
       }
     });
 
@@ -163,16 +171,16 @@ export async function GET(req: NextRequest) {
       commodities,
       indices,
       timestamp: new Date().toISOString(),
-      source: 'CoinGecko (Crypto) + Accurate Fallback Prices (Jan 6, 2026)',
-      note: 'Using accurate fallback prices. Upgrade to Twelve Data Grow plan ($29/month) for real-time data.'
+      source: 'CoinGecko (Crypto) + Finnhub (Stocks) + Yahoo Finance (Indices/Commodities) - All FREE APIs',
+      note: '100% Free real-time market data'
     });
 
   } catch (error: any) {
     console.error("Live prices error:", error);
     
-    // Return fallback data if APIs fail
+    // Return error
     return NextResponse.json({
-      error: "Using fallback data",
+      error: "API error",
       message: error.message,
       timestamp: new Date().toISOString()
     }, { status: 500 });
