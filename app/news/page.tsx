@@ -103,7 +103,7 @@ export default function NewsPage() {
       
       const mockNews: NewsArticle[] = [
         {
-          title: `Bitcoin ${livePrices ? `Rallies to $${formatLivePrice(livePrices.crypto.BTC.price, 0)}` : 'Continues Strong Performance'} as ETF Inflows Hit Record Highs`,
+          title: `Bitcoin ${livePrices ? `at $${formatLivePrice(livePrices.crypto.BTC.price, 0)}` : 'Price Loading...'} - ETF Inflows Hit Record Highs`,
           description: "Bitcoin maintains strong momentum as spot Bitcoin ETFs see unprecedented institutional demand. Major banks increase crypto exposure amid regulatory clarity.",
           url: "https://news.google.com/search?q=bitcoin+cryptocurrency",
           publishedAt: new Date().toISOString(),
@@ -122,7 +122,7 @@ export default function NewsPage() {
           image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=500&fit=crop&q=80"
         },
         {
-          title: `NVIDIA Stock ${livePrices ? `at $${formatLivePrice(livePrices.stocks.NVDA.price, 0)}` : 'Surges'} on AI Chip Dominance`,
+          title: `NVIDIA ${livePrices ? `at $${formatLivePrice(livePrices.stocks.NVDA.price, 2)}` : 'Price Loading...'} - AI Chip Dominance Continues`,
           description: "NVIDIA reaches new highs as demand for AI processors remains insatiable. Q4 earnings exceed analyst expectations by 28%, driving tech sector rally.",
           url: "https://news.google.com/search?q=nvidia+stock+ai",
           publishedAt: new Date(Date.now() - 7200000).toISOString(),
@@ -131,7 +131,7 @@ export default function NewsPage() {
           image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop&q=80"
         },
         {
-          title: `Gold ${livePrices ? `at $${formatLivePrice(livePrices.commodities.GOLD.price, 0)}` : 'Breaks $2,600'} as Global Uncertainty Drives Safe-Haven Demand`,
+          title: `Gold ${livePrices ? `at $${formatLivePrice(livePrices.commodities.GOLD.price, 0)}` : 'Price Loading...'} - Safe-Haven Demand Surges`,
           description: "Precious metals rally as investors seek protection amid geopolitical tensions. Central banks continue accumulating gold reserves at fastest pace since 1967.",
           url: "https://news.google.com/search?q=gold+prices+precious+metals",
           publishedAt: new Date(Date.now() - 10800000).toISOString(),
@@ -140,7 +140,7 @@ export default function NewsPage() {
           image: "https://images.unsplash.com/photo-1610375461246-83df859d849d?w=800&h=500&fit=crop&q=80"
         },
         {
-          title: `S&P 500 ${livePrices ? `at ${formatLivePrice(livePrices.indices.SPX.price, 0)}` : 'at Record Highs'} - New All-Time High`,
+          title: `S&P 500 ${livePrices ? `at ${formatLivePrice(livePrices.indices.SPX.price, 0)}` : 'Price Loading...'} - New All-Time High`,
           description: "Major stock index reaches unprecedented heights as corporate earnings beat expectations. Technology and financial sectors lead broad-based market gains.",
           url: "https://news.google.com/search?q=sp500+stock+market+record",
           publishedAt: new Date(Date.now() - 14400000).toISOString(),
@@ -149,7 +149,7 @@ export default function NewsPage() {
           image: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&h=500&fit=crop&q=80"
         },
         {
-          title: `Crude Oil ${livePrices ? `at $${formatLivePrice(livePrices.commodities.OIL.price, 0)}` : 'Jumps'} as OPEC+ Extends Production Cuts`,
+          title: `Crude Oil ${livePrices ? `at $${formatLivePrice(livePrices.commodities.OIL.price, 2)}` : 'Price Loading...'} - OPEC+ Extends Cuts`,
           description: "Energy markets rally as major oil producers announce extended output restrictions through Q2 2026. Analysts forecast continued supply tightness.",
           url: "https://news.google.com/search?q=oil+prices+opec",
           publishedAt: new Date(Date.now() - 18000000).toISOString(),
@@ -158,7 +158,7 @@ export default function NewsPage() {
           image: "https://images.unsplash.com/photo-1541844053589-346841d0b34c?w=800&h=500&fit=crop&q=80"
         },
         {
-          title: `Ethereum ${livePrices ? `at $${formatLivePrice(livePrices.crypto.ETH.price, 0)}` : 'Climbs'} Following Major Network Upgrade`,
+          title: `Ethereum ${livePrices ? `at $${formatLivePrice(livePrices.crypto.ETH.price, 0)}` : 'Price Loading...'} - Network Upgrade Success`,
           description: "ETH surges on successful Dencun upgrade implementation. Layer-2 transaction costs drop 90% as network scalability improvements exceed expectations.",
           url: "https://news.google.com/search?q=ethereum+upgrade+crypto",
           publishedAt: new Date(Date.now() - 21600000).toISOString(),
@@ -167,7 +167,7 @@ export default function NewsPage() {
           image: "https://images.unsplash.com/photo-1622630998477-20aa696ecb05?w=800&h=500&fit=crop&q=80"
         },
         {
-          title: `Apple Stock ${livePrices ? `at $${formatLivePrice(livePrices.stocks.AAPL.price, 0)}` : 'Up'} on Strong iPhone 16 Sales`,
+          title: `Apple ${livePrices ? `at $${formatLivePrice(livePrices.stocks.AAPL.price, 2)}` : 'Price Loading...'} - Strong iPhone 16 Sales`,
           description: "Apple shares reach new highs as holiday quarter iPhone sales exceed projections. Services revenue growth accelerates with Apple Intelligence features.",
           url: "https://news.google.com/search?q=apple+stock+iphone",
           publishedAt: new Date(Date.now() - 25200000).toISOString(),
@@ -176,7 +176,7 @@ export default function NewsPage() {
           image: "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=800&h=500&fit=crop&q=80"
         },
         {
-          title: `Tesla Stock ${livePrices ? `at $${formatLivePrice(livePrices.stocks.TSLA.price, 0)}` : 'Moves'} on Record EV Deliveries`,
+          title: `Tesla ${livePrices ? `at $${formatLivePrice(livePrices.stocks.TSLA.price, 2)}` : 'Price Loading...'} - Record EV Deliveries`,
           description: "Tesla shares fluctuate as investors react to strong Q4 delivery numbers. Stock remains significantly up year-to-date on Cybertruck success.",
           url: "https://news.google.com/search?q=tesla+stock+deliveries",
           publishedAt: new Date(Date.now() - 28800000).toISOString(),
@@ -185,7 +185,7 @@ export default function NewsPage() {
           image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=800&h=500&fit=crop&q=80"
         },
         {
-          title: `XRP ${livePrices ? `at $${formatLivePrice(livePrices.crypto.XRP.price, 2)}` : 'Soars'} as SEC Case Concludes`,
+          title: `XRP ${livePrices ? `at $${formatLivePrice(livePrices.crypto.XRP.price, 3)}` : 'Price Loading...'} - SEC Case Resolved`,
           description: "Ripple's XRP token rallies following final resolution of SEC lawsuit. Institutional adoption accelerates with regulatory clarity.",
           url: "https://news.google.com/search?q=xrp+ripple+sec",
           publishedAt: new Date(Date.now() - 32400000).toISOString(),
@@ -194,7 +194,7 @@ export default function NewsPage() {
           image: "https://images.unsplash.com/photo-1639322537228-f710d846310a?w=800&h=500&fit=crop&q=80"
         },
         {
-          title: `Microsoft ${livePrices ? `at $${formatLivePrice(livePrices.stocks.MSFT.price, 0)}` : 'Gains'} on Azure AI Revenue Surge`,
+          title: `Microsoft ${livePrices ? `at $${formatLivePrice(livePrices.stocks.MSFT.price, 2)}` : 'Price Loading...'} - Azure AI Revenue Surge`,
           description: "Microsoft stock gains as cloud AI services drive 35% year-over-year revenue growth. Enterprise adoption of Copilot exceeds forecasts.",
           url: "https://news.google.com/search?q=microsoft+stock+azure+ai",
           publishedAt: new Date(Date.now() - 36000000).toISOString(),
@@ -359,7 +359,7 @@ export default function NewsPage() {
             </motion.div>
             <div className="flex-1 min-w-0">
               <p className="text-white font-bold text-xs md:text-base truncate md:whitespace-normal">
-                Bitcoin Surges to $96K • S&P 500 Reaches 5,850 • Tech Stocks Rally
+                {livePrices ? `Bitcoin $${formatLivePrice(livePrices.crypto.BTC.price, 0)} • S&P 500 ${formatLivePrice(livePrices.indices.SPX.price, 0)} • Gold $${formatLivePrice(livePrices.commodities.GOLD.price, 0)}` : 'Bitcoin Surges • S&P 500 Rally • Gold Up'}
               </p>
             </div>
             <button 
@@ -614,6 +614,18 @@ export default function NewsPage() {
               <div className="space-y-6">
                 <ModernLineChart symbol="BTCUSD" title="Bitcoin" />
                 <ModernLineChart symbol="SPX" title="S&P 500" />
+              </div>
+            </div>
+          </div>
+
+          {/* Right Sidebar */}
+          <div className="lg:col-span-4">
+            {/* Market Outlook Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl border border-white/10 overflow-hidden mb-6"
             >
               <div className="relative h-48 w-full">
                 <Image
