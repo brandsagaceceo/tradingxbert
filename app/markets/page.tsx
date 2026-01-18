@@ -47,8 +47,7 @@ export default function MarketsPage() {
   });
 
   const handleAnalyze = (symbol: string) => {
-    // Redirect to homepage analyzer with symbol parameter
-    router.push(`/?symbol=${encodeURIComponent(symbol)}`);
+    router.push("/?symbol=" + encodeURIComponent(symbol));
   };
 
   return (
