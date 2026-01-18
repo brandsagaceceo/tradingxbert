@@ -303,15 +303,13 @@ CONS: Only captures linear relationships (markets aren't always linear)
 Creates a flowchart of yes/no questions
 
 EXAMPLE:
-```
-Is RSI < 30? 
-  ├─ YES: Is volume > average?
-  │   ├─ YES: Is trend up?
-  │   │   ├─ YES: BUY (80% win rate)
-  │   │   └─ NO: WAIT
-  │   └─ NO: WAIT
-  └─ NO: Check other conditions...
-```
+- Is RSI < 30? 
+  - YES: Is volume > average?
+    - YES: Is trend up?
+      - YES: BUY (80% win rate)
+      - NO: WAIT
+    - NO: WAIT
+  - NO: Check other conditions...
 
 USE CASE: Classification (buy/sell/hold decisions)
 PROS: Easy to visualize and understand
