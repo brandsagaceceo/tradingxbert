@@ -19,6 +19,10 @@ import ExampleAnalysisSection from "@/components/ExampleAnalysisSection";
 import WhoItsForSection from "@/components/WhoItsForSection";
 import FAQSection from "@/components/FAQSection";
 import StickyCTA from "@/components/StickyCTA";
+import LiveStats from "@/components/LiveStats";
+import PositionCalculator from "@/components/PositionCalculator";
+import TradingTipsTicker from "@/components/TradingTipsTicker";
+import ComparisonTable from "@/components/ComparisonTable";
 import Image from "next/image";
 import { saveToJournal } from "@/lib/localStorage";
 import { canAnalyze, getRemainingAnalyses, incrementUsage, getFreeLimit, getUsageData } from "@/lib/usageLimit";
@@ -354,6 +358,23 @@ Market: ${market} | Style: ${style}
       </div>
       {/* Animated Hero Banner */}
       {!analysis && <AnimatedHeroBanner />}
+      
+      {/* Live Stats */}
+      {!analysis && (
+        <div className="container mx-auto px-4 relative z-10">
+          <LiveStats />
+        </div>
+      )}
+      
+      {/* Trading Tips Ticker */}
+      {!analysis && <TradingTipsTicker />}
+      
+      {/* Position Calculator */}
+      {!analysis && (
+        <div className="container mx-auto px-4 relative z-10">
+          <PositionCalculator />
+        </div>
+      )}
       
       {/* How It Works Section - Early in the funnel */}
       {!analysis && <HowItWorksSection />}
@@ -1133,6 +1154,9 @@ Market: ${market} | Style: ${style}
             </div>
           </motion.div>
           <TestimonialsSection />
+          
+          {/* Comparison Table */}
+          <ComparisonTable />
         </div>
       )}
       
