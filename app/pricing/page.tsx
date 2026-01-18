@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import TokenGate from '@/components/TokenGate';
 import { useState } from 'react';
 
 export default function Pricing() {
@@ -295,78 +294,6 @@ export default function Pricing() {
               </motion.div>
             ))}
           </div>
-        </motion.div>
-
-        {/* Token-Gated Access - Enhanced */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-16 max-w-6xl mx-auto"
-        >
-          <div className="bg-gradient-to-br from-[#6366F1]/20 to-[#8B5CF6]/20 rounded-3xl border-2 border-[#6366F1]/50 p-8 mb-8">
-            <div className="text-center mb-8">
-              <motion.div
-                animate={{ scale: [1, 1.1, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="text-6xl mb-4"
-              >
-                🪙
-              </motion.div>
-              <h2 className="text-4xl font-black text-white mb-4">
-                Alternative Payment: Hold Our Token
-              </h2>
-              <p className="text-xl text-neutral-300 max-w-3xl mx-auto">
-                Don't want a monthly subscription? Hold <span className="font-black text-[#6366F1]">1,000+ $TX tokens</span> in your Solana wallet for automatic Pro access! No recurring payments, just hold tokens.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-6 mb-8">
-              {[
-                {
-                  icon: "💰",
-                  title: "One-Time Purchase",
-                  desc: "Buy tokens once, keep Pro access as long as you hold them"
-                },
-                {
-                  icon: "🔓",
-                  title: "Instant Unlock",
-                  desc: "Connect wallet, verify balance, get Pro features immediately"
-                },
-                {
-                  icon: "📈",
-                  title: "Token Value Growth",
-                  desc: "Your tokens may appreciate in value while you use Pro features"
-                }
-              ].map((feature, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  className="bg-black/40 backdrop-blur-xl rounded-2xl p-6 border border-[#6366F1]/30 text-center"
-                >
-                  <div className="text-4xl mb-3">{feature.icon}</div>
-                  <h3 className="text-white font-bold text-lg mb-2">{feature.title}</h3>
-                  <p className="text-neutral-400 text-sm">{feature.desc}</p>
-                </motion.div>
-              ))}
-            </div>
-
-            <div className="bg-[#6366F1]/10 border border-[#6366F1]/30 rounded-xl p-6 mb-6">
-              <h3 className="text-white font-bold text-lg mb-3 flex items-center gap-2">
-                <span>ℹ️</span> How Token Gating Works
-              </h3>
-              <div className="space-y-2 text-neutral-300">
-                <p>• <span className="font-bold text-white">Minimum Requirement:</span> Hold 1,000+ $TX tokens in your Solana wallet</p>
-                <p>• <span className="font-bold text-white">Verification:</span> Connect your wallet below to verify your balance</p>
-                <p>• <span className="font-bold text-white">Pro Access:</span> If you meet the threshold, Pro features unlock automatically</p>
-                <p>• <span className="font-bold text-white">Flexibility:</span> You can sell tokens anytime, but Pro access requires holding the minimum</p>
-              </div>
-            </div>
-          </div>
-
-          <TokenGate />
         </motion.div>
 
         {/* CTA Section */}

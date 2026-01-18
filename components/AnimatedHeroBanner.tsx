@@ -440,22 +440,37 @@ export default function AnimatedHeroBanner() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.8 }}
-          className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-[#FFD700] via-white to-[#60a5fa] bg-clip-text text-transparent mb-4"
+          className="text-4xl md:text-6xl lg:text-7xl font-black bg-gradient-to-r from-[#FFD700] via-white to-[#60a5fa] bg-clip-text text-transparent mb-3"
           style={{ 
             textShadow: '0 0 40px rgba(255, 215, 0, 0.3)',
             letterSpacing: '-0.02em'
           }}
         >
-          AI Trading Analysis
+          AI-Powered Chart Analysis
         </motion.h1>
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2, duration: 0.8 }}
-          className="text-xl md:text-2xl text-blue-200 font-light"
+          className="text-lg md:text-xl lg:text-2xl text-blue-200 font-light mb-4"
         >
-          Upload Your Chart • Get Instant Insights
+          Crypto • Forex • Stocks • Indices
         </motion.p>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 1.4, duration: 0.6 }}
+          className="flex flex-wrap justify-center gap-3 text-sm md:text-base"
+        >
+          <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-xl rounded-full border border-white/20">
+            <span className="text-green-400">✓</span>
+            <span className="text-white">Free to Try</span>
+          </div>
+          <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-xl rounded-full border border-white/20">
+            <span className="text-green-400">✓</span>
+            <span className="text-white">No Card Required</span>
+          </div>
+        </motion.div>
       </div>
     </div>
   );

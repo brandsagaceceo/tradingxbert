@@ -60,7 +60,7 @@ export default function AboutPage() {
             <div>
               <h2 className="text-4xl font-bold text-white mb-6">What We Do</h2>
               <p className="text-lg text-neutral-300 mb-6 leading-relaxed">
-                TradingXbert provides <span className="text-[#6366F1] font-bold">fast, AI-powered chart analysis</span> across Crypto, Forex, Stocks, and Indices. Whether you paste a token address or upload a chart image, you get a professional analysis card in seconds.
+                TradingXbert provides <span className="text-[#6366F1] font-bold">fast, AI-powered chart analysis</span> across Crypto, Forex, Stocks, and Indices. Upload a chart image and get a professional analysis card in seconds.
               </p>
               <p className="text-neutral-400 leading-relaxed">
                 Our platform combines cutting-edge artificial intelligence with proven technical analysis methods to give you actionable insights that help you make better trading decisions.

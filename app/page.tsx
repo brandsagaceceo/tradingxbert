@@ -406,77 +406,70 @@ Market: ${market} | Style: ${style}
         </motion.div>
       )}
       
-      {/* Live News CTA Button */}
+      {/* Popular Markets Quick Access */}
       {!analysis && (
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="container mx-auto px-4 mb-8"
+          className="container mx-auto px-4 mb-12 relative z-10"
         >
-          <Link href="/news">
-            <motion.div
-              whileHover={{ scale: 1.02, y: -2 }}
-              whileTap={{ scale: 0.98 }}
-              className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#6366F1] via-[#8B5CF6] to-[#EC4899] p-[2px] cursor-pointer group"
-            >
-              <div className="relative bg-[#0A0A0A] rounded-2xl p-6 flex items-center justify-between gap-4 overflow-hidden">
-                {/* Animated Background */}
+          <div className="text-center mb-6">
+            <h2 className="text-3xl md:text-4xl font-black text-white mb-2">
+              Quick Analyze
+            </h2>
+            <p className="text-neutral-400">
+              Click any market for instant analysis
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-3 max-w-6xl mx-auto">
+            {[
+              { symbol: "BTC", name: "Bitcoin", emoji: "₿" },
+              { symbol: "ETH", name: "Ethereum", emoji: "⟠" },
+              { symbol: "SOL", name: "Solana", emoji: "◎" },
+              { symbol: "AAPL", name: "Apple", emoji: "🍎" },
+              { symbol: "TSLA", name: "Tesla", emoji: "🚗" },
+              { symbol: "NVDA", name: "NVIDIA", emoji: "🎮" },
+              { symbol: "EURUSD", name: "EUR/USD", emoji: "💱" },
+              { symbol: "GBPUSD", name: "GBP/USD", emoji: "💷" },
+              { symbol: "SPX", name: "S&P 500", emoji: "📊" },
+              { symbol: "NASDAQ", name: "NASDAQ", emoji: "💹" },
+              { symbol: "XAU", name: "Gold", emoji: "🥇" },
+              { symbol: "OIL", name: "Oil", emoji: "🛢️" }
+            ].map((market, idx) => (
+              <Link
+                key={market.symbol}
+                href="/markets"
+                className="group"
+              >
                 <motion.div
-                  animate={{
-                    x: [0, 100, 0],
-                    opacity: [0.3, 0.5, 0.3]
-                  }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                  className="absolute inset-0 bg-gradient-to-r from-[#6366F1]/20 to-transparent"
-                />
-                
-                {/* Content */}
-                <div className="relative z-10 flex items-center gap-4 flex-1">
-                  <motion.div
-                    animate={{
-                      scale: [1, 1.2, 1],
-                      rotate: [0, 5, -5, 0]
-                    }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    className="text-4xl"
-                  >
-                    📰
-                  </motion.div>
-                  <div>
-                    <h3 className="text-xl md:text-2xl font-black text-white mb-1">
-                      Live Market News & Analysis
-                    </h3>
-                    <p className="text-sm md:text-base text-neutral-300">
-                      Get real-time updates while we lock in the next big trade 🎯
-                    </p>
-                  </div>
-                </div>
-                
-                {/* Arrow */}
-                <motion.div
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                  className="relative z-10 text-white text-2xl"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.05 * idx }}
+                  whileHover={{ scale: 1.05, y: -3 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="relative bg-gradient-to-br from-white/5 to-white/10 hover:from-[#6366F1]/20 hover:to-[#8B5CF6]/20 border border-white/10 hover:border-[#6366F1]/50 rounded-xl p-4 text-center transition-all duration-300 backdrop-blur-xl"
                 >
-                  →
+                  <div className="text-3xl mb-2 group-hover:scale-110 transition-transform duration-300">
+                    {market.emoji}
+                  </div>
+                  <div className="text-sm font-bold text-white">{market.symbol}</div>
+                  <div className="text-xs text-neutral-400 truncate">{market.name}</div>
                 </motion.div>
-                
-                {/* Live Indicator */}
-                <div className="absolute top-4 right-4 flex items-center gap-2 bg-red-500/20 px-3 py-1 rounded-full border border-red-500/50">
-                  <motion.div
-                    animate={{
-                      scale: [1, 1.3, 1],
-                      opacity: [0.5, 1, 0.5]
-                    }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    className="w-2 h-2 bg-red-500 rounded-full"
-                  />
-                  <span className="text-xs font-bold text-white">LIVE</span>
-                </div>
-              </div>
-            </motion.div>
-          </Link>
+              </Link>
+            ))}
+          </div>
+          
+          <div className="text-center mt-6">
+            <Link 
+              href="/markets"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] text-white font-bold rounded-xl hover:shadow-lg hover:shadow-[#6366F1]/50 transition-all hover:scale-105"
+            >
+              <span>View All Markets</span>
+              <span>→</span>
+            </Link>
+          </div>
         </motion.div>
       )}
       

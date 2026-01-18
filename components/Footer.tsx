@@ -28,8 +28,7 @@ export default function Footer() {
             <h4 className="text-white font-bold mb-4">Product</h4>
             <div className="flex flex-col gap-2 text-sm">
               <Link href="/pricing" className="text-neutral-400 hover:text-[#6366F1] transition-colors">Pricing</Link>
-              <Link href="/invest" className="text-neutral-400 hover:text-emerald-400 transition-colors">$TXB Token</Link>
-              <Link href="/news" className="text-neutral-400 hover:text-[#6366F1] transition-colors">News</Link>
+              <Link href="/markets" className="text-neutral-400 hover:text-[#6366F1] transition-colors">Markets</Link>
             </div>
           </div>
           
