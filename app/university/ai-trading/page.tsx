@@ -82,7 +82,7 @@ Let's compare traditional vs AI-enhanced trading:
 🔬 PRACTICAL AI APPLICATIONS IN TRADING:
 
 **1. INSTANT CHART ANALYSIS:**
-   Upload any chart → Receive comprehensive analysis:
+   Upload any chart - Receive comprehensive analysis:
    • Precise support/resistance levels
    • Pattern identification (triangles, H&S, flags)
    • Trend strength and direction
@@ -318,7 +318,7 @@ CONS: Can overfit (memorize data instead of learning)
 🔹 **RANDOM FOREST** (Multiple Decision Trees)
 Combines many decision trees that "vote" on the answer
 
-EXAMPLE: 100 trees analyze the setup. 73 say BUY, 27 say WAIT → Final decision: BUY with 73% confidence
+EXAMPLE: 100 trees analyze the setup. 73 say BUY, 27 say WAIT - Final decision: BUY with 73% confidence
 
 USE CASE: More robust than single decision tree
 PROS: Handles non-linear data well, resistant to overfitting
@@ -460,8 +460,8 @@ Test model on multiple time periods
 Don't just test on one year!
 
 5. **Walk-Forward Optimization**
-Train on 2020-2021 → Test on 2022
-Retrain on 2020-2022 → Test on 2023
+Train on 2020-2021 - Test on 2022
+Retrain on 2020-2022 - Test on 2023
 This simulates real-world continuous retraining
 
 6. **Ensemble Methods**
@@ -593,14 +593,12 @@ Think of it as hiring an employee who:
 
 ⚙️ HOW BOTS WORK:
 
-```
-1. MONITOR → Watch market prices and indicators
-2. ANALYZE → Check if conditions are met
-3. DECIDE → Generate buy/sell/hold signal
-4. EXECUTE → Place order on exchange
-5. MANAGE → Adjust stops, take profits
-6. REPEAT → Every second, minute, or hour
-```
+1. MONITOR - Watch market prices and indicators
+2. ANALYZE - Check if conditions are met
+3. DECIDE - Generate buy/sell/hold signal
+4. EXECUTE - Place order on exchange
+5. MANAGE - Adjust stops, take profits
+6. REPEAT - Every second, minute, or hour
 
 💻 POPULAR BOT PLATFORMS:
 
@@ -727,7 +725,7 @@ Coders: Python + CCXT
 • Deposit funds (start small! $100-500)
 
 **Step 3: Generate API Keys**
-• Go to Exchange Settings → API Management
+• Go to Exchange Settings - API Management
 • Create new API key
 • **IMPORTANT:** Enable trading, DISABLE withdrawals!
 • Save key and secret securely
@@ -1170,7 +1168,7 @@ pip install ccxt pandas ta python-dateutil
 \`\`\`
 
 **Step 3: Get API Keys**
-• Go to Binance → Settings → API Management
+• Go to Binance - Settings - API Management
 • Create new API key
 • ⚠️ Enable SPOT TRADING only
 • ⚠️ DISABLE withdrawals!
