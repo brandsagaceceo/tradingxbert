@@ -970,10 +970,10 @@ def connect_exchange():
             'options': {'defaultType': 'spot'}
         })
         balance = exchange.fetch_balance()
-        print(f"✅ Connected! USDT Balance: ${balance['USDT']['free']:.2f}")
+        print("✅ Connected! USDT Balance: $" + str(balance['USDT']['free']))
         return exchange
     except Exception as e:
-        print(f"❌ Connection failed: {e}")
+        print("❌ Connection failed: " + str(e))
         return None
 
 # ========== FETCH PRICE DATA ==========
@@ -987,7 +987,7 @@ def get_data(exchange, symbol, timeframe, limit=100):
         df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
         return df
     except Exception as e:
-        print(f"❌ Data fetch failed: {e}")
+        print("❌ Data fetch failed: " + str(e))
         return None
 
 # ========== CALCULATE INDICATORS ==========
@@ -1029,7 +1029,7 @@ def get_position(exchange, symbol):
         amount = balance[base_currency]['free']
         return amount if amount > 0.001 else 0
     except Exception as e:
-        print(f"❌ Position check failed: {e}")
+        print("❌ Position check failed: " + str(e))
         return 0
 
 # ========== EXECUTE TRADES ==========
@@ -1045,9 +1045,9 @@ def execute_trade(exchange, symbol, signal, current_price):
             order = exchange.create_market_buy_order(symbol, amount)
             entry_price = order['average'] if 'average' in order else current_price
             
-            print(f"✅ BOUGHT {amount:.6f} BTC at ${entry_price:.2f}")
-            print(f"📊 Stop Loss: ${entry_price * (1 - STOP_LOSS_PERCENT/100):.2f}")
-            print(f"🎯 Take Profit: ${entry_price * (1 + TAKE_PROFIT_PERCENT/100):.2f}")
+            print("✅ BOUGHT " + str(round(amount, 6)) + " BTC at $" + str(round(entry_price, 2)))
+            print("📊 Stop Loss: $" + str(round(entry_price * (1 - STOP_LOSS_PERCENT/100), 2)))
+            print("🎯 Take Profit: $" + str(round(entry_price * (1 + TAKE_PROFIT_PERCENT/100), 2)))
             
             return entry_price
         
@@ -1056,26 +1056,26 @@ def execute_trade(exchange, symbol, signal, current_price):
             order = exchange.create_market_sell_order(symbol, position)
             exit_price = order['average'] if 'average' in order else current_price
             
-            print(f"✅ SOLD {position:.6f} BTC at ${exit_price:.2f}")
+            print("✅ SOLD " + str(round(position, 6)) + " BTC at $" + str(round(exit_price, 2)))
             
             return exit_price
         
         else:
-            print(f"⏸️ No action - Signal: {signal}, Position: {position:.6f}")
+            print("⏸️ No action - Signal: " + signal + ", Position: " + str(round(position, 6)))
             return None
             
     except Exception as e:
-        print(f"❌ Trade execution failed: {e}")
+        print("❌ Trade execution failed: " + str(e))
         return None
 
 # ========== MAIN BOT LOOP ==========
 def run_bot():
     print("=" * 60)
     print("🤖 TRADING BOT STARTED")
-    print(f"📊 Strategy: RSI ({RSI_PERIOD})")
-    print(f"💰 Position Size: ${POSITION_SIZE_USD}")
-    print(f"🛡️ Stop Loss: {STOP_LOSS_PERCENT}%")
-    print(f"🎯 Take Profit: {TAKE_PROFIT_PERCENT}%")
+    print("📊 Strategy: RSI (" + str(RSI_PERIOD) + ")")
+    print("💰 Position Size: $" + str(POSITION_SIZE_USD))
+    print("🛡️ Stop Loss: " + str(STOP_LOSS_PERCENT) + "%")
+    print("🎯 Take Profit: " + str(TAKE_PROFIT_PERCENT) + "%")
     print("=" * 60)
     
     exchange = connect_exchange()
@@ -1088,7 +1088,7 @@ def run_bot():
         try:
             # Current timestamp
             now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            print(f"\n[{now}]")
+            print("\n[" + now + "]")
             
             # Get data
             df = get_data(exchange, SYMBOL, TIMEFRAME)
@@ -1102,14 +1102,14 @@ def run_bot():
             current_price = df['close'].iloc[-1]
             current_rsi = df['rsi'].iloc[-1]
             
-            print(f"💵 Price: ${current_price:,.2f}")
-            print(f"📊 RSI: {current_rsi:.2f}")
+            print("💵 Price: $" + "{:,.2f}".format(current_price))
+            print("📊 RSI: " + str(round(current_rsi, 2)))
             
             # Check stop loss / take profit if in position
             position = get_position(exchange, SYMBOL)
             if position > 0 and entry_price:
                 pnl_percent = ((current_price - entry_price) / entry_price) * 100
-                print(f"📈 P&L: {pnl_percent:+.2f}%")
+                print("📈 P&L: " + ("+" if pnl_percent > 0 else "") + str(round(pnl_percent, 2)) + "%")
                 
                 # Check stop loss
                 if pnl_percent <= -STOP_LOSS_PERCENT:
@@ -1125,7 +1125,7 @@ def run_bot():
             
             # Generate signal
             signal = generate_signal(df)
-            print(f"🚦 Signal: {signal}")
+            print("🚦 Signal: " + signal)
             
             # Execute trade
             if signal in ['BUY', 'SELL']:
@@ -1137,14 +1137,14 @@ def run_bot():
             
             # Wait before next check (5 minutes for 1h timeframe)
             wait_time = 300
-            print(f"⏳ Next check in {wait_time//60} minutes...")
+            print("⏳ Next check in " + str(wait_time//60) + " minutes...")
             time.sleep(wait_time)
             
         except KeyboardInterrupt:
             print("\n🛑 Bot stopped by user")
             break
         except Exception as e:
-            print(f"❌ Error: {e}")
+            print("❌ Error: " + str(e))
             print("⏳ Retrying in 1 minute...")
             time.sleep(60)
 
