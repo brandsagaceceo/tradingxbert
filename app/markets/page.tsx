@@ -46,18 +46,9 @@ export default function MarketsPage() {
     return matchesCategory && matchesSearch;
   });
 
-  const handleMarketSelect = (symbol: string) => {
-    // Redirect to homepage with the market pre-selected
-    // In a future update, you could pass this via URL params
-    router.push(`/?market=${symbol}`);
-  };
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      // Redirect to analyzer with search query
-      router.push(`/?search=${encodeURIComponent(searchQuery)}`);
-    }
+  const handleAnalyze = (symbol: string) => {
+    // Redirect to homepage analyzer
+    router.push("/");
   };
 
   return (
@@ -105,10 +96,13 @@ export default function MarketsPage() {
             📊
           </motion.div>
           <h1 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-[#6366F1] via-[#8B5CF6] to-[#EC4899] bg-clip-text text-transparent">
-            Analyze a Market
+            Quick Market Analysis
           </h1>
-          <p className="text-xl md:text-2xl text-neutral-300 max-w-3xl mx-auto mb-8">
-            Get instant AI-powered analysis on any crypto, stock, forex pair, or index
+          <p className="text-xl md:text-2xl text-neutral-300 max-w-3xl mx-auto mb-4">
+            Click "Analyze" on any market below to get instant AI-powered insights
+          </p>
+          <p className="text-base text-neutral-400 max-w-2xl mx-auto">
+            Or search for any symbol and we'll analyze it for you
           </p>
           
           {/* Free Usage Badge */}
@@ -125,25 +119,19 @@ export default function MarketsPage() {
 
         {/* Search Bar */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          className="max-w-3xl mx-auto mb-16"
+          initial={{ opacit2xl mx-auto mb-12"
         >
-          <form onSubmit={handleSearch} className="relative">
+          <div className="relative">
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search BTC, ETH, AAPL, EURUSD, S&P 500..."
+              placeholder="Search for any market... (e.g., BTC, AAPL, EURUSD)"
               className="w-full px-6 py-5 bg-white/5 border-2 border-[#6366F1]/30 rounded-2xl text-white placeholder-neutral-500 focus:outline-none focus:border-[#6366F1] transition-all text-lg backdrop-blur-xl"
             />
-            <button
-              type="submit"
-              className="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-3 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] rounded-xl font-bold hover:shadow-lg hover:shadow-[#6366F1]/50 transition-all active:scale-95"
-            >
-              Analyze →
-            </button>
+          </div>
+          <p className="text-neutral-400 text-sm mt-3 text-center">
+            Browse popular markets below or search for any symbol
           </form>
           <p className="text-neutral-400 text-sm mt-3 text-center">
             Or choose from popular markets below
@@ -192,31 +180,32 @@ export default function MarketsPage() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.05 * idx }}
                 whileHover={{ scale: 1.05, y: -5 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => handleMarketSelect(market.symbol)}
-                className="relative group bg-gradient-to-br from-white/5 to-white/10 hover:from-[#6366F1]/20 hover:to-[#8B5CF6]/20 border border-white/10 hover:border-[#6366F1]/50 rounded-2xl p-6 text-left transition-all duration-300 backdrop-blur-xl"
+                whileTdiv
+                key={market.symbol}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.05 * idx }}
+                className="relative group bg-gradient-to-br from-white/5 to-white/10 border border-white/10 rounded-2xl p-6 backdrop-blur-xl"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-[#6366F1]/0 to-[#8B5CF6]/0 group-hover:from-[#6366F1]/10 group-hover:to-[#8B5CF6]/10 rounded-2xl transition-all duration-300" />
-                
-                <div className="relative z-10">
-                  <div className="text-4xl mb-3 group-hover:scale-110 transition-transform duration-300">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="text-5xl group-hover:scale-110 transition-transform duration-300">
                     {market.emoji}
                   </div>
-                  <div className="text-xl font-bold text-white mb-1">{market.symbol}</div>
-                  <div className="text-sm text-neutral-400">{market.name}</div>
-                  
-                  <div className="mt-4 flex items-center gap-2 text-[#6366F1] font-semibold text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span>Analyze now</span>
-                    <span>→</span>
-                  </div>
                 </div>
-              </motion.button>
-            ))}
-          </div>
-
-          {filteredMarkets.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-neutral-400 text-lg">No markets found. Try a different search or category.</p>
+                
+                <div className="mb-4">
+                  <div className="text-2xl font-bold text-white mb-1">{market.symbol}</div>
+                  <div className="text-sm text-neutral-400">{market.name}</div>
+                  <div className="text-xs text-neutral-500 mt-1 capitalize">{market.category}</div>
+                </div>
+                
+                <button
+                  onClick={() => handleAnalyze(market.symbol)}
+                  className="w-full px-4 py-3 bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] hover:from-[#5558E3] hover:to-[#7C3AED] text-white font-bold rounded-xl transition-all hover:shadow-lg hover:shadow-[#6366F1]/50 hover:scale-105 active:scale-95"
+                >
+                  Analyze {market.symbol}
+                </button>
+              </motion.divext-neutral-400 text-lg">No markets found. Try a different search or category.</p>
             </div>
           )}
         </motion.div>
@@ -262,20 +251,20 @@ export default function MarketsPage() {
               },
               {
                 step: "2",
-                emoji: "🤖",
-                title: "AI Analyzes",
-                desc: "Our AI examines price action, trends, and key levels"
+                emoji: "Choose Market",
+                desc: "Click 'Analyze' on any market above"
+              },
+              {
+                step: "2",
+                emoji: "📊",
+                title: "Upload Chart",
+                desc: "Take a screenshot of your chart and upload it"
               },
               {
                 step: "3",
-                emoji: "📋",
-                title: "Get Insights",
-                desc: "Receive clear analysis with confidence ratings"
-              }
-            ].map((item, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
+                emoji: "🤖",
+                title: "Get AI Analysis",
+                desc: "Receive instant insights, levels, and
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8 + idx * 0.1 }}
                 className="text-center"
