@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import ConfidenceMeter from "@/components/ConfidenceMeter";
 import SmartMoneyBadge from "@/components/SmartMoneyBadge";
@@ -26,6 +27,7 @@ import { motion } from "framer-motion";
 import axios from "axios";
 
 export default function Page() {
+  const searchParams = useSearchParams();
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [market, setMarket] = useState<Market>("Crypto");
@@ -41,6 +43,34 @@ export default function Page() {
   const [showPromoPopup, setShowPromoPopup] = useState(false);
   const [showUniversityPopup, setShowUniversityPopup] = useState(false);
   const [isPro, setIsPro] = useState(false);
+  const [selectedSymbol, setSelectedSymbol] = useState<string>("");
+
+  // Handle market parameter from URL
+  useEffect(() => {
+    const symbolParam = searchParams.get('symbol');
+    if (symbolParam) {
+      setSelectedSymbol(symbolParam);
+      // Auto-detect market type
+      const upper = symbolParam.toUpperCase();
+      if (upper.includes('BTC') || upper.includes('ETH') || upper.includes('SOL') || upper.includes('USDT')) {
+        setMarket('Crypto');
+      } else if (upper.includes('USD') || upper.includes('EUR') || upper.includes('GBP') || upper.includes('JPY')) {
+        setMarket('Forex');
+      } else if (upper.includes('SPX') || upper.includes('NASDAQ') || upper.includes('DOW')) {
+        setMarket('Indices');
+      } else {
+        setMarket('Stocks');
+      }
+      
+      // Scroll to upload section
+      setTimeout(() => {
+        const uploadSection = document.getElementById('upload-section');
+        if (uploadSection) {
+          uploadSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 500);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     setRemaining(getRemainingAnalyses());
@@ -648,6 +678,22 @@ Market: ${market} | Style: ${style}
             transition={{ duration: 0.8, delay: 1.1 }}
             className="relative bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-lg rounded-3xl border border-white/10 p-8 md:p-12 shadow-2xl mb-6 overflow-hidden"
           >
+            {/* Show selected symbol banner if coming from Markets page */}
+            {selectedSymbol && (
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-6 p-4 bg-gradient-to-r from-[#6366F1]/20 to-[#8B5CF6]/20 border border-[#6366F1]/30 rounded-xl"
+              >
+                <p className="text-center text-white">
+                  <span className="text-2xl mr-2">🎯</span>
+                  <span className="font-bold text-lg">Ready to analyze {selectedSymbol.toUpperCase()}</span>
+                </p>
+                <p className="text-center text-neutral-300 text-sm mt-1">
+                  Upload your chart screenshot below to get instant AI insights
+                </p>
+              </motion.div>
+            )}
             {/* Multiple Animated background glows */}
             <motion.div
               animate={{ 
