@@ -10,7 +10,7 @@ import AnalysisResults from "@/components/AnalysisResults";
 import AnimatedHeroBanner from "@/components/AnimatedHeroBanner";
 import GuidanceTooltip from "@/components/GuidanceTooltip";
 import Image from "next/image";
-import { saveToJournal } from "@/lib/localStorage";
+import { saveToJournal, saveChartPreview, getChartPreview } from "@/lib/localStorage";
 import { canAnalyze, getRemainingAnalyses, incrementUsage, getFreeLimit, getUsageData } from "@/lib/usageLimit";
 import type { TradingXbertAnalysis, Market, Style } from "@/lib/tradingTypes";
 import { motion } from "framer-motion";
@@ -238,11 +238,11 @@ export default function Page() {
       incrementUsage();
       setRemaining(getRemainingAnalyses());
       
-      // Store chart data for save button
+      // Store chart data for save button using IndexedDB
       if (preview) {
-        localStorage.setItem('currentChartPreview', preview);
-        localStorage.setItem('currentMarket', market);
-        localStorage.setItem('currentStyle', style);
+        saveChartPreview(preview, market, style).catch(err => {
+          console.error('Failed to save chart preview:', err);
+        });
       }
       
       // Save analysis to database if user is logged in AND to localStorage

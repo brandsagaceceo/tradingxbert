@@ -153,3 +153,111 @@ export async function clearJournal(): Promise<void> {
     localStorage.removeItem(JOURNAL_KEY);
   }
 }
+// Chart preview storage using IndexedDB
+const CHART_PREVIEW_STORE = "chartPreview";
+
+function getChartDB(): Promise<IDBDatabase> {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(DB_NAME, 2);
+    
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => resolve(request.result);
+    
+    request.onupgradeneeded = (event) => {
+      const db = (event.target as IDBOpenDBRequest).result;
+      if (!db.objectStoreNames.contains(STORE_NAME)) {
+        db.createObjectStore(STORE_NAME, { keyPath: "id" });
+      }
+      if (!db.objectStoreNames.contains(CHART_PREVIEW_STORE)) {
+        db.createObjectStore(CHART_PREVIEW_STORE, { keyPath: "id" });
+      }
+    };
+  });
+}
+
+export async function saveChartPreview(
+  preview: string,
+  market: string,
+  style: string
+): Promise<void> {
+  if (typeof window === "undefined") return;
+  
+  try {
+    const db = await getChartDB();
+    const tx = db.transaction(CHART_PREVIEW_STORE, "readwrite");
+    const store = tx.objectStore(CHART_PREVIEW_STORE);
+    
+    return new Promise((resolve, reject) => {
+      const data = {
+        id: "current",
+        preview,
+        market,
+        style,
+        timestamp: Date.now(),
+      };
+      
+      const request = store.put(data);
+      request.onsuccess = () => resolve();
+      request.onerror = () => reject(request.error);
+      tx.onerror = () => reject(tx.error);
+    });
+  } catch (error) {
+    console.error("Failed to save chart preview:", error);
+    throw error;
+  }
+}
+
+export async function getChartPreview(): Promise<{
+  preview: string | null;
+  market: string;
+  style: string;
+}> {
+  if (typeof window === "undefined") {
+    return { preview: null, market: "Crypto", style: "Day Trade" };
+  }
+  
+  try {
+    const db = await getChartDB();
+    const tx = db.transaction(CHART_PREVIEW_STORE, "readonly");
+    const store = tx.objectStore(CHART_PREVIEW_STORE);
+    
+    return new Promise((resolve, reject) => {
+      const request = store.get("current");
+      request.onsuccess = () => {
+        const result = request.result;
+        if (result) {
+          resolve({
+            preview: result.preview,
+            market: result.market || "Crypto",
+            style: result.style || "Day Trade",
+          });
+        } else {
+          resolve({ preview: null, market: "Crypto", style: "Day Trade" });
+        }
+      };
+      request.onerror = () => reject(request.error);
+    });
+  } catch (error) {
+    console.error("Failed to get chart preview:", error);
+    return { preview: null, market: "Crypto", style: "Day Trade" };
+  }
+}
+
+export async function clearChartPreview(): Promise<void> {
+  if (typeof window === "undefined") return;
+  
+  try {
+    const db = await getChartDB();
+    const tx = db.transaction(CHART_PREVIEW_STORE, "readwrite");
+    const store = tx.objectStore(CHART_PREVIEW_STORE);
+    
+    return new Promise((resolve, reject) => {
+      const request = store.delete("current");
+      request.onsuccess = () => resolve();
+      request.onerror = () => reject(request.error);
+      tx.onerror = () => reject(tx.error);
+    });
+  } catch (error) {
+    console.error("Failed to clear chart preview:", error);
+  }
+}
