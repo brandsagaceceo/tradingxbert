@@ -7,17 +7,35 @@ import type { JournalEntry } from "@/lib/tradingTypes";
 export default function JournalPage() {
   const [entries, setEntries] = useState<JournalEntry[]>([]);
   const [selectedEntry, setSelectedEntry] = useState<JournalEntry | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setEntries(getJournal());
+    const loadJournal = async () => {
+      try {
+        const data = await getJournal();
+        setEntries(data);
+      } catch (error) {
+        console.error("Failed to load journal:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    loadJournal();
   }, []);
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm("Delete this journal entry?")) {
-      deleteJournalEntry(id);
-      setEntries(getJournal());
-      if (selectedEntry?.id === id) {
-        setSelectedEntry(null);
+      try {
+        await deleteJournalEntry(id);
+        const updated = await getJournal();
+        setEntries(updated);
+        if (selectedEntry?.id === id) {
+          setSelectedEntry(null);
+        }
+      } catch (error) {
+        console.error("Failed to delete entry:", error);
+        alert("Failed to delete entry");
       }
     }
   };
@@ -47,7 +65,12 @@ export default function JournalPage() {
           </Link>
         </div>
 
-        {entries.length === 0 ? (
+        {loading ? (
+          <div className="card-3d bg-white/5 backdrop-blur-lg rounded-3xl border border-white/10 p-12 text-center">
+            <div className="text-6xl mb-4">⏳</div>
+            <p className="text-xl text-neutral-300">Loading your journal...</p>
+          </div>
+        ) : entries.length === 0 ? (
           <div className="card-3d bg-white/5 backdrop-blur-lg rounded-3xl border border-white/10 p-12 text-center">
             <div className="text-6xl mb-4">📭</div>
             <p className="text-xl text-neutral-300 mb-2">No journal entries yet</p>

@@ -1,34 +1,96 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import ConfidenceMeter from "@/components/ConfidenceMeter";
 import SmartMoneyBadge from "@/components/SmartMoneyBadge";
 import ShareButtons from "@/components/ShareButtons";
 import AnalysisResults from "@/components/AnalysisResults";
-import TestimonialsSection from "@/components/TestimonialsSection";
-import ChartGuide from "@/components/ChartGuide";
-import AlertSignup from "@/components/AlertSignup";
-import AITradingAssistant from "@/components/AITradingAssistant";
 import AnimatedHeroBanner from "@/components/AnimatedHeroBanner";
-import ChartChat from "@/components/ChartChat";
-import UniversityPromoPopup from "@/components/UniversityPromoPopup";
 import GuidanceTooltip from "@/components/GuidanceTooltip";
-import HowItWorksSection from "@/components/HowItWorksSection";
-import ExampleAnalysisSection from "@/components/ExampleAnalysisSection";
-import WhoItsForSection from "@/components/WhoItsForSection";
-import FAQSection from "@/components/FAQSection";
-import StickyCTA from "@/components/StickyCTA";
-import LiveStats from "@/components/LiveStats";
-import PositionCalculator from "@/components/PositionCalculator";
-import TradingTipsTicker from "@/components/TradingTipsTicker";
-import ComparisonTable from "@/components/ComparisonTable";
 import Image from "next/image";
 import { saveToJournal } from "@/lib/localStorage";
 import { canAnalyze, getRemainingAnalyses, incrementUsage, getFreeLimit, getUsageData } from "@/lib/usageLimit";
 import type { TradingXbertAnalysis, Market, Style } from "@/lib/tradingTypes";
 import { motion } from "framer-motion";
 import axios from "axios";
+
+// Lazy load below-the-fold sections
+const TestimonialsSection = dynamic(() => import("@/components/TestimonialsSection"), {
+  loading: () => <div className="h-64 bg-gradient-to-br from-[#0A0A0A] via-[#111827] to-[#0A0A0A]" />,
+  ssr: true
+});
+
+const ChartGuide = dynamic(() => import("@/components/ChartGuide"), {
+  loading: () => <div className="h-64 bg-gradient-to-br from-[#0A0A0A] via-[#111827] to-[#0A0A0A]" />,
+  ssr: true
+});
+
+const AlertSignup = dynamic(() => import("@/components/AlertSignup"), {
+  loading: () => <div className="h-64 bg-gradient-to-br from-[#0A0A0A] via-[#111827] to-[#0A0A0A]" />,
+  ssr: true
+});
+
+const AITradingAssistant = dynamic(() => import("@/components/AITradingAssistant"), {
+  loading: () => null,
+  ssr: false
+});
+
+const ChartChat = dynamic(() => import("@/components/ChartChat"), {
+  loading: () => null,
+  ssr: false
+});
+
+const UniversityPromoPopup = dynamic(() => import("@/components/UniversityPromoPopup"), {
+  loading: () => null,
+  ssr: false
+});
+
+const HowItWorksSection = dynamic(() => import("@/components/HowItWorksSection"), {
+  loading: () => <div className="h-64 bg-gradient-to-br from-[#0A0A0A] via-[#111827] to-[#0A0A0A]" />,
+  ssr: true
+});
+
+const ExampleAnalysisSection = dynamic(() => import("@/components/ExampleAnalysisSection"), {
+  loading: () => <div className="h-64 bg-gradient-to-br from-[#0A0A0A] via-[#111827] to-[#0A0A0A]" />,
+  ssr: true
+});
+
+const WhoItsForSection = dynamic(() => import("@/components/WhoItsForSection"), {
+  loading: () => <div className="h-64 bg-gradient-to-br from-[#0A0A0A] via-[#111827] to-[#0A0A0A]" />,
+  ssr: true
+});
+
+const FAQSection = dynamic(() => import("@/components/FAQSection"), {
+  loading: () => <div className="h-64 bg-gradient-to-br from-[#0A0A0A] via-[#111827] to-[#0A0A0A]" />,
+  ssr: true
+});
+
+const StickyCTA = dynamic(() => import("@/components/StickyCTA"), {
+  loading: () => null,
+  ssr: false
+});
+
+const LiveStats = dynamic(() => import("@/components/LiveStats"), {
+  loading: () => <div className="h-48 bg-gradient-to-br from-[#0A0A0A] via-[#111827] to-[#0A0A0A]" />,
+  ssr: true
+});
+
+const PositionCalculator = dynamic(() => import("@/components/PositionCalculator"), {
+  loading: () => <div className="h-64 bg-gradient-to-br from-[#0A0A0A] via-[#111827] to-[#0A0A0A]" />,
+  ssr: true
+});
+
+const TradingTipsTicker = dynamic(() => import("@/components/TradingTipsTicker"), {
+  loading: () => <div className="h-32 bg-gradient-to-br from-[#0A0A0A] via-[#111827] to-[#0A0A0A]" />,
+  ssr: true
+});
+
+const ComparisonTable = dynamic(() => import("@/components/ComparisonTable"), {
+  loading: () => <div className="h-64 bg-gradient-to-br from-[#0A0A0A] via-[#111827] to-[#0A0A0A]" />,
+  ssr: true
+});
 
 export default function Page() {
   const searchParams = useSearchParams();
@@ -216,7 +278,9 @@ export default function Page() {
           market,
           style,
         };
-        saveToJournal(journalEntry);
+        saveToJournal(journalEntry).catch(err => {
+          console.error('Failed to save journal entry:', err);
+        });
       }
     } catch (err: any) {
       setError(err?.message || "Failed to analyze chart");
